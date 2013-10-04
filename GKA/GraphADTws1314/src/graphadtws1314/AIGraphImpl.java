@@ -189,7 +189,7 @@ public class AIGraphImpl implements AIGraph {
         return stracc;
     }
 
-    @Override
+    @Override 
     public List<String> getVertexNames() {
         List<String> l = new ArrayList<>();
         for(Knoten k : vertices.values())
