@@ -2,34 +2,27 @@ package ab1_adts.ListImpl;
 
 public interface IList<T> {
 
-    
-        // fügt vorne das Element hinzu
+	// add elem to the front
 	void cons(T elem);
-        
-        // entfernt das vorderste Element
-        // und gibt es zurück
+
+	// removes first element and return first
 	T head();
-        
-        // get ist nicht im ursprünglichen Interface vorhanden gewesen,
-        // stellte sich aber als nützlich herraus
+
+	// Not in interface but a simple get(index) method
+	// throws outofbound when n > arrlength-1 && n < 0
 	T get(int index);
-        //throwt ein Exception beim ungültigen index
-        // der Index geht von 0 bis (length()-1)
-        
-        // gibt das vorderste Element zurück
+
+	// get first element
 	T first();
-        
-        // Wie viele Elemente hat die Liste?
+
+	// how many elements has a list?
 	int length();
-        
-        // Hat die Liste irgendwelche Elemente?
+
+	// is the list empty?
 	boolean isempty();
-        
-        // fügt das gegebene Element zwischen der
-        // n-ten und (n+1)-ten Position hinzu.
+
+	// insert element after index n so between n and n+2 if there is a current
+	// n+2
 	void insert(T elem, int n);
-        // Falls es kein (n+1)-tes Element gibt,
-        // oder der index in sonstiger weise ungültig ist,
-        // gibt es ein Exception
 
 }

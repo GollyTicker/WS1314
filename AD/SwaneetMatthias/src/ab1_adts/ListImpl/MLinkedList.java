@@ -6,7 +6,7 @@ public class MLinkedList<T> implements IList<T> {
 	private int length;
         
         
-        // Hilfsmethoden/variablen zum Zählen der Dereferenzierungen
+        // counting references
         private int accessCount = 0;
         public void resetCount(){
             accessCount = 0;
@@ -14,11 +14,11 @@ public class MLinkedList<T> implements IList<T> {
         public void printCount(){
             System.out.println("AccessCount: " + accessCount);
         }        
-        // Als Dereferenzierungen zählen:
+        // Als Dereferenzierungen z��hlen:
         //      *Zugriff auf this.first (nur Zugriffe, nicht unbedingt das setzten von first)
-        //      *Aufruf von <Node>.getnext() - heißt Zugriff auf folgenden Knoten
-                // Da first eine Instanzvariable und kein getter is, muss es manuell gezählt werden.
-                // .getNext() muss auch manuell gezählt weden, da die Methode in Nonde.java definiert ist.
+        //      *Aufruf von <Node>.getnext() - hei��t Zugriff auf folgenden Knoten
+                // Da first eine Instanzvariable und kein getter is, muss es manuell gez��hlt werden.
+                // .getNext() muss auch manuell gez��hlt weden, da die Methode in Nonde.java definiert ist.
 
 	public MLinkedList() {
 	}
