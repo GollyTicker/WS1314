@@ -9,12 +9,14 @@ import GKA_A1.GKA_IMPL.AIGraph;
 public class GraphMain {
 	
 	public static void main(String[] args) {
-		String gitSrc = "";
-		graphBySrc(gitSrc, true);
+		String gitSrc1 = "/Users/matthias/dev/WS1314/GKA/graphs/graph1.graph";
+		graphBySrc(gitSrc1);
+		String gitSrc3 = "/Users/matthias/dev/WS1314/GKA/graphs/graph3.graph";
+		graphBySrc(gitSrc3);
 	}
 
-	public static void graphBySrc(String src, boolean isDirected) {
-		JavaParser jp = new JavaParser(src, isDirected);
+	public static void graphBySrc(String src) {
+		JavaParser jp = new JavaParser(src);
 		AIGraph yolo = jp.createGraph();
 		System.out.println(yolo.toString());
 	}

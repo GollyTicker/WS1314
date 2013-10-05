@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
-*
-* @author Swaneet Sahoo, Matthias Nitsche
-*/
+ * 
+ * @author Swaneet Sahoo, Matthias Nitsche
+ */
 public abstract class Edge implements IEdge {
 
 	private Map<String, String> attrs = new HashMap<>();
@@ -64,6 +64,11 @@ public abstract class Edge implements IEdge {
 		int hash = 5;
 		hash = 17 * hash + (int) (this.ID ^ (this.ID >>> 32));
 		return hash;
+	}
+
+	@Override
+	public String toString() {
+		return "edge: " + this.ID + "\nbetween: " + this.vID1 + " " + this.vID2;
 	}
 
 	@Override

@@ -9,6 +9,12 @@ public class EdgeD extends Edge{
 
 	@Override
 	public boolean isDirected() {
-		return false;
+		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return "edge: " + this.ID + "\nbetween: " + this.getSrcVId() + " => " + this.getDestVId();
+	}
+
 }

@@ -26,10 +26,6 @@ public class AIGraphImpl implements AIGraph {
 	@Override
 	public boolean deleteVertex(long vID) {
 		return vertices.remove(vID) != null;
-		/*
-		 * if (vertices.containsKey(vID)) { vertices.remove(vID); return true; }
-		 * return false;
-		 */
 	}
 
 	@Override
@@ -165,8 +161,7 @@ public class AIGraphImpl implements AIGraph {
 
 	@Override
 	public String toString() {
-		String stracc = "";
-
+		String stracc = "Graph";
 		for (Long eID : edges.keySet()) {
 			stracc += edges.get(eID).toString() + "\n";
 		}

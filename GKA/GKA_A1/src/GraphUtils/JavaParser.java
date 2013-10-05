@@ -19,24 +19,24 @@ import GKA_A1.GKA_IMPL.AIGraphImpl;
 public class JavaParser {
 
 	private String src = "";
-	private boolean isDirected;
+	private String direction = "";
 
-	public JavaParser(String src, boolean isDirected) {
+	private final static String UNDIRECTED = "ungerichtet";
+	private final static String DIRECTED = "gerichtet";
+
+	public JavaParser(String src) {
 		this.src = src;
-		this.isDirected = isDirected;
 	}
 
 	public AIGraph createGraph() {
-		if (isDirected)
-			System.out.println("isDirected!");
-		else
-			System.out.println("isUndirected!");
 		AIGraph graph = new AIGraphImpl();
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(this.src));
 			String line = null;
 			line = UTF8EncodedString(br.readLine());
+			direction = getDirection(line);
+			System.out.println(direction);
 			while (line != null && line != "") {
 				if (!line.startsWith("#")) {
 					String[] s = line.split(",");
@@ -45,9 +45,18 @@ public class JavaParser {
 					}
 					long v1ID = graph.addVertex(s[0]);
 					long v2ID = graph.addVertex(s[1]);
-					long eID = graph.addEdgeU(v1ID, v2ID);
+					long eId;
+
+					if (direction.equals(UNDIRECTED))
+						eId = graph.addEdgeU(v1ID, v2ID);
+					else if (direction.equals(DIRECTED)) {
+						eId = graph.addEdgeD(v1ID, v2ID);
+					} else {
+						throw new NullPointerException("Not yet implemented!");
+					}
+
 					Integer edge = Integer.parseInt(s[2]);
-					graph.setValE(eID, "km", edge);
+					graph.setValE(eId, "km", edge);
 				}
 				line = UTF8EncodedString(br.readLine());
 			}
@@ -63,6 +72,15 @@ public class JavaParser {
 			}
 		}
 		return graph;
+	}
+
+	public String getDirection(String line) {
+		try {
+			return (line.split("#")[1]).trim();
+		} catch (NullPointerException npe) {
+			npe.printStackTrace();
+		}
+		return "";
 	}
 
 	private String UTF8EncodedString(String line) {
