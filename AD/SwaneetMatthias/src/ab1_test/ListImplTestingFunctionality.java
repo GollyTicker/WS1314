@@ -8,10 +8,6 @@ import ab1_adts.ListImpl.MLinkedList;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Swaneet
- */
 public class ListImplTestingFunctionality {
 
     public ListImplTestingFunctionality() {

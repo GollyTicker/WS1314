@@ -1,8 +1,9 @@
-package ab1_adts.ListImpl;
+package ab1_test;
 
 import ab1_adts.AverageVariance;
+import ab1_adts.ListImpl.MLinkedList;
 
-public class test {
+public class ListAufgaben {
 
     private static int NoOfElements = 15;
 
@@ -81,7 +82,7 @@ public class test {
         
         // These observations fit to a O(n)-Algorithm. Indeed, the time needed for
         // inserting elements at the front grows proportionaly to the number of elements.
-        // 10x the elements needs approx. 1x the time.
+        // 10x the elements needs approx. 10x the time.
         // The initial overhead can also be recognized.
 
 

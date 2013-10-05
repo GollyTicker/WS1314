@@ -11,7 +11,7 @@ import ab1_adts.AverageVariance;
 public class AverageVarianceTest {
 	
 	/**
-	 * return a test javadoc
+	 * test for javadoc
 	 */
 	
 	@Test
