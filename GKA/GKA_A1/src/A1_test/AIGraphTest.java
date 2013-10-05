@@ -6,9 +6,12 @@ package A1_test;
  */
 
 import GKA_A1.JavaParser;
+
 import org.junit.Test;
+
 import static org.junit.Assert.*;
-import GKA_A1.AIGraph;
+import GKA_A1.GKA_IMPL.AIGraph;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 

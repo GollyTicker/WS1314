@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package GKA_A1;
+package GKA_A1.GKA_IMPL;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -13,42 +13,53 @@ import java.util.List;
  *
  * @author Swaneet
  */
-public class Knoten {
+public class Kante {
     
-    // Names - Values
     private Map<String,String> attrs = new HashMap<>();
-    private String name;
     private static long IDcounter = 0;
     public final long ID;
+    private boolean isdirected;
+    private long srcVID;
+    private long destVID;
     
-    Knoten(String name){
+    Kante(boolean isdirected, long srcVID, long destVID){
         ID = IDcounter;
-        IDcounter+=1;
-        this.name = name;
+        IDcounter += 1;
+        this.isdirected = isdirected;
+        this.srcVID = srcVID;
+        this.destVID = destVID;
+    }
+    
+    long SourceVertex(){
+        return srcVID;
+    }
+    
+    long DestVertex(){
+        return destVID;
+    }
+    
+    boolean isDirected(){
+        return isdirected;
     }
     
     // SELEKTOREN
     
-    public String getName(){
-        return this.name;
-    }
     
-    
-    int getValV(String attr){
+    int getValE(String attr){
         if(attrs.containsKey(attr)){
             return Integer.parseInt(attrs.get(attr));
         }
         return Integer.MAX_VALUE;
     }
     
-    String getStrV(String attr){
+    String getStrE(String attr){
         if(attrs.containsKey(attr)){
             return attrs.get(attr);
         }
         return "";
     }
     
-    List<String> getAttrV(){
+    List<String> getAttrE(){
         return new ArrayList<>(attrs.keySet());
     }
     
@@ -56,30 +67,31 @@ public class Knoten {
     
     // MUTATOREN
     
-    void setValV(String attr, int val){
+    void setValE(String attr, int val){
         attrs.put(attr, Integer.valueOf(val).toString());
     }
     
-    void setStrV(String attr, String val){
+    void setStrE(String attr, String val){
         attrs.put(attr, val);
     }
     
     @Override public String toString(){
-        return this.getName() + ": " + this.ID;
+        return "Edge: " + this.ID + "; between: " + this.srcVID + " and " + this.destVID;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 73 * hash + (int) (this.ID ^ (this.ID >>> 32));
+        int hash = 5;
+        hash = 17 * hash + (int) (this.ID ^ (this.ID >>> 32));
         return hash;
     }
     
     @Override public boolean equals(Object o){
         if(this == o)return true;
-        if(!(o instanceof Knoten)) return false;
-        Knoten k = (Knoten)o;
+        if(!(o instanceof Kante)) return false;
+        Kante k = (Kante)o;
         return this.ID == k.ID;
     }
+    
     
 }
