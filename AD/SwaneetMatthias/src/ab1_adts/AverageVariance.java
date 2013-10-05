@@ -15,7 +15,7 @@ public final class AverageVariance {
 	// DecimalFormat for precision
 	private DecimalFormat df = new DecimalFormat("#.##");
 
-	// Mutpiple Constructors for adding values
+	// Multiple Constructors for adding values
 	public AverageVariance() {
 	}
 
@@ -67,7 +67,7 @@ public final class AverageVariance {
 			return 0.0;
 	}
 
-	// Nach dem Satz von Steiner (Verschiebungssatz)
+	// According to the "Satz von Steiner" (Verschiebungssatz)
 	// 1/(n-1)* sum((X1..n - Xavg)^2) -> 1/(n-1) * sum((X1..n)^2) -
 	// 1/n*sum((X1..n))^2
 	private double calculateVariance() {

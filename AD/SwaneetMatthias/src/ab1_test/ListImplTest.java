@@ -33,16 +33,5 @@ public class ListImplTest {
 		assertTrue(mll.get(51).intValue() == 10);
 		assertTrue(mll.length() == 121);
 	}
-        
-        
-        // alle Tests stehen im tests unterordner, weil
-        // ich in Netbeans die Tests hier nicht starten kann.
-        // dort stehen alle BasisTests
-        
-        // die Experimente die in den
-        // Listenaufgaben auf dem Praktikumsblatt stehen,
-        // sind in der Datei neben den Implementationsklassen
-        
-        
 
 }

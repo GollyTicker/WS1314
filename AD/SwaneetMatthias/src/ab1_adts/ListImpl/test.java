@@ -31,59 +31,58 @@ public class test {
         System.out.println("After all elements:");
         mll.printCount();
 
-        // Beim ersten Element gibt es 1 Zugriff(e).
-        // Alle weiteren Aktionen brauchen zwei Zugriffe.
-        // Daher haben wir bei 15 Elementen: 1 + 14*2 = 29 Dereferenzierungen
+        
+        // the first elements need 1 Access
+        // All following elements needs 2 Accesses.
+        // Therefore with NoOfElements=15 we have: 1 + (15 - 1)*2 = 29 accesses
 
 
         // Aufgabe 4:
 
-        mll = new MLinkedList<>();      // reset
+        mll = new MLinkedList<>();      // reseting the list
 
-        // Zeitmessung bei NoOfElements vielen Elementen
-        // diesmal ohne das Ausgeben des Dereferenzierungen
+        // measuring the time for NoOfElements many elements
         long start = System.nanoTime();
         for (int n = 0; n < NoOfElements; n++) {
             mll.cons(n);
         }
         long duration = System.nanoTime() - start;
-        System.out.println(NoOfElements + " Elemente brauchen: " + duration + " ns.");
+        System.out.println(NoOfElements + " elements need: " + duration + " ns.");
         mll.printCount();
 
 
         mll = new MLinkedList<>();      // reset
 
-        // Wiederholung nun mit 150 Elementen
+        // repeating with 150 elements now
         NoOfElements = NoOfElements * 10;
         start = System.nanoTime();
         for (int n = 0; n < NoOfElements; n++) {
             mll.cons(n);
         }
         duration = System.nanoTime() - start;
-        System.out.println(NoOfElements + " Elemente brauchen: " + duration + " ns.");
+        System.out.println(NoOfElements + " elements need: " + duration + " ns.");
         mll.printCount();
 
         // Output:
-        // 15 Elemente brauchen: 6414 ns.
+        // 15 elements need: 6414 ns.
         // AccessCount: 29
-        // 150 Elemente brauchen: 62860 ns.
+        // 150 elements need: 62860 ns.
         // AccessCount: 299
 
-        // 15 Elemente brauchen: 7270 ns.
+        // 15 elements need: 7270 ns.
         // AccessCount: 29
-        // 150 Elemente brauchen: 65426 ns.
+        // 150 elements need: 65426 ns.
         // AccessCount: 299
 
-        // 15 Elemente brauchen: 6842 ns.
+        // 15 elements need: 6842 ns.
         // AccessCount: 29
-        // 150 Elemente brauchen: 59867 ns.
+        // 150 elements need: 59867 ns.
         // AccessCount: 299
-
-        // Es macht Sinn, dass bei einem O(n)-Algorithmus bei
-        // Verzehnfachung der Anzahl der Elemente sich die Dauer ungefähr verzehnfacht.
-        // Dass die kleinere Dauer ncht ganz 1x-kleiner ist, liegt wahrscheinlich am
-        // anfänglichen Overhead welcher bei kleineren Eingaben sichtbar(er) ist.
-        // Außerdem verhält sich die Zeit proportional zur Anzahl der Dereferenzierungen
+        
+        // These observations fit to a O(n)-Algorithm. Indeed, the time needed for
+        // inserting elements at the front grows proportionaly to the number of elements.
+        // 10x the elements needs approx. 1x the time.
+        // The initial overhead can also be recognized.
 
 
 
@@ -91,9 +90,10 @@ public class test {
 
         mll = new MLinkedList<>();      // reset
 
-        // Nun am Ende hinzufügen:
-        // stattdessen wird an der n-1 ten Stelle hinzugefügt wegen der
-        // implementation von insert(...) ....    :/
+        // because of the implementation/interpretation of insert(elem,n)
+        // insert needs an (n+1) element for the new element to put inbetween n and (n+1).
+        // therefore we begin with an initial element, and then always insert the new element
+        // at the forelast position
         NoOfElements = 15;
         mll.cons(-1);
         start = System.nanoTime();
@@ -101,11 +101,11 @@ public class test {
             mll.insert(n, n);
         }
         duration = System.nanoTime() - start;
-        System.out.println(NoOfElements + " Elemente brauchen: " + duration + " ns.");
+        System.out.println(NoOfElements + " elements need:  " + duration + " ns.");
         mll.printCount();
 
 
-        // Nun mit 10x vielen Elementen
+        // now with 10x many elements
 
         mll = new MLinkedList<>();      // reset
 
@@ -116,33 +116,33 @@ public class test {
             mll.insert(n, n);
         }
         duration = System.nanoTime() - start;
-        System.out.println(NoOfElements + " Elemente brauchen: " + duration + " ns.");
+        System.out.println(NoOfElements + " elements need:  " + duration + " ns.");
 
-        // 15 Elemente brauchen: 36775 ns.
+        // 15 elements need:  36775 ns.
         // AccessCount: 153
-        // 150 Elemente brauchen: 546501 ns.
+        // 150 elements need:  546501 ns.
         // AccessCount: 11628  
         //
-        // 15 Elemente brauchen: 33354 ns.
+        // 15 elements need:  33354 ns.
         // AccessCount: 153
-        // 150 Elemente brauchen: 484923 ns.
+        // 150 elements need:  484923 ns.
         // AccessCount: 11628
         //
-        // 15 Elemente brauchen: 23946 ns.
+        // 15 elements need:  23946 ns.
         // AccessCount: 153
-        // 150 Elemente brauchen: 426339 ns.
+        // 150 elements need:  426339 ns.
         // AccessCount: 11628
 
-        // Die Anzahl der Dereferenzierungen vermutet eine quadratische
-        // Komplexität. Jedoch braucht die Bestätigung mehr Experimente mit höherer Eingabegröße
-
+        // The number of Accesses suspects a quadratic complexity.
+        // It can be shown, that inserting at the end in a
+        // linked list is indeed of quadratic complexity.
 
 
         // Aufgabe 6:
 
         AverageVariance zeitmess = new AverageVariance();
-        for (int t = 5000; t > 0; t--) {      // t-oft w  iederholen
-            NoOfElements = 52;
+        for (int t = 5000; t > 0; t--) {      // repeat this t-times
+            NoOfElements = 52;					// repeat with 52 elements
             mll = new MLinkedList<>();
             mll.cons(0);
             start = System.nanoTime();
@@ -153,10 +153,10 @@ public class test {
             duration = System.nanoTime() - start;
             zeitmess.addValue(duration);
         }
-        System.out.println("Bei " + zeitmess.getN() + " Versuchen brauchen wir durchschnittlich");
-        System.out.println(zeitmess.getAverage() + " Nanosekunden");
-        System.out.println("mit einer Varianz von " + zeitmess.getVariance() +  " Nanosekunden*Nanosekunden");
-        System.out.println("zum Hinzufuegen von " + NoOfElements + " Elementen an zufaelligen Positionen");
+        System.out.println("For " + zeitmess.getN() + " repetitions we need");
+        System.out.println(zeitmess.getAverage() + " nanoseconds on average");
+        System.out.println("with a variance of " + zeitmess.getVariance() +  " nanoseconds*nanoseconds");
+        System.out.println("for inserting " + NoOfElements + " elements at random positions.");
 
     }
 }

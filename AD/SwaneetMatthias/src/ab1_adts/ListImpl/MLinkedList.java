@@ -8,17 +8,17 @@ public class MLinkedList<T> implements IList<T> {
         
         // counting references
         private int accessCount = 0;
-        public void resetCount(){
-            accessCount = 0;
-        }
         public void printCount(){
             System.out.println("AccessCount: " + accessCount);
         }        
-        // Als Dereferenzierungen z��hlen:
-        //      *Zugriff auf this.first (nur Zugriffe, nicht unbedingt das setzten von first)
-        //      *Aufruf von <Node>.getnext() - hei��t Zugriff auf folgenden Knoten
-                // Da first eine Instanzvariable und kein getter is, muss es manuell gez��hlt werden.
-                // .getNext() muss auch manuell gez��hlt weden, da die Methode in Nonde.java definiert ist.
+        
+        // Our interpretation of access:
+        // As access(es) count:
+        //		1: access on this.first (only access, not overwriting!)
+        // 		2:  calling <Node>.getNext() - access on the next Node
+        // 1: this.first is an instancebvarible (not a getter methode). therefore it is counted manually
+        // 2: getNext() is also counted manually, because its not implemented
+        // 		in this class where the access is counted.
 
 	public MLinkedList() {
 	}
@@ -34,7 +34,7 @@ public class MLinkedList<T> implements IList<T> {
 		if (this.isempty()) {
 			this.first = node;
 		} else {
-			Node<T> tmpFirst = first;   accessCount+=1; // Dereferenzierung: first
+			Node<T> tmpFirst = first;   accessCount+=1; // Access: first
 			this.first = node;
 			node.next(tmpFirst);
 		}

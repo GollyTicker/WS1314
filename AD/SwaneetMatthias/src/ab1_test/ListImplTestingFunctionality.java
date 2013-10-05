@@ -21,43 +21,44 @@ public class ListImplTestingFunctionality {
     public void tests_positive() {
         MLinkedList<Integer> mll = new MLinkedList<>();
         
-        // ohne ein eingefuegtes Element, gibt es kein zurueckzulieferndes Element
+        // tests for an empty list
         assertNull(mll.head());
         assertTrue(mll.isempty());
         assertEquals(mll.length(),0);
         
-        // 15 wird eingef��gt und muss dann sofort wieder rauskommen.
-        // au��erdem ist die Liste dabei nicht leer und hat die length 1.
+        // 15 is added into the list. the list isn't empty anymore and has the length 1
+        // head() removes 15 and return it again
         mll.cons(15);
         assertEquals(mll.first().intValue(),15);
         assertFalse(mll.isempty());
         assertEquals(mll.length(),1);
         assertEquals(mll.head().intValue(),15);
         
-        // nun sollte die liste wieder leer sein.
+        // the list should be empty again
         assertNull(mll.head());
         assertTrue(mll.isempty());
         assertEquals(mll.length(),0);
         
-        // 15 und 13 hinzuf��gen
+        // add 15 and 13 to the list
         mll.cons(15);
         mll.cons(13);
         
-        // 13 wurde zuletzt hinzugef��gt und ist daher ganz vorne.
+        // 13 was added most recently, therefore it's on the first position
         assertEquals(mll.first().intValue(),13);
         
+        // The list now look like this:
         // Index 0: 13
         // Index 1: 15
         assertEquals(mll.get(0).intValue(),13);
         assertEquals(mll.get(1).intValue(),15);
         
-        // Die liste hat zwei Elemente
+        // the list has two elements now
         assertFalse(mll.isempty());
         assertEquals(mll.length(),2);
         
         
-        mll.insert(14, 0);          // Das Element landet an der (n+1)-ten Position
-        // Die Liste sieht nun so aus:
+        mll.insert(14, 0);          // insert(elem,n) puts the elem at the index (n+1) 
+        // The list now looks like this:
         // 0: 13
         // 1: 14
         // 2: 15
@@ -66,30 +67,30 @@ public class ListImplTestingFunctionality {
         assertEquals(mll.get(1).intValue(),14);
         assertEquals(mll.get(2).intValue(),15);
         
-        // Die liste hat drei Elemente
+        // The list has three elements
         assertFalse(mll.isempty());
         assertEquals(mll.length(),3);
         
-        // wirf das vorderste Element raus
+        // throw the first element out
         assertEquals(mll.head().intValue(),13);
         
-        // Die Liste sieht nun so aus:
+        // The list now looks like this:
         // 0: 14
         // 1: 15
         assertEquals(mll.first().intValue(),14);
         assertEquals(mll.get(0).intValue(),14);
         assertEquals(mll.get(1).intValue(),15);
         
-        // Die liste hat zwei Elemente
+        // list has two elements now
         assertFalse(mll.isempty());
         assertEquals(mll.length(),2);
         
         
-        // wirf beide vordersten Elemente wieder raus
+        // remove both elements
         assertEquals(mll.head().intValue(),14);
         assertEquals(mll.head().intValue(),15);
         
-        // die liste ist wieder leer
+        // list is empty again
         assertNull(mll.head());
         assertTrue(mll.isempty());
         assertEquals(mll.length(),0);
@@ -99,40 +100,40 @@ public class ListImplTestingFunctionality {
     @Test (expected = java.lang.NullPointerException.class)
     public void tests_negative1(){
         MLinkedList<Integer> mll = new MLinkedList<>();
-        mll.first();        // es gibt kein erstes Element einer leeren Liste
+        mll.first();        // there is no first element of an empty list
     }
     
     @Test (expected = java.lang.IndexOutOfBoundsException.class)
     public void tests_negative2(){
         MLinkedList<Integer> mll = new MLinkedList<>();
         mll.cons(15);
-        mll.insert(0, 1);   // die (n+1)-te Position ist leer! - siehe doc
+        mll.insert(0, 1);   // the (n+1)th position for the insertion is empty!
     }
     
     @Test (expected = java.lang.IndexOutOfBoundsException.class)
     public void tests_negative3(){
         MLinkedList<Integer> mll = new MLinkedList<>();
         mll.cons(15);
-        mll.insert(0, -1);   // der Index ist -1 !
+        mll.insert(0, -1);   // the index is -1 !
     }
     
     @Test (expected = java.lang.IndexOutOfBoundsException.class)
     public void tests_negative4(){
         MLinkedList<Integer> mll = new MLinkedList<>();
         mll.cons(15);
-        mll.insert(0, 2);   // der Index ist au��erhalb der Listengr����e
+        mll.insert(0, 2);   // the index is out of bounds
     }
     
     @Test (expected = java.lang.IndexOutOfBoundsException.class)
     public void tests_negative5(){
         MLinkedList<Integer> mll = new MLinkedList<>();
         mll.cons(15);
-        mll.get(1);         // es gibt kein Element dieses Indexes
+        mll.get(1);         // out of bounds
     }
     
     @Test (expected = java.lang.IndexOutOfBoundsException.class)
     public void tests_negative6(){
         MLinkedList<Integer> mll = new MLinkedList<>();
-        mll.get(0);         // es gibt kein Element dieses Indexes
+        mll.get(0);         // empty list
     }
 }
