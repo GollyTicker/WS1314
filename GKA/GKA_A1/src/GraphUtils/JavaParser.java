@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package GKA_A1;
+package GraphUtils;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

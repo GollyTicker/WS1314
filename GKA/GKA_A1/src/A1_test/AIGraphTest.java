@@ -5,12 +5,11 @@ package A1_test;
  * and open the template in the editor.
  */
 
-import GKA_A1.JavaParser;
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 import GKA_A1.GKA_IMPL.AIGraph;
+import GraphUtils.JavaParser;
 
 /**
  * 
