@@ -12,12 +12,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import GKA_A1.GKA_IMPL.AIGraph;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 /**
  * 
- * @author Swaneet
+ * @author Swaneet Sahoo, Matthias Nitsche
  */
 public class AIGraphTest {
 
@@ -25,20 +22,15 @@ public class AIGraphTest {
 	}
 
 	@Test
-	public void test1() throws FileNotFoundException, IOException {
-		// new AIGraph();
-		assertTrue(true);
-
+	public void test1() {
 		JavaParser jp = new JavaParser(
-				"C:\\Users\\Swaneet\\Desktop\\HAW\\graph_01.graph");
+				"C:\\Users\\Swaneet\\Desktop\\HAW\\graph_01.graph", true);
 		AIGraph yolo = jp.createGraph();
-
-		// System.out.println(yolo.toString());
 
 		assertTrue(yolo.getVertexNames().contains("Augsburg"));
 		assertTrue(!yolo.isEmpty());
 		int augsburgID = 0; // Augsburg (src), eId1 = 0, 70km
-		int munichID = 1; // M��nchen (target)
+		int munichID = 1; // Munich (target)
 		assertEquals(augsburgID, yolo.getSource(0));
 		assertNotSame(munichID, yolo.getSource(0));
 		assertEquals(munichID, yolo.getTarget(0));
