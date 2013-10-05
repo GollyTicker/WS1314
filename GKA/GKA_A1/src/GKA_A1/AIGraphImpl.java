@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package graphadtws1314;
+package GKA_A1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class AIGraphImpl implements AIGraph {
             Kante e = edges.get(eID);
             if (e.SourceVertex() == v1 && e.DestVertex() == v2
                     || !e.isDirected() && e.SourceVertex() == v2 && e.DestVertex() == v1) {
-                // löscht die Kanta von v1 nach v2 und auch die umgekehrte, falls die Kante ungerichtet ist.
+                // l��scht die Kanta von v1 nach v2 und auch die umgekehrte, falls die Kante ungerichtet ist.
                 success = true;
                 edges.remove(eID);
             }
@@ -98,8 +98,8 @@ public class AIGraphImpl implements AIGraph {
 
     @Override
     public List<Long> getAdjacent(long v1) {
-        // gehe durch alle inzidenten Kanten durch und füge alle Ecken
-        // außer der eigenen Ecke einmalig hinzu.
+        // gehe durch alle inzidenten Kanten durch und f��ge alle Ecken
+        // au��er der eigenen Ecke einmalig hinzu.
         List<Long> vIDs = new ArrayList<>();
         List<Long> incident = getIncident(v1);
         for (Long eID : incident) {
