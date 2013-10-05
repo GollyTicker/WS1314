@@ -23,7 +23,7 @@ public class AIGraphTest {
 	
 	public AIGraphTest() {
 			JavaParser jp = new JavaParser(
-					"C:/Users/Swaneet/github/WS1314/GKA/GKA_A1/src/A1_test/graph1.graph");
+					"C:/Users/Swaneet/github/WS1314/GKA/graphs/graph1.graph");
 			yolo = jp.createGraph();
 	}
 
