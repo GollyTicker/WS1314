@@ -13,14 +13,12 @@ import java.util.List;
 public abstract class Edge implements IEdge {
 
 	private Map<String, String> attrs = new HashMap<>();
-	private static long IDcounter = 0;
 	public final long ID;
 	private long vID1;
 	private long vID2;
 
-	public Edge(long vID1, long vID2) {
-		ID = IDcounter;
-		IDcounter += 1;
+	public Edge(long vID1, long vID2, long EID) {
+		ID = EID;
 		this.vID1 = vID1;
 		this.vID2 = vID2;
 	}
@@ -88,7 +86,7 @@ public abstract class Edge implements IEdge {
 
 	@Override
 	public long getDestVId() {
-		return this.vID1;
+		return this.vID2;
 	}
 
 	@Override

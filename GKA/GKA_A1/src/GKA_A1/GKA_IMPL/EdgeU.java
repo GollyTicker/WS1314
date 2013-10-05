@@ -2,8 +2,8 @@ package GKA_A1.GKA_IMPL;
 
 public class EdgeU extends Edge {
 
-	public EdgeU(long VID1, long VID2) {
-		super(VID1, VID2);
+	public EdgeU(long VID1, long VID2, long EID) {
+		super(VID1, VID2, EID);
 	}
 
 	@Override

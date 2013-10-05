@@ -18,12 +18,10 @@ public class Vertice implements IVertice {
 	// Names - Values
 	private Map<String, String> attrs = new HashMap<>();
 	private String name;
-	private static long IDcounter = 0;
 	public final long ID;
 
-	public Vertice(String name) {
-		ID = IDcounter;
-		IDcounter += 1;
+	public Vertice(String name, long VID) {
+		ID = VID;
 		this.name = name;
 	}
 

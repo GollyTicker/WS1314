@@ -47,16 +47,16 @@ public class JavaParser {
 					long v2ID = graph.addVertex(s[1]);
 					long eId;
 
-					if (direction.equals(UNDIRECTED))
+					if (direction.equals(UNDIRECTED)) {
 						eId = graph.addEdgeU(v1ID, v2ID);
-					else if (direction.equals(DIRECTED)) {
+					} else if (direction.equals(DIRECTED)) {
 						eId = graph.addEdgeD(v1ID, v2ID);
 					} else {
 						throw new NullPointerException("Not yet implemented!");
 					}
 
 					Integer edge = Integer.parseInt(s[2]);
-					graph.setValE(eId, "km", edge);
+					graph.setValE(eId, "km", edge);		// specific to this graph with kilometers
 				}
 				line = UTF8EncodedString(br.readLine());
 			}

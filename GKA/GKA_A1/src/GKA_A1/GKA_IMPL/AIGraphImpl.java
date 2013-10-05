@@ -12,13 +12,18 @@ public class AIGraphImpl implements AIGraph {
 	// VerticeID -> Vertice (Object)
 	Map<Long, Vertice> vertices = new HashMap<>();
 	Map<Long, Edge> edges = new HashMap<>();
+	
+	private long VIDcounter = 0;
+	private long EIDcounter = 0;
+	
 
 	public AIGraphImpl() {
 	}
 
 	@Override
 	public long addVertex(String name) {
-		Vertice v = new Vertice(name);
+		Vertice v = new Vertice(name, VIDcounter);
+		VIDcounter+=1;
 		vertices.put(v.ID, v);
 		return v.ID;
 	}
@@ -30,14 +35,16 @@ public class AIGraphImpl implements AIGraph {
 
 	@Override
 	public long addEdgeU(long v1ID, long v2ID) {
-		Edge e = new EdgeU(v1ID, v2ID);
+		Edge e = new EdgeU(v1ID, v2ID, EIDcounter);
+		EIDcounter+=1;
 		edges.put(e.ID, e);
 		return e.ID;
 	}
 
 	@Override
 	public long addEdgeD(long v1ID, long v2ID) {
-		Edge e = new EdgeD(v1ID, v2ID);
+		Edge e = new EdgeD(v1ID, v2ID, EIDcounter);
+		EIDcounter+=1;
 		edges.put(e.ID, e);
 		return e.ID;
 	}
@@ -161,7 +168,7 @@ public class AIGraphImpl implements AIGraph {
 
 	@Override
 	public String toString() {
-		String stracc = "Graph";
+		String stracc = "Graph\n";
 		for (Long eID : edges.keySet()) {
 			stracc += edges.get(eID).toString() + "\n";
 		}
