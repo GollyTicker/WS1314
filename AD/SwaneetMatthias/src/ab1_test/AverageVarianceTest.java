@@ -9,7 +9,10 @@ import ab1_adts.AverageVariance;
 
 
 public class AverageVarianceTest {
-
+	
+	/**
+	 * return a test javadoc
+	 */
 	
 	@Test
 	public void test() {
