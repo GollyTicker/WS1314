@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Swaneet
  */
-public class Knoten {
+public class Vertice implements IVertice{
     
     // Names - Values
     private Map<String,String> attrs = new HashMap<>();
@@ -21,7 +21,7 @@ public class Knoten {
     private static long IDcounter = 0;
     public final long ID;
     
-    Knoten(String name){
+    public Vertice(String name){
         ID = IDcounter;
         IDcounter+=1;
         this.name = name;
@@ -77,8 +77,8 @@ public class Knoten {
     
     @Override public boolean equals(Object o){
         if(this == o)return true;
-        if(!(o instanceof Knoten)) return false;
-        Knoten k = (Knoten)o;
+        if(!(o instanceof Vertice)) return false;
+        Vertice k = (Vertice)o;
         return this.ID == k.ID;
     }
     

@@ -11,18 +11,17 @@ import java.util.Map;
 
 public class AIGraphImpl implements AIGraph {
 
-    // Die Knoten und Kanten eines Graphen sind in zwei Maps gespeichert
-    // die die IDs auf die Objekte abbildet.
-    Map<Long, Knoten> vertices = new HashMap<>();
-    Map<Long, Kante> edges = new HashMap<>();
+	// Vertices and Edges are saved to two Hashmaps that identify the ID to the Object
+	// VerticeID -> Vertice (Object)
+    Map<Long, Vertice> vertices = new HashMap<>();
+    Map<Long, Edge> edges = new HashMap<>();
 
-    // Konstruktoren
     public AIGraphImpl() {
     }
 
     @Override
     public long addVertex(String name) {
-        Knoten v = new Knoten(name);
+        Vertice v = new Vertice(name);
         vertices.put(v.ID, v);
         return v.ID;
     }
@@ -39,14 +38,14 @@ public class AIGraphImpl implements AIGraph {
 
     @Override
     public long addEdgeU(long v1ID, long v2ID) {
-        Kante e = new Kante(false, v1ID, v2ID);
+        Edge e = new EdgeU(v1ID, v2ID);
         edges.put(e.ID, e);
         return e.ID;
     }
 
     @Override
     public long addEdgeD(long v1ID, long v2ID) {
-        Kante e = new Kante(true, v1ID, v2ID);
+        Edge e = new EdgeD(v1ID, v2ID);
         edges.put(e.ID, e);
         return e.ID;
     }
@@ -67,7 +66,7 @@ public class AIGraphImpl implements AIGraph {
         return success;*/
     }
 
-    // Selektoren
+    // Selectors
     @Override
     public boolean isEmpty() {
         return vertices.isEmpty();
@@ -75,21 +74,22 @@ public class AIGraphImpl implements AIGraph {
 
     @Override
     public long getSource(long e1) {
-        return edges.get(e1).SourceVertex();
+        return edges.get(e1).getSrcVId();
     }
 
     @Override
     public long getTarget(long e1) {
-        return edges.get(e1).DestVertex();
+        return edges.get(e1).getDestVId();
     }
 
     // es wird angenommen, dass inzidente Kanten alle Kanten
     // die auf irgendwelche Weise mit der Ecke verbunden sind
+    // The assumption is
     @Override
     public List<Long> getIncident(long v1) {
         List<Long> eIDs = new ArrayList<>();
-        for (Kante e : edges.values()) {
-            if (e.DestVertex() == v1 || e.SourceVertex() == v1) {
+        for (Edge e : edges.values()) {
+            if (e.getSrcVId() == v1 || e.getDestVId() == v1) {
                 eIDs.add(e.ID);
             }
         }
@@ -103,11 +103,11 @@ public class AIGraphImpl implements AIGraph {
         List<Long> vIDs = new ArrayList<>();
         List<Long> incident = getIncident(v1);
         for (Long eID : incident) {
-            long couldBeAdjc = edges.get(eID).SourceVertex();
+            long couldBeAdjc = edges.get(eID).getSrcVId();
             if (!vIDs.contains(couldBeAdjc) && couldBeAdjc != v1) {
                 vIDs.add(couldBeAdjc);
             }
-            couldBeAdjc = edges.get(eID).DestVertex();
+            couldBeAdjc = edges.get(eID).getDestVId();
             if (!vIDs.contains(couldBeAdjc) && couldBeAdjc != v1) {
                 vIDs.add(couldBeAdjc);
             }
@@ -192,7 +192,7 @@ public class AIGraphImpl implements AIGraph {
     @Override 
     public List<String> getVertexNames() {
         List<String> l = new ArrayList<>();
-        for(Knoten k : vertices.values())
+        for(Vertice k : vertices.values())
             l.add(k.getName());
         return l;
     }
