@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package testpackage;
+package ab1_test;
 
 import ab1_adts.ListImpl.MLinkedList;
 import org.junit.Test;
@@ -21,13 +21,13 @@ public class ListImplTestingFunctionality {
     public void tests_positive() {
         MLinkedList<Integer> mll = new MLinkedList<>();
         
-        // ohne ein eingefügtes Element, gibt es kein zurückzulieferndes Element
+        // ohne ein eingefuegtes Element, gibt es kein zurueckzulieferndes Element
         assertNull(mll.head());
         assertTrue(mll.isempty());
         assertEquals(mll.length(),0);
         
-        // 15 wird eingefügt und muss dann sofort wieder rauskommen.
-        // außerdem ist die Liste dabei nicht leer und hat die length 1.
+        // 15 wird eingef��gt und muss dann sofort wieder rauskommen.
+        // au��erdem ist die Liste dabei nicht leer und hat die length 1.
         mll.cons(15);
         assertEquals(mll.first().intValue(),15);
         assertFalse(mll.isempty());
@@ -39,11 +39,11 @@ public class ListImplTestingFunctionality {
         assertTrue(mll.isempty());
         assertEquals(mll.length(),0);
         
-        // 15 und 13 hinzufügen
+        // 15 und 13 hinzuf��gen
         mll.cons(15);
         mll.cons(13);
         
-        // 13 wurde zuletzt hinzugefügt und ist daher ganz vorne.
+        // 13 wurde zuletzt hinzugef��gt und ist daher ganz vorne.
         assertEquals(mll.first().intValue(),13);
         
         // Index 0: 13
@@ -120,7 +120,7 @@ public class ListImplTestingFunctionality {
     public void tests_negative4(){
         MLinkedList<Integer> mll = new MLinkedList<>();
         mll.cons(15);
-        mll.insert(0, 2);   // der Index ist außerhalb der Listengröße
+        mll.insert(0, 2);   // der Index ist au��erhalb der Listengr����e
     }
     
     @Test (expected = java.lang.IndexOutOfBoundsException.class)
