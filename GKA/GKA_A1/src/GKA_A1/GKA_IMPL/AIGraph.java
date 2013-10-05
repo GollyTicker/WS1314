@@ -6,13 +6,13 @@ package GKA_A1.GKA_IMPL;
 
 /**
  *
- * @author Swaneet
+ * @author Swaneet Sahoo, Matthias Nitsche
  */
 import java.util.List;
 
 public interface AIGraph {
     
-    // Konstruktoren
+    // Constructors
     long addVertex(String newItem);
     
     boolean deleteVertex(long vID);
@@ -23,7 +23,7 @@ public interface AIGraph {
     
     boolean deleteEdge(long eID);
     
-    // Selektoren
+    // Selectors
     boolean isEmpty();
     
     long getSource(long eID);
@@ -40,7 +40,7 @@ public interface AIGraph {
     
     List<String> getVertexNames();
     
-    // Selektoren
+    // Selectors
     int getValE(long eID, String attr);
     
     int getValV(long vID, String attr);
@@ -53,7 +53,7 @@ public interface AIGraph {
     
     List<String> getAttrE(long eID);
     
-    // Mutatoren
+    // Mutators
     void setValE(long eID, String attr, int val);
     
     void setValV(long vID, String attr, int val);

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package GKA_A1.GKA_IMPL;
 
 import java.util.ArrayList;
@@ -58,7 +54,7 @@ public class AIGraphImpl implements AIGraph {
             Kante e = edges.get(eID);
             if (e.SourceVertex() == v1 && e.DestVertex() == v2
                     || !e.isDirected() && e.SourceVertex() == v2 && e.DestVertex() == v1) {
-                // l��scht die Kanta von v1 nach v2 und auch die umgekehrte, falls die Kante ungerichtet ist.
+                // deletes an edge between given vertices v1 and v2 through hooking
                 success = true;
                 edges.remove(eID);
             }
@@ -82,9 +78,8 @@ public class AIGraphImpl implements AIGraph {
         return edges.get(e1).getDestVId();
     }
 
-    // es wird angenommen, dass inzidente Kanten alle Kanten
-    // die auf irgendwelche Weise mit der Ecke verbunden sind
-    // The assumption is
+
+    // The assumption is that incident edges are connected to another vertices in any way
     @Override
     public List<Long> getIncident(long v1) {
         List<Long> eIDs = new ArrayList<>();
@@ -98,8 +93,7 @@ public class AIGraphImpl implements AIGraph {
 
     @Override
     public List<Long> getAdjacent(long v1) {
-        // gehe durch alle inzidenten Kanten durch und f��ge alle Ecken
-        // au��er der eigenen Ecke einmalig hinzu.
+    	// traverse through all incident edges and make unique add all vertices except the own one
         List<Long> vIDs = new ArrayList<>();
         List<Long> incident = getIncident(v1);
         for (Long eID : incident) {
@@ -125,8 +119,8 @@ public class AIGraphImpl implements AIGraph {
         return new ArrayList<>(edges.keySet());
     }
 
-    // SELEKTOREN
-    // diese Attributsselektoren werden einfach weiterdeligiert
+    // Selectors
+    // through delegation
     @Override
     public int getValE(long e1, String attr) {
         return edges.get(e1).getValE(attr);
@@ -157,8 +151,8 @@ public class AIGraphImpl implements AIGraph {
         return edges.get(e1).getAttrE();
     }
 
-    // MUTATOREN
-    // diese Attributsmutatoren werden einfach weiterdeligiert
+    // Mutators
+    // thorugh delegtion
     @Override
     public void setValE(long e1, String attr, int val) {
         edges.get(e1).setValE(attr, val);

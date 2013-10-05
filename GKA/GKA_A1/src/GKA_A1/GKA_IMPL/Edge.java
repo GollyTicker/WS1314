@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package GKA_A1.GKA_IMPL;
 
 import java.util.ArrayList;
@@ -11,9 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * 
- * @author Swaneet
- */
+*
+* @author Swaneet Sahoo, Matthias Nitsche
+*/
 public abstract class Edge implements IEdge {
 
 	private Map<String, String> attrs = new HashMap<>();
@@ -29,7 +25,7 @@ public abstract class Edge implements IEdge {
 		this.vID2 = vID2;
 	}
 
-	// SELEKTOREN
+	// Selectors
 
 	@Override
 	public int getValE(String attr) {
@@ -52,7 +48,7 @@ public abstract class Edge implements IEdge {
 		return new ArrayList<>(attrs.keySet());
 	}
 
-	// MUTATOREN
+	// Mutators
 	@Override
 	public void setValE(String attr, int val) {
 		attrs.put(attr, Integer.valueOf(val).toString());
