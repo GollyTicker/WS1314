@@ -18,10 +18,12 @@ public class Node<T> implements INode<T> {
 		this.elem = t;
 	}
 
+	@Override
 	public T getElem() {
 		return this.elem;
 	}
 
+	@Override
 	public Node<T> getNext() {
 		return this.nextNode;
 	}

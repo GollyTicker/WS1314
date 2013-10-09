@@ -21,8 +21,7 @@ public class Vertice implements IVertice {
 	private Map<String, String> attrs = new HashMap<>();
 
 	// source and target Vertices for easier use
-	private Set<Long> targetV = new HashSet<>();
-	private Set<Long> sourceV = new HashSet<>();
+	private Set<Long> vertices = new HashSet<>();
 
 	private String name;
 	public final long ID;
@@ -93,23 +92,13 @@ public class Vertice implements IVertice {
 	}
 
 	@Override
-	public boolean hasSourceV(long vID) {
-		return sourceV.contains(vID);
+	public boolean hasVertice(long vID) {
+		return vertices.contains(vID);
 	}
 
 	@Override
-	public boolean hasTargetV(long vID) {
-		return targetV.contains(vID);
-	}
-
-	@Override
-	public boolean addSourceVertex(long vID) {
-		return sourceV.add(vID);
-	}
-
-	@Override
-	public boolean addTargetVertex(long vID) {
-		return targetV.add(vID);
+	public boolean addVertice(long vID) {
+		return vertices.add(vID);
 	}
 
 }

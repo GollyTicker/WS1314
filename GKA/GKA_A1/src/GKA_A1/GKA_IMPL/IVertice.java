@@ -18,11 +18,8 @@ public interface IVertice {
 
 	void setStrV(String attr, String val);
 	
-	boolean hasSourceV(long vID);
+	boolean hasVertice(long vID);
 	
-	boolean hasTargetV(long vID);
+	boolean addVertice(long vID);
 	
-	boolean addSourceVertex(long vID);
-	
-	boolean addTargetVertex(long vID);
 }
