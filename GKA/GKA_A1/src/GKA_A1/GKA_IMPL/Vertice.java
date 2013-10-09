@@ -5,9 +5,11 @@
 package GKA_A1.GKA_IMPL;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 
@@ -17,6 +19,11 @@ public class Vertice implements IVertice {
 
 	// Names - Values
 	private Map<String, String> attrs = new HashMap<>();
+
+	// source and target Vertices for easier use
+	private Set<Long> targetV = new HashSet<>();
+	private Set<Long> sourceV = new HashSet<>();
+
 	private String name;
 	public final long ID;
 

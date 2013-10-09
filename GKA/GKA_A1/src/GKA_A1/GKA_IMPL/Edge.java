@@ -24,7 +24,6 @@ public abstract class Edge implements IEdge {
 	}
 
 	// Selectors
-
 	@Override
 	public int getValE(String attr) {
 		if (attrs.containsKey(attr)) {
