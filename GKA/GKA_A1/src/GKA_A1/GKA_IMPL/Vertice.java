@@ -92,4 +92,24 @@ public class Vertice implements IVertice {
 		return this.ID == k.ID;
 	}
 
+	@Override
+	public boolean hasSourceV(long vID) {
+		return sourceV.contains(vID);
+	}
+
+	@Override
+	public boolean hasTargetV(long vID) {
+		return targetV.contains(vID);
+	}
+
+	@Override
+	public boolean addSourceVertex(long vID) {
+		return sourceV.add(vID);
+	}
+
+	@Override
+	public boolean addTargetVertex(long vID) {
+		return targetV.add(vID);
+	}
+
 }

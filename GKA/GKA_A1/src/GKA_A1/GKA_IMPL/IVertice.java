@@ -17,4 +17,12 @@ public interface IVertice {
 	void setValV(String attr, int val);
 
 	void setStrV(String attr, String val);
+	
+	boolean hasSourceV(long vID);
+	
+	boolean hasTargetV(long vID);
+	
+	boolean addSourceVertex(long vID);
+	
+	boolean addTargetVertex(long vID);
 }
