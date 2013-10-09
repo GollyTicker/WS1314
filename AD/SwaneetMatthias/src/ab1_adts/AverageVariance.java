@@ -1,6 +1,7 @@
 package ab1_adts;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +17,8 @@ public final class AverageVariance {
 	// accumulated sum of values
 	private double accumAvg = 0;
 	private double accumAvgSquare = 0;
-	
+	private List<Double> values = new ArrayList<>();
+
 	// DecimalFormat for precision
 	private DecimalFormat df = new DecimalFormat("#.##");
 
@@ -45,6 +47,7 @@ public final class AverageVariance {
 	 *            the value to be added
 	 */
 	public void addValue(double value) {
+		values.add(value);
 		accumAvg += value;
 		n += 1;
 		accumAvgSquare += Math.pow(value, 2);
@@ -91,7 +94,7 @@ public final class AverageVariance {
 	public double getVariance() {
 		// There is no variance with one value
 		if (this.n > 1) {
-			return calculateVariance() * (1.0 / (this.n - 1.0));
+			return calculateVarianceSlow() * (1.0 / (this.n-1.0));
 		} else
 			return 0.0;
 	}
@@ -101,6 +104,13 @@ public final class AverageVariance {
 	// 1/n*sum((X1..n))^2
 	private double calculateVariance() {
 		return (accumAvgSquare - ((1.0 / this.n) * Math.pow(accumAvg, 2)));
+	}
+
+	private double calculateVarianceSlow() {
+		double acc = 0;
+		for (double d : values)
+			acc += Math.pow(d - getAverage(), 2);
+		return acc;
 	}
 
 	@Override
