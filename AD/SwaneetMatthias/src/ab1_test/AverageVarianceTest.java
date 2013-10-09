@@ -7,6 +7,10 @@ import org.junit.Test;
 
 import ab1_adts.AverageVariance;
 
+/**
+ *
+ * @author Swaneet Sahoo, Matthias Nitsche
+ */
 
 public class AverageVarianceTest {
 	
@@ -23,6 +27,9 @@ public class AverageVarianceTest {
 		AverageVariance av = new AverageVariance();
 		av.addValues(Arrays.asList(6.0, 3.0, 8.0, 5.0, 3.0));
 		assertEquals(5, av.getAverage(), 0.01);
+		
+		av.addValues(Arrays.asList(7.0, 2.0, 8.0, 5.0, 3.0));
+		assertEquals(5, av.getAverage(), 0.01);
 	}
 	
 	@Test
@@ -32,7 +39,22 @@ public class AverageVarianceTest {
 		assertTrue(Double.compare(4.5, av1.getVariance()) != 0);
 		AverageVariance av2 = new AverageVariance();
 		av2.addValues(Arrays.asList(6.0, 3.0, 8.0, 5.0, 3.0));
+
 		assertEquals(4.5, av2.getVariance(), 0.01);
+		System.out.println("Avg*Avg: "+av2.getAverage()*av2.getAverage()+"; Varianz:"+av2.getVariance());
+		
+
+		av2.addValues(Arrays.asList(6.0, 3.0, 8.0, 5.0, 3.0, 4.0,15.0,16.0,0.3,20.0,130.0,5000.0,1234.0));
+
+		System.out.println("Avg*Avg: "+av2.getAverage()*av2.getAverage()+"; Varianz:"+av2.getVariance());
+		//assertEquals(3.76667, av2.getVariance(), 0.01);
+		// Aufgrund der numerischen Auslöschung (s. Verschiebungssatz Wikipedia) verringert sich die Genauigkeit der Varianz
+		// weil unser ..................................................
+		// ............................................
+		// ...............................................
+		// 1945510.0
+		
+		
 	}
 
 }

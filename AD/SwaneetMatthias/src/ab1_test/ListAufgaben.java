@@ -3,21 +3,16 @@ package ab1_test;
 import ab1_adts.AverageVariance;
 import ab1_adts.ListImpl.MLinkedList;
 
+/**
+ *
+ * @author Swaneet Sahoo, Matthias Nitsche
+ */
+
 public class ListAufgaben {
 
     private static int NoOfElements = 15;
 
     public static void main(String[] args) {
-        /*MLinkedList<Integer> mll = new MLinkedList<>(2);
-         mll.cons(1);
-         mll.cons(5);
-         mll.cons(1);
-         mll.cons(1);
-         System.out.println(mll);
-         mll.head();
-         mll.head();
-         System.out.println(mll);
-         System.out.println(mll.get(mll.length()-1));*/
 
         // Aufgabe 3:
 
@@ -130,7 +125,7 @@ public class ListAufgaben {
         // AccessCount: 11628
         //
         // 15 elements need:  23946 ns.
-        // AccessCount: 153
+        // AccessCount: 153  
         // 150 elements need:  426339 ns.
         // AccessCount: 11628
 
@@ -156,7 +151,7 @@ public class ListAufgaben {
         }
         System.out.println("For " + zeitmess.getN() + " repetitions we need");
         System.out.println(zeitmess.getAverage() + " nanoseconds on average");
-        System.out.println("with a variance of " + zeitmess.getVariance() +  " nanoseconds*nanoseconds");
+        System.out.println("with a variance of " + Math.sqrt(zeitmess.getVariance()) +  " nanoseconds*nanoseconds");
         System.out.println("for inserting " + NoOfElements + " elements at random positions.");
 
     }

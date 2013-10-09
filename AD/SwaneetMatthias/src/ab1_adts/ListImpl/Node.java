@@ -1,10 +1,15 @@
 package ab1_adts.ListImpl;
 
+/**
+ *
+ * @author Swaneet Sahoo, Matthias Nitsche
+ */
+
 public class Node<T> implements INode<T> {
 
 	private T elem;
 	private Node<T> nextNode = null;
-
+	
 	public Node(T elem) {
 		this.elem = elem;
 	}

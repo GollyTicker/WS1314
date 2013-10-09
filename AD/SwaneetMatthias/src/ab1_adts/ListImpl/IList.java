@@ -1,5 +1,10 @@
 package ab1_adts.ListImpl;
 
+/**
+ *
+ * @author Swaneet Sahoo, Matthias Nitsche
+ */
+
 public interface IList<T> {
 
 	// add elem to the front
