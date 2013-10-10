@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class MatrixTesting {
+public class MatrixArrayTest {
 	
 	
 	@Test
@@ -189,26 +189,39 @@ public class MatrixTesting {
 		assertEquals(m2,m1.mul(skalar));
 	}
 	
-/*		// todo pow testen
 	@Test
-	public void test_() {
-		int a = 2;
-		int b = 3;
-		int skalar = -4;
-		Matrix m1 = new MatrixArray(a,b);
-		Matrix m2 = new MatrixArray(a,b);
+	public void test_pow() {
+		int dim = 3;
+		Matrix m1 = new MatrixList(dim,dim);
+		Matrix m2 = new MatrixList(dim,dim);
+
+		m1.insert(1, 1, 1.0);
+		m1.insert(1, 2, 2.0);
+		m1.insert(1, 3, 3.0);
+
+		m1.insert(2, 1, 4.0);
+		m1.insert(2, 2, 5.0);
+		m1.insert(2, 3, 6.0);
+
+		m1.insert(3, 1, 7.0);
+		m1.insert(3, 2, 8.0);
+		m1.insert(3, 3, 9.0);
 		
-		for(int i = 1; i <= a; i++){
-			for(int j = 1; j <= b; j++)
-				m1.insert(i, j, (double)(2*i-j));
-		}
+		m2.insert(1, 1, 30.0);
+		m2.insert(1, 2, 36.0);
+		m2.insert(1, 3, 42.0);
+
+		m2.insert(2, 1, 66.0);
+		m2.insert(2, 2, 81.0);
+		m2.insert(2, 3, 96.0);
+
+		m2.insert(3, 1, 102.0);
+		m2.insert(3, 2, 126.0);
+		m2.insert(3, 3, 150.0);
 		
-		for(int i = 1; i <= a; i++){
-			for(int j = 1; j <= b; j++)
-				m2.insert(i, j, (double)((2*i-j) * skalar));
-		}
 		
-		assertEquals(m1.mul(skalar),m2);
+		assertEquals(m1,m1.pow(1));
+		
+		assertEquals(m2,m1.pow(2));
 	}
-*/
 }
