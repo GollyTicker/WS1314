@@ -5,8 +5,8 @@ public class GeneratorModule {
 	public static void main(String[] args) {
 		GeneratorModule gm = new GeneratorModule(20, 20, 0.9);
 		gm.generateRandomMatrix();
-		System.out.println(gm.getMatrix());
-		System.out.println(gm.getRatio());
+		// System.out.println(gm.getMatrix());
+		// System.out.println(gm.getRatio());
 	}
 
 	private double probabilityForZero;
