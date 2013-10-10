@@ -25,8 +25,8 @@ public class MatrixArray implements Matrix {
 		if (!isSameLength(m))
 			throw new IndexOutOfBoundsException("mxn do not equal this matrix");
 		Matrix m2 = new MatrixArray(this.m, this.n);
-		for (int i = 0; i < this.m; i++) {
-			for (int j = 0; j < this.n; j++) {
+		for (int i = 1; i <= this.m; i++) {
+			for (int j = 1; j <= this.n; j++) {
 				m2.insert(i, j, this.get(i, j) + m.get(i, j));
 			}
 		}
@@ -36,8 +36,8 @@ public class MatrixArray implements Matrix {
 	@Override
 	public Matrix mul(double skalar) {
 		Matrix m = new MatrixArray(this.m, this.n);
-		for (int i = 0; i < this.m; i++) {
-			for (int j = 0; j < this.n; j++) {
+		for (int i = 1; i <= this.m; i++) {
+			for (int j = 1; j <= this.n; j++) {
 				m.insert(i, j, skalar * this.get(i, j));
 			}
 		}
@@ -49,11 +49,11 @@ public class MatrixArray implements Matrix {
 		if (!assertMulLength(factor))
 			throw new IndexOutOfBoundsException(
 					"M of this Matrix does not equal N of given Matrix");
-		Matrix m2 = new MatrixArray(this.getN(), factor.getM());
-		for (int i = 0; i < m2.getN(); i++) {
-			for (int j = 0; j < m2.getM(); j++) {
+		Matrix m2 = new MatrixArray(this.getM(), factor.getN());
+		for (int i = 1; i <= m2.getM(); i++) {
+			for (int j = 1; j <= m2.getN(); j++) {
 				double acc = 0;
-				for (int k = 0; k < this.n; k++) {
+				for (int k = 1; k <= this.n; k++) {
 					acc += (this.get(i, k) * factor.get(k, j));
 				}
 				m2.insert(i, j, acc);
@@ -73,8 +73,8 @@ public class MatrixArray implements Matrix {
 
 	@Override
 	public void insert(int i, int j, double value) {
-		outOfBound(i, j);
-		this.mArray[i][j] = value;
+		outOfBound(i-1, j-1);
+		this.mArray[i-1][j-1] = value;
 	}
 
 	@Override
@@ -89,8 +89,8 @@ public class MatrixArray implements Matrix {
 
 	@Override
 	public double get(int i, int j) {
-		outOfBound(i, j);
-		return this.mArray[i][j];
+		outOfBound(i-1, j-1);
+		return this.mArray[i-1][j-1];
 	}
 
 	private boolean isSameLength(Matrix m) {
@@ -98,7 +98,7 @@ public class MatrixArray implements Matrix {
 	}
 
 	private boolean assertMulLength(Matrix m) {
-		return this.m == m.getN();
+		return this.n == m.getM();
 	}
 
 	private void outOfBound(int i, int j) {
@@ -127,16 +127,20 @@ public class MatrixArray implements Matrix {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
+	public boolean equals(Object o) {
+		if (this == o)
 			return true;
-		if (obj == null)
+
+		if (!(o instanceof Matrix))
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		MatrixArray other = (MatrixArray) obj;
-		if (!Arrays.deepEquals(mArray, other.mArray))
-			return false;
+
+		Matrix m = (Matrix) o;
+		for (int i = 1; i <= this.getM(); i++) {
+			for (int j = 1; j <= this.getN(); j++) {
+				if (this.get(i, j) != m.get(i, j))
+					return false;
+			}
+		}
 		return true;
 	}
 }
