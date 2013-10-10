@@ -5,8 +5,6 @@ package A1_test;
  * and open the template in the editor.
  */
 
-import java.util.Arrays;
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;
