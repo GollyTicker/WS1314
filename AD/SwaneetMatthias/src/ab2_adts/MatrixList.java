@@ -142,19 +142,17 @@ public class MatrixList implements Matrix {
 
 	@Override
 	public Matrix pow(int exponent) { // the exponent goes from 1 to infinity
-		AssertMatrixMultable(this);
-		Matrix pot = new MatrixList(this.getM(), this.getN()); // bei matrix
-																// hoch 1 wird
-																// die
-																// for-schleife
-																// uebersprungen.
-		/*
-		 * if(exponent == 1) return this;
-		 * 
-		 * for(int i = 2; i <= exponent; i++){ pot = this.mul(this); }
-		 */
+		AssertExponentValid(exponent);
+		Matrix pot = new MatrixList(this.getM(), this.getN());
+		// bei matrix hoch 1 wird die schleife nicht erst ausgefuehrt
+		if (exponent == 1)
+			return this;
 
-		return pot; // TODO: pow(...) implementieren
+		for (int i = 2; i <= exponent; i++) {
+			pot = this.mul(this);
+		}
+
+		return pot;
 	}
 
 	@Override

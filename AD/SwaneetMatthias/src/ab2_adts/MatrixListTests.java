@@ -86,19 +86,19 @@ public class MatrixListTests {
 		
 		// m1:
 //		[
-//		[3.0,4.0,5.0],
-//		[5.0,6.0,7.0]
+//		[3.0, 4.0, 5.0],
+//		[5.0, 6.0, 7.0]
 //		]
 		
 		// m2:
 //		[
-//		[1.0,4.0,9.0],
-//		[4.0,16.0,36.0]
+//		[1.0, 4.0,  9.0],
+//		[4.0, 16.0, 36.0]
 //		]
 		
 		// Erwartetes Ergebnis:
 //		[
-//		[4.0, 8.0, 14.0],
+//		[4.0, 8.0,  14.0],
 //		[9.0, 22.0, 43.0]
 //		]
 		
@@ -122,42 +122,90 @@ public class MatrixListTests {
 		Matrix m2 = new MatrixList(b,c);
 		Matrix m3 = new MatrixList(a,c);
 		
-		for(int i = 1; i <= m; i++){
-			for(int j = 1; j <= n; j++)
-				m1.insert(i, j, (double)(2*i+j));
+		for(int i = 1; i <= a; i++){
+			for(int j = 1; j <= b; j++)
+				m1.insert(i, j, (double)(2*i-j));
 		}
 		
-		for(int i = 1; i <= m; i++){
-			for(int j = 1; j <= n; j++)
+		for(int i = 1; i <= b; i++){
+			for(int j = 1; j <= c; j++)
 				m2.insert(i, j, (double)(i*i*j*j));
 		}
 		
 		// m1:
 //		[
-//		[3.0,4.0,5.0],
-//		[5.0,6.0,7.0]
+//		[1.0, 0.0, -1.0],
+//		[3.0, 2.0, 1.0]
 //		]
 		
 		// m2:
 //		[
-//		[1.0,4.0,9.0],
-//		[4.0,16.0,36.0]
+//		[1.0, 4.0,  9.0,  16.0],
+//		[4.0, 16.0, 36.0, 64.0],
+//		[9.0, 36.0, 81.0, 144.0]
 //		]
 		
 		// Erwartetes Ergebnis:
-//		[
-//		[4.0, 8.0, 14.0],
-//		[9.0, 22.0, 43.0]
-//		]
+//	    [
+//	    [-8.0, -32.0, -72.0, -128.0],
+//	    [20.0, 80.0,  180.0, 320.0]
+//	    ]
 		
-		m3.insert(1, 1, 4.0);
-		m3.insert(1, 2, 8.0);
-		m3.insert(1, 3, 14.0);
-		m3.insert(2, 1, 9.0);
-		m3.insert(2, 2, 22.0);
-		m3.insert(2, 3, 43.0);
 		
-		assertEquals(m1.add(m2),m3);
+		m3.insert(1, 1, -8.0);
+		m3.insert(1, 2, -32.0);
+		m3.insert(1, 3, -72.0);
+		m3.insert(1, 4, -128.0);
+		m3.insert(2, 1, 20.0);
+		m3.insert(2, 2, 80.0);
+		m3.insert(2, 3, 180.0);
+		m3.insert(2, 4, 320.0);
+		
+		assertEquals(m1.mul(m2),m3);
 	}
+	
 
+	@Test
+	public void test_mult_skalar() {
+		int a = 2;
+		int b = 3;
+		int skalar = -4;
+		Matrix m1 = new MatrixList(a,b);
+		Matrix m2 = new MatrixList(a,b);
+		
+		for(int i = 1; i <= a; i++){
+			for(int j = 1; j <= b; j++)
+				m1.insert(i, j, (double)(2*i-j));
+		}
+		
+		for(int i = 1; i <= a; i++){
+			for(int j = 1; j <= b; j++)
+				m2.insert(i, j, (double)((2*i-j) * skalar));
+		}
+		
+		assertEquals(m1.mul(skalar),m2);
+	}
+	
+/*		// todo pow testen
+	@Test
+	public void test_() {
+		int a = 2;
+		int b = 3;
+		int skalar = -4;
+		Matrix m1 = new MatrixList(a,b);
+		Matrix m2 = new MatrixList(a,b);
+		
+		for(int i = 1; i <= a; i++){
+			for(int j = 1; j <= b; j++)
+				m1.insert(i, j, (double)(2*i-j));
+		}
+		
+		for(int i = 1; i <= a; i++){
+			for(int j = 1; j <= b; j++)
+				m2.insert(i, j, (double)((2*i-j) * skalar));
+		}
+		
+		assertEquals(m1.mul(skalar),m2);
+	}
+*/
 }
