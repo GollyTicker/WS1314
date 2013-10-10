@@ -186,12 +186,10 @@ public class MatrixArrayListTest {
 		assertEquals(m1.mul(skalar),m2);
 	}
 	
-/*		// todo pow testen
+		/*// todo pow testen
 	@Test
 	public void test_() {
-		int a = 2;
-		int b = 3;
-		int skalar = -4;
+		int a = 3;
 		Matrix m1 = new MatrixArrayList(a,b);
 		Matrix m2 = new MatrixArrayList(a,b);
 		
@@ -206,6 +204,6 @@ public class MatrixArrayListTest {
 		}
 		
 		assertEquals(m1.mul(skalar),m2);
-	}
-*/
+	}*/
+
 }
