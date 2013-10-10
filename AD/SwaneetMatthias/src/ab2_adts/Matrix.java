@@ -4,9 +4,9 @@ public interface Matrix {
 	
 	void insert(int i, int j, double value);
 	
-	int getI();
+	int getM();
 	
-	int getJ();
+	int getN();
 	
 	double get(int i, int j);
 	
