@@ -1,11 +1,26 @@
 package ab2_adts;
 
-public abstract class AbstractMatrix implements Matrix{
+/**
+ * 
+ * @author Swaneet Sahoo, Matthias Nitsche
+ */
+public abstract class AbstractMatrix implements Matrix, IException {
 
 	protected int m; // i
 	protected int n; // j
-	
-	public AbstractMatrix(int m, int n){
+
+	// Creation
+	/**
+	 * Abstract Implementation for all Matrix subclasses to refactor and shorten
+	 * Code Implementation. The Index starts by 1 not 0. All indexes are then
+	 * subtracted by 1.
+	 * 
+	 * @param m
+	 *            m dimension of a Matrix
+	 * @param n
+	 *            n dimension of a Matrix
+	 */
+	public AbstractMatrix(int m, int n) {
 		if (n <= 0 || m <= 0) {
 			try {
 				throw new Exception(
@@ -16,9 +31,10 @@ public abstract class AbstractMatrix implements Matrix{
 		}
 		this.m = m;
 		this.n = n;
-		
+
 	}
-	
+
+	// Selectors
 	@Override
 	public int getM() {
 		return m;
@@ -29,32 +45,14 @@ public abstract class AbstractMatrix implements Matrix{
 		return n;
 	}
 
-	protected boolean isSameLength(Matrix m) {
-		return this.m == m.getM() && this.n == m.getN();
-	}
-
-	protected boolean assertMulLength(Matrix m) {
-		return this.n == m.getM();
-	}
-
-	protected void outOfBound(int i, int j) {
-		if (!(0 <= i && i < m) || !(0 <= j && j < n))
-			throw new IndexOutOfBoundsException();
-	}
-
-
-	protected void AssertExponentValid(int exp) {
-		if (exp < 1) {
-			try {
-				throw new Exception("Matrix to the power of " + exp
-						+ "won't be computed.");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-
+	// Mutators
+	/**
+	 * Multiply a m x n Matrix by a given Scalar.
+	 * 
+	 * @param skalar
+	 *            the given multiplier for the Matrix.
+	 * @return New Matrix.
+	 */
 	@Override
 	public Matrix mul(double skalar) {
 		Matrix multedMatrix = new MatrixList(this.getM(), this.getN());
@@ -66,8 +64,15 @@ public abstract class AbstractMatrix implements Matrix{
 		}
 		return multedMatrix;
 	}
-	
 
+	/**
+	 * Multiply a m x n Matrix with a given m x n Matrix. The M of this has to
+	 * be equal to the N of the given Matrix.
+	 * 
+	 * @param factor
+	 *            the given Matrix for a m x n Matrix.
+	 * @return New Matrix with m of this matrix and n of given matrix.
+	 */
 	@Override
 	public Matrix mul(Matrix factor) {
 		if (!assertMulLength(factor))
@@ -86,6 +91,14 @@ public abstract class AbstractMatrix implements Matrix{
 		return m2;
 	}
 
+	/**
+	 * Add a m x n Matrix with a given m x n Matrix. This Matrix has to be equal
+	 * to the given Matrix.
+	 * 
+	 * @param m
+	 *            the given Matrix for a m x n Matrix.
+	 * @return New Matrix.
+	 */
 	@Override
 	public Matrix add(Matrix m) {
 		if (!isSameLength(m))
@@ -99,6 +112,14 @@ public abstract class AbstractMatrix implements Matrix{
 		return m2;
 	}
 
+	/**
+	 * Multiply this Matrix to the power of n. It is only possible to Multiply a
+	 * Matrix if M and N are equal.
+	 * 
+	 * @param exponent
+	 *            multiply the Matrix to the power of the exponent.
+	 * @return New Matrix.
+	 */
 	@Override
 	public Matrix pow(int exponent) { // the exponent goes from 1 to infinity
 		AssertExponentValid(exponent);
@@ -114,6 +135,7 @@ public abstract class AbstractMatrix implements Matrix{
 		return pot;
 	}
 
+	// Identities
 	@Override
 	public String toString() {
 		String acc = "[\n";
@@ -152,5 +174,63 @@ public abstract class AbstractMatrix implements Matrix{
 			}
 		}
 		return true;
+	}
+
+	// Exceptions
+
+	/**
+	 * Check if a Matrix is of same length than another.
+	 * 
+	 * @param m
+	 *            Matrix that is compared to another
+	 * @return Boolean Value.
+	 */
+	@Override
+	public boolean isSameLength(Matrix m) {
+		return this.m == m.getM() && this.n == m.getN();
+	}
+
+	/**
+	 * Check if a m of a Matrix is of same length than the n of another.
+	 * 
+	 * @param m
+	 *            Matrix that is compared to another
+	 * @return Boolean Value.
+	 */
+	@Override
+	public boolean assertMulLength(Matrix m) {
+		return this.n == m.getM();
+	}
+
+	/**
+	 * Check if two indices are within the bound of a m x n Matrix.
+	 * 
+	 * @param i
+	 *            Integer for the m dimension.
+	 * @param j
+	 *            Integer for the n dimension.
+	 */
+	@Override
+	public void outOfBound(int i, int j) {
+		if (!(0 <= i && i < m) || !(0 <= j && j < n))
+			throw new IndexOutOfBoundsException();
+	}
+
+	/**
+	 * Check if an exponent is valid, that means zero is not a valid integer.
+	 * 
+	 * @param exp
+	 *            Integer has to be greater than zero.
+	 */
+	@Override
+	public void AssertExponentValid(int exp) {
+		if (exp < 1) {
+			try {
+				throw new Exception("Matrix to the power of " + exp
+						+ "won't be computed.");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

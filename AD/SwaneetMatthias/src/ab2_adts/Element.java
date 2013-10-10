@@ -1,5 +1,9 @@
 package ab2_adts;
 
+/**
+ * 
+ * @author Swaneet Sahoo, Matthias Nitsche
+ */
 public class Element {
 	private int i;
 	private int j;

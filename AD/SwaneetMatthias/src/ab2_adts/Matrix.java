@@ -1,5 +1,9 @@
 package ab2_adts;
 
+/**
+ * 
+ * @author Swaneet Sahoo, Matthias Nitsche
+ */
 public interface Matrix {
 	
 	void insert(int i, int j, double value);
