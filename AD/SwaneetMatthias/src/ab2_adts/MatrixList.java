@@ -123,6 +123,7 @@ public class MatrixList implements Matrix {
 				for (int k = 1; k <= n; k++) {
 					value += this.get(i, k) * factor.get(k, j);
 				}
+				System.out.println("i: "+i+";j: "+j+";value: "+value);
 				product.insert(i, j, value);
 			}
 		}
