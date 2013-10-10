@@ -1,14 +1,14 @@
 package ab2_adts;
 
 public interface Matrix {
-
-	public Matrix add(Matrix m);
 	
-	public Matrix mul(double skalar);
+	void insert(int i, int j, double value);
 	
-	public Matrix mul(Matrix factor);
+	Matrix add(Matrix m);
 	
-	public Matrix pow(int exponent);
-	//Die Grundoperationen einer Matrix sind die Initialisierung (wie), die Addition, die ska-
-	// lare Multiplikation, die (Matrix-)Multiplikation und die Potenzierun
+	Matrix mul(double skalar);
+	
+	Matrix mul(Matrix factor);
+	
+	Matrix pow(int exponent);
 }
