@@ -45,6 +45,9 @@ public class CopyFromTests {
 
 		assertEquals(mArray, mArrayList);
 		assertEquals(mArray, mList2);
+		
+
+		assertEquals(mArrayList, mList2);
 
 	}
 }

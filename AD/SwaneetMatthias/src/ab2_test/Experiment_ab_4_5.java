@@ -9,30 +9,37 @@ import ab2_adts.MatrixList;
 // TODO: blabla bluff
 
 public class Experiment_ab_4_5 {
-	// update: this file contains Aufgabe 6
+	
+	
+	// despite this file's name: this file contains Aufgabe 6
+	
 	
 	private static int n = 312;
 	
 
 	public static void main(String[] args) {
-		/*GeneratorModule gm = new GeneratorModule(n,n, 0.8);
+		GeneratorModule gm = new GeneratorModule(n,n, 0.8);
 		
-		// the default implementation is MatrixArray
+		// the matrices A and B
 		gm.generateRandomMatrix();
-		Matrix a1 = gm.getMatrix();
-		
+		Matrix a = gm.getMatrix();
 		gm.generateRandomMatrix();
-		Matrix b1 = gm.getMatrix();
+		Matrix b = gm.getMatrix();
 		
 		// MatrixList implementation
-		gm.generateRandomMatrix();
-		Matrix a2 = new MatrixList(n, n);
-		Matrix temp = gm.getMatrix();
+		Matrix mListA = new MatrixList(n, n);
+		Matrix mListB = new MatrixList(n, n);
+		mListA.copyFrom(a);
+		mListB.copyFrom(b);
 		
 		
-		gm.generateRandomMatrix();
-		Matrix b1 = gm.getMatrix();
-		*/
+		// MatrixList implementation
+//		Matrix mListA = new MatrixList(n, n);
+//		Matrix mListB = new MatrixList(n, n);
+//		mListA.copyFrom(a);
+//		mListB.copyFrom(b);
+		
+		
 	}
 
 }
