@@ -11,7 +11,9 @@ public class Aufgabe7 {
 	
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		
+		
+		
 	}
 
 }
