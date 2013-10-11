@@ -1,8 +1,7 @@
 package ab2_test;
 
 import ab2_adts.GeneratorModule;
-import ab2_adts.Matrix;
-import ab2_adts.MatrixList;
+import ab2_adts.*;
 
 // TODO: Matthias: update the javadoc because of the addition of copyFrom.
 // TODO: delete the tests duplicates in ab2_adts
@@ -14,7 +13,7 @@ public class Experiment_ab_4_5 {
 	// despite this file's name: this file contains Aufgabe 6
 	
 	
-	private static int n = 312;
+	private static int n = 120;
 	
 
 	public static void main(String[] args) {
@@ -33,12 +32,18 @@ public class Experiment_ab_4_5 {
 		mListB.copyFrom(b);
 		
 		
-		// MatrixList implementation
-//		Matrix mListA = new MatrixList(n, n);
-//		Matrix mListB = new MatrixList(n, n);
-//		mListA.copyFrom(a);
-//		mListB.copyFrom(b);
+		// MatrixArray implementation
+		Matrix mArrayA = new MatrixArray(n, n);
+		Matrix mArrayB = new MatrixArray(n, n);
+		mArrayA.copyFrom(a);
+		mArrayB.copyFrom(b);
 		
+
+		// MatrixArrayList implementation
+		Matrix mArrayListA = new MatrixArrayList(n, n);
+		Matrix mArrayListB = new MatrixArrayList(n, n);
+		mArrayListA.copyFrom(a);
+		mArrayListB.copyFrom(b);
 		
 	}
 
