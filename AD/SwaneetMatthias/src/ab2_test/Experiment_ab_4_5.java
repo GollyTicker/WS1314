@@ -4,7 +4,9 @@ import ab2_adts.GeneratorModule;
 import ab2_adts.Matrix;
 import ab2_adts.MatrixList;
 
-
+// TODO: Matthias: update the javadoc because of the addition of copyFrom.
+// TODO: delete the tests duplicates in ab2_adts
+// TODO: blabla bluff
 
 public class Experiment_ab_4_5 {
 	// update: this file contains Aufgabe 6

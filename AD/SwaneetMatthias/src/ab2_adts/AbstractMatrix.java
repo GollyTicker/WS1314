@@ -134,11 +134,14 @@ public abstract class AbstractMatrix implements Matrix, IException {
 
 		return pot;
 	}
-	
+
 	/**
-	 * Copies all the contents of the given Matrix into the current matrix. This is useful for changing the uses Matrix implementation. the contents are then availible in the implementation of "this" matrix.
+	 * Copies all the contents of the given Matrix into the current matrix. This
+	 * is useful for changing the uses Matrix implementation. the contents are
+	 * then availible in the implementation of "this" matrix.
 	 * 
-	 * @param the matrix of which the contents are to be taken 
+	 * @param the
+	 *            matrix of which the contents are to be taken
 	 */
 	@Override
 	public void copyFrom(Matrix source) {
@@ -191,7 +194,7 @@ public abstract class AbstractMatrix implements Matrix, IException {
 		}
 		return true;
 	}
-	
+
 	// Exceptions
 
 	/**
