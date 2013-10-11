@@ -134,6 +134,22 @@ public abstract class AbstractMatrix implements Matrix, IException {
 
 		return pot;
 	}
+	
+	/**
+	 * Copies all the contents of the given Matrix into the current matrix. This is useful for changing the uses Matrix implementation. the contents are then availible in the implementation of "this" matrix.
+	 * 
+	 * @param the matrix of which the contents are to be taken 
+	 */
+	@Override
+	public void copyFrom(Matrix source) {
+		if (!isSameLength(source))
+			throw new IndexOutOfBoundsException("mxn do not equal this matrix");
+		for (int i = 1; i <= this.getM(); i++) {
+			for (int j = 1; j <= this.getN(); j++) {
+				this.insert(i, j, source.get(i, j));
+			}
+		}
+	}
 
 	// Identities
 	@Override
@@ -175,7 +191,7 @@ public abstract class AbstractMatrix implements Matrix, IException {
 		}
 		return true;
 	}
-
+	
 	// Exceptions
 
 	/**

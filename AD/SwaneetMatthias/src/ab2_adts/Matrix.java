@@ -14,6 +14,8 @@ public interface Matrix {
 	
 	double get(int i, int j);
 	
+	void copyFrom(Matrix source);
+	
 	Matrix add(Matrix m);
 	
 	Matrix mul(double skalar);
@@ -21,4 +23,5 @@ public interface Matrix {
 	Matrix mul(Matrix factor);
 	
 	Matrix pow(int exponent);
+	
 }
