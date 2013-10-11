@@ -51,4 +51,15 @@ public class MatrixArray extends AbstractMatrix {
 		outOfBound(i - 1, j - 1);
 		return mArray[i - 1][j - 1];
 	}
+
+	/**
+	 * 
+	 * Returns the number of saved values in the current implementation
+	 * 
+	 * @return noOfUsedMemoryBlocks
+	 */
+	@Override
+	public int memoryUsage() {
+		return m * n; // an 2-dim-array always uses all space for m*n values
+	}
 }

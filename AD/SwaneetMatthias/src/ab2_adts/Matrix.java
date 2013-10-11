@@ -15,6 +15,8 @@ public interface Matrix {
 	double get(int i, int j);
 
 	void copyFrom(Matrix source);
+	
+	int memoryUsage();
 
 	Matrix add(Matrix m);
 

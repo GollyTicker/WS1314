@@ -67,4 +67,15 @@ public class MatrixList extends AbstractMatrix {
 		return 0.0;
 	}
 
+	/**
+	 * 
+	 * Returns the number of saved values in the current implementation
+	 * 
+	 * @return noOfUsedMemoryBlocks
+	 */
+	@Override
+	public int memoryUsage() {
+		return elems.size();
+	}
+
 }
