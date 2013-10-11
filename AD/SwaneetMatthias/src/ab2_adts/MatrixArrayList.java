@@ -23,7 +23,7 @@ public class MatrixArrayList extends AbstractMatrix {
 		for (int i = 0; i < m; i++) {
 			ArrayList<Double> tmpi = new ArrayList<>();
 			for (int j = 0; j < n; j++) {
-				tmpi.add(0.0);
+				tmpi.add(Double.NaN);
 			}
 			this.mArray.add(tmpi);
 		}
@@ -42,7 +42,8 @@ public class MatrixArrayList extends AbstractMatrix {
 	@Override
 	public void insert(int i, int j, double value) {
 		outOfBound(i - 1, j - 1);
-		this.mArray.get(i - 1).add(j - 1, value);
+		if (Double.compare(value, 0.0) != 0)
+			this.mArray.get(i - 1).add(j - 1, value);
 	}
 
 	/**
@@ -57,7 +58,11 @@ public class MatrixArrayList extends AbstractMatrix {
 	@Override
 	public double get(int i, int j) {
 		outOfBound(i - 1, j - 1);
-		return this.mArray.get(i - 1).get(j - 1);
+		Double value = this.mArray.get(i - 1).get(j - 1);
+		if (Double.isNaN(value))
+			return 0.0;
+		else
+			return value;
 	}
 
 }

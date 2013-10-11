@@ -42,7 +42,8 @@ public class MatrixList extends AbstractMatrix {
 				elems.remove(e);
 			}
 		}
-		if(Double.compare(value, 0.0) != 0){		// only non zero values need to be added
+		if (Double.compare(value, 0.0) != 0) { // only non zero values need to
+												// be added
 			elems.add(new Element(i, j, value));
 		}
 	}
