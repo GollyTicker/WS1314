@@ -1,6 +1,9 @@
 package ab2_test;
 
-import ab2_adts.GeneratorModule;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 import ab2_adts.*;
 
 // TODO: Matthias: update the javadoc because of the addition of copyFrom.
@@ -12,12 +15,13 @@ public class Experiment_ab_4_5 {
 	
 	// despite this file's name: this file contains Aufgabe 6
 	
+	private static int n = 60;		// don't insert numbers higher than ~100 if you don't have paitence
 	
-	private static int n = 120;
-	
+	// n = 60: waiting about a couple of seconds
 
-	public static void main(String[] args) {
-		GeneratorModule gm = new GeneratorModule(n,n, 0.8);
+	@Test
+	public void testAufgabe6() {
+		GeneratorModule gm = new GeneratorModule(n,n, 0.5);
 		
 		// the matrices A and B
 		gm.generateRandomMatrix();
@@ -44,6 +48,19 @@ public class Experiment_ab_4_5 {
 		Matrix mArrayListB = new MatrixArrayList(n, n);
 		mArrayListA.copyFrom(a);
 		mArrayListB.copyFrom(b);
+		
+		
+		// multiply all matrices
+		
+		
+		Matrix mListProduct = mListA.mul(mListB);
+		Matrix mArrayProduct = mArrayA.mul(mArrayB);
+		Matrix mArrayListProduct = mArrayListA.mul(mArrayListB);
+		
+		
+		assertEquals(mListProduct,mArrayProduct);
+		assertEquals(mArrayProduct,mArrayListProduct);
+		assertEquals(mArrayListProduct,mListProduct);
 		
 	}
 
