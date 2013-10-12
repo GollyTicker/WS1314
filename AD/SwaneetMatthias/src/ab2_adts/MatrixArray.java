@@ -74,6 +74,22 @@ public class MatrixArray extends AbstractMatrix {
 
 	@Override
 	public Matrix mul(Matrix factor) {
-		return super.mul_(factor,new MatrixList(this.getM(), factor.getN()));
+		return super.mul_(factor,new MatrixArray(this.getM(), factor.getN()));
+	}
+	
+
+	@Override
+	public Matrix add(Matrix m) {
+		return super.add_(m,new MatrixArray(this.getM(), this.getN()));
+	}
+
+	@Override
+	public Matrix mul(double skalar) {
+		return super.mul_(skalar,new MatrixArray(this.getM(), this.getN()));
+	}
+
+	@Override
+	public Matrix pow(int exponent) {
+		return super.pow_(exponent,new MatrixArray(this.getM(), this.getN()));
 	}
 }
