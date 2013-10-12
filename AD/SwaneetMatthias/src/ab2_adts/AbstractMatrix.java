@@ -11,12 +11,12 @@ public abstract class AbstractMatrix implements Matrix, IException {
 
 	// counting accesses for Aufgabe 8
 	protected int accessCount = 0;
-	
+
 	@Override
 	public int accessCount() {
 		return this.accessCount;
 	}
-	
+
 	@Override
 	public void resetAccessCount() {
 		this.accessCount = 0;
@@ -68,7 +68,7 @@ public abstract class AbstractMatrix implements Matrix, IException {
 	 */
 	@Override
 	public abstract Matrix mul(double skalar);
-	
+
 	protected Matrix mul_(double skalar, Matrix destination) {
 		for (int i = 1; i <= destination.getM(); i++) {
 			for (int j = 1; j <= destination.getN(); j++) {
@@ -79,7 +79,6 @@ public abstract class AbstractMatrix implements Matrix, IException {
 		return destination;
 	}
 
-
 	/**
 	 * Multiply a m x n Matrix with a given m x n Matrix. The M of this has to
 	 * be equal to the N of the given Matrix.
@@ -88,10 +87,10 @@ public abstract class AbstractMatrix implements Matrix, IException {
 	 *            the given Matrix for a m x n Matrix.
 	 * @return New Matrix with m of this matrix and n of given matrix.
 	 */
-	
+
 	@Override
 	public abstract Matrix mul(Matrix factor);
-	
+
 	protected Matrix mul_(Matrix factor, Matrix destination) {
 		if (!assertMulLength(factor))
 			throw new IndexOutOfBoundsException(
@@ -116,10 +115,10 @@ public abstract class AbstractMatrix implements Matrix, IException {
 	 *            the given Matrix for a m x n Matrix.
 	 * @return New Matrix.
 	 */
-	
+
 	@Override
 	public abstract Matrix add(Matrix m);
-	
+
 	protected Matrix add_(Matrix m, Matrix destination) {
 		if (!isSameLength(m))
 			throw new IndexOutOfBoundsException("mxn do not equal this matrix");
@@ -139,11 +138,13 @@ public abstract class AbstractMatrix implements Matrix, IException {
 	 *            multiply the Matrix to the power of the exponent.
 	 * @return New Matrix.
 	 */
-	
+
 	@Override
 	public abstract Matrix pow(int exponent);
-	
-	protected Matrix pow_(int exponent, Matrix destination) { // the exponent goes from 1 to infinity
+
+	protected Matrix pow_(int exponent, Matrix destination) { // the exponent
+																// goes from 1
+																// to infinity
 		AssertExponentValid(exponent);
 		// bei matrix hoch 1 wird die schleife nicht erst ausgefuehrt
 		if (exponent == 1)
@@ -161,8 +162,8 @@ public abstract class AbstractMatrix implements Matrix, IException {
 	 * is useful for changing the uses Matrix implementation. the contents are
 	 * then availible in the implementation of "this" matrix.
 	 * 
-	 * @param the
-	 *            matrix of which the contents are to be taken
+	 * @param source
+	 *            the matrix of which the contents are to be taken
 	 */
 	@Override
 	public void copyFrom(Matrix source) {
@@ -208,8 +209,10 @@ public abstract class AbstractMatrix implements Matrix, IException {
 
 		Matrix m = (Matrix) o;
 		for (int i = 1; i <= this.getM(); i++) {
-			for (int j = 1; j <= this.getN(); j++) {		// compare Doubles with delta = 0.0000001
-				if ( Double.compare(Math.abs(this.get(i, j) - m.get(i, j)), 0.0000001) > 0)
+			for (int j = 1; j <= this.getN(); j++) { // compare Doubles with
+														// delta = 0.0000001
+				if (Double.compare(Math.abs(this.get(i, j) - m.get(i, j)),
+						0.0000001) > 0)
 					return false;
 			}
 		}
