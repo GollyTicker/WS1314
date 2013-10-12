@@ -195,8 +195,8 @@ public abstract class AbstractMatrix implements Matrix, IException {
 
 		Matrix m = (Matrix) o;
 		for (int i = 1; i <= this.getM(); i++) {
-			for (int j = 1; j <= this.getN(); j++) {
-				if (this.get(i, j) != m.get(i, j))
+			for (int j = 1; j <= this.getN(); j++) {		// compare Doubles with delta = 0.0000001
+				if ( Double.compare(Math.abs(this.get(i, j) - m.get(i, j)), 0.0000001) > 0)
 					return false;
 			}
 		}

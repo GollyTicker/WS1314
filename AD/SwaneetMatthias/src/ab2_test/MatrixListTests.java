@@ -4,8 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import ab2_adts.Matrix;
-import ab2_adts.MatrixList;
+import ab2_adts.*;
 
 /**
  * 
@@ -169,6 +168,75 @@ public class MatrixListTests {
 		m3.insert(2, 4, 320.0);
 		
 		assertEquals(m1.mul(m2),m3);
+	}
+	
+	@Test
+	public void test_mult_matrix_associative() {
+		int dim = 2;
+		
+		Matrix a = new MatrixList(dim, dim);
+		Matrix b = new MatrixList(dim, dim);
+		Matrix c = new MatrixList(dim, dim);
+		
+		a.insert(1, 1, -2.0);
+		a.insert(1, 2, -3.0);
+		a.insert(2, 1, 4.0);
+		a.insert(2, 2, 5.0);
+		
+		b.insert(1, 1, -1.0);
+		b.insert(1, 2, 4.0);
+		b.insert(2, 1, 3.5);
+		b.insert(2, 2, 0.0);
+		
+		c.insert(1, 1, 6.0);
+		c.insert(1, 2, 1.5);
+		c.insert(2, 1, -5.0);
+		c.insert(2, 2, -1.2);
+		
+				// (A*B)*C = A*(B*C)
+		assertEquals( ( a.mul(b) ).mul(c), a.mul( b.mul(c) ) );
+		
+
+				// (B*A)*C = B*(A*C)
+		assertEquals( ( b.mul(a) ).mul(c), b.mul( a.mul(c) ) );
+	}
+	
+
+	@Test
+	public void test_mult_matrix_identity() {
+		int dim = 3;
+		
+		Matrix a = new MatrixList(dim, dim);
+		Matrix identity_matrix = new MatrixList(dim, dim);
+		
+		for(int i = 1; i <= dim; i++){
+			for(int j = 1; j <= dim; j++)
+				a.insert(i, j, (double)(2*i-j));
+		}
+		
+		for(int i = 1; i <= dim; i++){
+			for(int j = 1; j <= dim; j++)
+				identity_matrix.insert(i, j, (double)((i == j)?1.0:0.0));
+		}
+		
+		assertEquals(a.mul(identity_matrix),a);
+		assertEquals(identity_matrix.mul(a),a);
+	}
+	
+
+	@Test
+	public void test_mult_skalar_identity() {
+		int dim = 3;
+		
+		Matrix a = new MatrixList(dim, dim);
+		double skalar = 1.0;
+		
+		for(int i = 1; i <= dim; i++){
+			for(int j = 1; j <= dim; j++)
+				a.insert(i, j, (double)(2*i-j));
+		}
+		
+		assertEquals(a.mul(skalar),a);
 	}
 	
 
