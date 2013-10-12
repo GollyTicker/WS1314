@@ -17,7 +17,6 @@ public final class AverageVariance {
 	// accumulated sum of values
 	private double accumAvg = 0;
 	private double accumAvgSquare = 0;
-	private List<Double> values = new ArrayList<>();
 
 	// DecimalFormat for precision
 	private DecimalFormat df = new DecimalFormat("#.##");
@@ -47,7 +46,6 @@ public final class AverageVariance {
 	 *            the value to be added
 	 */
 	public void addValue(double value) {
-		values.add(value);
 		accumAvg += value;
 		n += 1;
 		accumAvgSquare += Math.pow(value, 2);
@@ -108,13 +106,6 @@ public final class AverageVariance {
 	// 1/n*sum((X1..n))^2
 	private double calculateVarianceAccumulated() {
 		return (accumAvgSquare - ((1.0 / this.n) * Math.pow(accumAvg, 2)));
-	}
-
-	private double calculateVarianceExplicit() {
-		double acc = 0;
-		for (double d : values)
-			acc += Math.pow(d - getAverage(), 2);
-		return acc;
 	}
 
 	@Override
