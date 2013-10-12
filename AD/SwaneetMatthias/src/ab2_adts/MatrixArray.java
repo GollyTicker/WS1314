@@ -18,7 +18,7 @@ public class MatrixArray extends AbstractMatrix {
 	 */
 	public MatrixArray(int m, int n) {
 		super(m, n);
-		mArray = new double[m][n];
+		mArray = new double[m][n];		// Arrays werden automatische mit 0.0 gefuellt
 	}
 
 	/**
