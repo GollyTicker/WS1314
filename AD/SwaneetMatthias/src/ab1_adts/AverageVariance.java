@@ -82,6 +82,10 @@ public final class AverageVariance {
 	 * 
 	 */
 	public double getAverage() {
+		return this.getAverageAccumulated();
+	}
+	
+	public double getAverageAccumulated() {
 		return this.accumAvg / this.n;
 	}
 
@@ -94,7 +98,7 @@ public final class AverageVariance {
 	public double getVariance() {
 		// There is no variance with one value
 		if (this.n > 1) {
-			return calculateVarianceSlow() * (1.0 / (this.n-1.0));
+			return calculateVarianceExplicit() * (1.0 / (this.n-1.0));
 		} else
 			return 0.0;
 	}
@@ -102,11 +106,11 @@ public final class AverageVariance {
 	// According to the "Satz von Steiner" (Verschiebungssatz)
 	// 1/(n-1)* sum((X1..n - Xavg)^2) -> 1/(n-1) * sum((X1..n)^2) -
 	// 1/n*sum((X1..n))^2
-	private double calculateVariance() {
+	private double calculateVarianceAccumulated() {
 		return (accumAvgSquare - ((1.0 / this.n) * Math.pow(accumAvg, 2)));
 	}
 
-	private double calculateVarianceSlow() {
+	private double calculateVarianceExplicit() {
 		double acc = 0;
 		for (double d : values)
 			acc += Math.pow(d - getAverage(), 2);

@@ -14,22 +14,19 @@ import ab1_adts.AverageVariance;
 
 public class AverageVarianceTest {
 	
-	/**
-	 * test for javadoc
-	 */
-	
-	@Test
-	public void test() {
-	}
-	
 	@Test
 	public void test_average(){
 		AverageVariance av = new AverageVariance();
 		av.addValues(Arrays.asList(6.0, 3.0, 8.0, 5.0, 3.0));
 		assertEquals(5, av.getAverage(), 0.01);
-		
+
+		av = new AverageVariance();
 		av.addValues(Arrays.asList(7.0, 2.0, 8.0, 5.0, 3.0));
 		assertEquals(5, av.getAverage(), 0.01);
+		
+		av = new AverageVariance();
+		av.addValues(Arrays.asList(7.0, 2.0, 8.0, 5.0, 3.0, 24.0));
+		assertEquals(8.16667, av.getAverage(), 0.001);
 	}
 	
 	@Test
