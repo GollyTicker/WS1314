@@ -61,8 +61,10 @@ public class MatrixList extends AbstractMatrix {
 	public double get(int i, int j) {
 		outOfBound(i - 1, j - 1);
 		for (Element e : elems) {
-			if (e.getI() == i && e.getJ() == j)
+			if (e.getI() == i && e.getJ() == j) {
+											accessCount += 1;		// access auf das Element
 				return e.getValue();
+			}
 		}
 		return 0.0;
 	}
@@ -77,26 +79,24 @@ public class MatrixList extends AbstractMatrix {
 	public int memoryUsage() {
 		return elems.size();
 	}
-	
 
 	@Override
 	public Matrix mul(Matrix factor) {
-		return super.mul_(factor,new MatrixList(this.getM(), factor.getN()));
+		return super.mul_(factor, new MatrixList(this.getM(), factor.getN()));
 	}
-	
 
 	@Override
 	public Matrix add(Matrix m) {
-		return super.add_(m,new MatrixList(this.getM(), this.getN()));
+		return super.add_(m, new MatrixList(this.getM(), this.getN()));
 	}
-	
+
 	@Override
 	public Matrix mul(double skalar) {
-		return super.mul_(skalar,new MatrixList(this.getM(), this.getN()));
+		return super.mul_(skalar, new MatrixList(this.getM(), this.getN()));
 	}
 
 	@Override
 	public Matrix pow(int exponent) {
-		return super.pow_(exponent,new MatrixList(this.getM(), this.getN()));
+		return super.pow_(exponent, new MatrixList(this.getM(), this.getN()));
 	}
 }

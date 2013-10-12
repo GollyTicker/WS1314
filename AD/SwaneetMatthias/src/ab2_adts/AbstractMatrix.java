@@ -9,6 +9,19 @@ public abstract class AbstractMatrix implements Matrix, IException {
 	protected int m; // i
 	protected int n; // j
 
+	// counting accesses for Aufgabe 8
+	protected int accessCount = 0;
+	
+	@Override
+	public int accessCount() {
+		return this.accessCount;
+	}
+	
+	@Override
+	public void resetAccessCount() {
+		this.accessCount = 0;
+	}
+
 	// Creation
 	/**
 	 * Abstract Implementation for all Matrix subclasses to refactor and shorten

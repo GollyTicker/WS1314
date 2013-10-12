@@ -49,6 +49,7 @@ public class MatrixArray extends AbstractMatrix {
 	@Override
 	public double get(int i, int j) {
 		outOfBound(i - 1, j - 1);
+										accessCount += 1;		// access auf das Element
 		return mArray[i - 1][j - 1];
 	}
 

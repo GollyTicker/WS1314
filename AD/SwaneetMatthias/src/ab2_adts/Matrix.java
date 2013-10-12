@@ -17,6 +17,10 @@ public interface Matrix {
 	void copyFrom(Matrix source);
 	
 	int memoryUsage();
+	
+	int accessCount();
+	
+	void resetAccessCount();
 
 	Matrix add(Matrix m);
 
