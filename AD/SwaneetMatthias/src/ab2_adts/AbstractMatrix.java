@@ -53,16 +53,14 @@ public abstract class AbstractMatrix implements Matrix, IException {
 	 *            the given multiplier for the Matrix.
 	 * @return New Matrix.
 	 */
-	@Override
-	public Matrix mul(double skalar) {
-		Matrix multedMatrix = new MatrixList(this.getM(), this.getN());
-		for (int i = 1; i <= this.getM(); i++) {
-			for (int j = 1; j <= this.getN(); j++) {
+	public Matrix mul_(double skalar, Matrix destination) {
+		for (int i = 1; i <= destination.getM(); i++) {
+			for (int j = 1; j <= destination.getN(); j++) {
 				double value = this.get(i, j) * skalar; // <- important line
-				multedMatrix.insert(i, j, value);
+				destination.insert(i, j, value);
 			}
 		}
-		return multedMatrix;
+		return destination;
 	}
 
 	protected Matrix mul_(Matrix factor, Matrix destination) {
@@ -89,17 +87,15 @@ public abstract class AbstractMatrix implements Matrix, IException {
 	 *            the given Matrix for a m x n Matrix.
 	 * @return New Matrix.
 	 */
-	@Override
-	public Matrix add(Matrix m) {
+	public Matrix add_(Matrix m, Matrix destination) {
 		if (!isSameLength(m))
 			throw new IndexOutOfBoundsException("mxn do not equal this matrix");
-		Matrix m2 = new MatrixArray(this.m, this.n);
 		for (int i = 1; i <= this.m; i++) {
 			for (int j = 1; j <= this.n; j++) {
-				m2.insert(i, j, this.get(i, j) + m.get(i, j));
+				destination.insert(i, j, this.get(i, j) + m.get(i, j));
 			}
 		}
-		return m2;
+		return destination;
 	}
 
 	/**
@@ -110,19 +106,17 @@ public abstract class AbstractMatrix implements Matrix, IException {
 	 *            multiply the Matrix to the power of the exponent.
 	 * @return New Matrix.
 	 */
-	@Override
-	public Matrix pow(int exponent) { // the exponent goes from 1 to infinity
+	public Matrix pow_(int exponent, Matrix destination) { // the exponent goes from 1 to infinity
 		AssertExponentValid(exponent);
-		Matrix pot = new MatrixList(this.getM(), this.getN());
 		// bei matrix hoch 1 wird die schleife nicht erst ausgefuehrt
 		if (exponent == 1)
 			return this;
 
 		for (int i = 2; i <= exponent; i++) {
-			pot = this.mul(this);
+			destination = this.mul(this);
 		}
 
-		return pot;
+		return destination;
 	}
 
 	/**
