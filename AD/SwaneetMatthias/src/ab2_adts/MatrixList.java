@@ -38,13 +38,16 @@ public class MatrixList extends AbstractMatrix {
 	@Override
 	public void insert(int i, int j, double value) {
 		for (Element e : elems) {
+							accessCount += 1;		// durchsuchen des elements
 			if (e.getI() == i && e.getJ() == j) {
 				elems.remove(e);
+				break;
 			}
 		}
 		if (Double.compare(value, 0.0) != 0) { // only non zero values need to
 												// be added
 			elems.add(new Element(i, j, value));
+							accessCount += 1;		// hinzufuegen einen NonZero elements
 		}
 	}
 
@@ -61,8 +64,8 @@ public class MatrixList extends AbstractMatrix {
 	public double get(int i, int j) {
 		outOfBound(i - 1, j - 1);
 		for (Element e : elems) {
+						accessCount += 1;		// access auf das Element
 			if (e.getI() == i && e.getJ() == j) {
-											accessCount += 1;		// access auf das Element
 				return e.getValue();
 			}
 		}
