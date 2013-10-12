@@ -1,10 +1,10 @@
 package GKA_A1;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 
@@ -41,8 +41,8 @@ public abstract class Edge implements IEdge {
 	}
 
 	@Override
-	public List<String> getAttrE() {
-		return new ArrayList<>(attrs.keySet());
+	public Set<String> getAttrE() {
+		return new HashSet<>(attrs.keySet());
 	}
 
 	// Mutators
@@ -94,8 +94,8 @@ public abstract class Edge implements IEdge {
 	}
 
 	@Override
-	public ArrayList<Long> getSourceTarget() {
-		return new ArrayList<Long>(Arrays.asList(this.vID1, this.vID2));
+	public Set<Long> getSourceTarget() {
+		return new HashSet<Long>(Arrays.asList(this.vID1, this.vID2));
 	}
 
 }

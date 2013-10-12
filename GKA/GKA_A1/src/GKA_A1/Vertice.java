@@ -4,10 +4,8 @@
  */
 package GKA_A1;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -54,8 +52,8 @@ public class Vertice implements IVertice {
 	}
 
 	@Override
-	public List<String> getAttrV() {
-		return new ArrayList<>(attrs.keySet());
+	public Set<String> getAttrV() {
+		return new HashSet<>(attrs.keySet());
 	}
 
 	// Mutators

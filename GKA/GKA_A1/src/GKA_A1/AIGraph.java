@@ -9,6 +9,7 @@ package GKA_A1;
  * @author Swaneet Sahoo, Matthias Nitsche
  */
 import java.util.List;
+import java.util.Set;
 
 public interface AIGraph {
     
@@ -30,15 +31,17 @@ public interface AIGraph {
     
     long getTarget(long eID);
     
-    List<Long> getIncident(long vID);
+    Set<Long> getIncident(long vID);
     
-    List<Long> getAdjacent(long vID);
+    Set<Long> getAdjacent(long vID);
     
-    List<Long> getVertexes();
+    Set<Long> getVertexes();
     
-    List<Long> getEdges();
+    Set<Long> getEdges();
     
-    List<String> getVertexNames();
+    Set<String> getVertexNames();
+    
+    long getVertexByName(String name);
     
     // Selectors
     int getValE(long eID, String attr);
@@ -49,9 +52,9 @@ public interface AIGraph {
     
     String getStrV(long vID, String attr);
     
-    List<String> getAttrV(long vID);
+    Set<String> getAttrV(long vID);
     
-    List<String> getAttrE(long eID);
+    Set<String> getAttrE(long eID);
     
     // Mutators
     void setValE(long eID, String attr, int val);

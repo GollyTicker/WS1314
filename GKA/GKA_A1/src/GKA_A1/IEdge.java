@@ -1,27 +1,26 @@
 package GKA_A1;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 public interface IEdge {
 
 	long getSrcVId();
 
 	long getDestVId();
-	
-	ArrayList<Long> getSourceTarget();
+
+	Set<Long> getSourceTarget();
 
 	int getValE(String attr);
 
 	String getStrE(String attr);
 
-	List<String> getAttrE();
+	Set<String> getAttrE();
 
 	void setValE(String attr, int val);
 
 	void setStrE(String attr, String val);
-	
+
 	boolean hasVertice(long vId);
-	
+
 	boolean isDirected();
 }
