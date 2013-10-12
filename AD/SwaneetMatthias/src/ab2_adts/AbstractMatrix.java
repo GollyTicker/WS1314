@@ -53,7 +53,10 @@ public abstract class AbstractMatrix implements Matrix, IException {
 	 *            the given multiplier for the Matrix.
 	 * @return New Matrix.
 	 */
-	public Matrix mul_(double skalar, Matrix destination) {
+	@Override
+	public abstract Matrix mul(double skalar);
+	
+	protected Matrix mul_(double skalar, Matrix destination) {
 		for (int i = 1; i <= destination.getM(); i++) {
 			for (int j = 1; j <= destination.getN(); j++) {
 				double value = this.get(i, j) * skalar; // <- important line
@@ -63,6 +66,19 @@ public abstract class AbstractMatrix implements Matrix, IException {
 		return destination;
 	}
 
+
+	/**
+	 * Multiply a m x n Matrix with a given m x n Matrix. The M of this has to
+	 * be equal to the N of the given Matrix.
+	 * 
+	 * @param factor
+	 *            the given Matrix for a m x n Matrix.
+	 * @return New Matrix with m of this matrix and n of given matrix.
+	 */
+	
+	@Override
+	public abstract Matrix mul(Matrix factor);
+	
 	protected Matrix mul_(Matrix factor, Matrix destination) {
 		if (!assertMulLength(factor))
 			throw new IndexOutOfBoundsException(
@@ -87,7 +103,11 @@ public abstract class AbstractMatrix implements Matrix, IException {
 	 *            the given Matrix for a m x n Matrix.
 	 * @return New Matrix.
 	 */
-	public Matrix add_(Matrix m, Matrix destination) {
+	
+	@Override
+	public abstract Matrix add(Matrix m);
+	
+	protected Matrix add_(Matrix m, Matrix destination) {
 		if (!isSameLength(m))
 			throw new IndexOutOfBoundsException("mxn do not equal this matrix");
 		for (int i = 1; i <= this.m; i++) {
@@ -106,7 +126,11 @@ public abstract class AbstractMatrix implements Matrix, IException {
 	 *            multiply the Matrix to the power of the exponent.
 	 * @return New Matrix.
 	 */
-	public Matrix pow_(int exponent, Matrix destination) { // the exponent goes from 1 to infinity
+	
+	@Override
+	public abstract Matrix pow(int exponent);
+	
+	protected Matrix pow_(int exponent, Matrix destination) { // the exponent goes from 1 to infinity
 		AssertExponentValid(exponent);
 		// bei matrix hoch 1 wird die schleife nicht erst ausgefuehrt
 		if (exponent == 1)

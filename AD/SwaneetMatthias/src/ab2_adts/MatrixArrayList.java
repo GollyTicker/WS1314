@@ -81,16 +81,6 @@ public class MatrixArrayList extends AbstractMatrix {
 	}
 	
 
-
-	/**
-	 * Multiply a m x n Matrix with a given m x n Matrix. The M of this has to
-	 * be equal to the N of the given Matrix.
-	 * 
-	 * @param factor
-	 *            the given Matrix for a m x n Matrix.
-	 * @return New Matrix with m of this matrix and n of given matrix.
-	 */
-
 	@Override
 	public Matrix mul(Matrix factor) {
 		return super.mul_(factor,new MatrixArrayList(this.getM(), factor.getN()));
