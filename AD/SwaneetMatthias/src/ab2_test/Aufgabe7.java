@@ -16,7 +16,7 @@ public class Aufgabe7 {
 	// mine(Swaneet's)
 	// already the n=450, t=5 experiment takes 415 seconds - 7mins!
 
-	private final static int n = 120; // N x N is the size of the matrices
+	private final static int n = 250; // N x N is the size of the matrices
 	private final static int t = 5; // t the number of randomly generated
 									// matrices
 	private final static List<Double> pValues = new ArrayList<>(Arrays.asList(
@@ -80,6 +80,24 @@ public class Aufgabe7 {
 		System.out.println("Finisched" + getDuration());
 		System.out.println(acc);
 
+		// For the overhead - how much does a single element cost?
+//			Output: 
+//			n = 1
+//			t = 500
+//			Average NoOfElements for p = 0.01:
+//			mList - 0.012
+//			mArrayList - 0.012
+//
+//
+//			Average NoOfElements for p = 0.05:
+//			mList - 0.056
+//			mArrayList - 0.056
+//
+//
+//			Average NoOfElements for p = 0.1:
+//			mList - 0.118
+//			mArrayList - 0.118
+		
 		// Output 1:
 		// n = 150
 		// t = 5

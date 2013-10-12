@@ -132,7 +132,68 @@ public class Aufgabe8 {
 		System.out.println("Finisched" + getDuration());
 		System.out.println(acc);
 	}
-	
+	// For the overhead - how much does a single element cost?
+//	Started experiments - 2,7667 ms
+//	p = 0.01 started  - 3,5416 ms
+//	p = 0.05 started  - 29,2306 ms
+//	p = 0.1 started  - 51,8186 ms
+//	Finisched - 55,7082 ms
+//	Output: 
+//	n = 1
+//	t = 500
+//	AccessCounts For pNonZero = 0.01:
+//	mList:
+//	  Addition:
+//	    Average: 000000000,008
+//	    Variance: 000000000,007952
+//	  Multiplication:
+//	    Average: 000000000,008
+//	    Variance: 000000000,007952
+//	mArrayList:
+//	  Addition:
+//	    Average: 000000000,008
+//	    Variance: 000000000,007952
+//	  Multiplication:
+//	    Average: 000000000,008
+//	    Variance: 000000000,007952
+//
+//
+//	AccessCounts For pNonZero = 0.05:
+//	mList:
+//	  Addition:
+//	    Average: 000000000,048
+//	    Variance: 000000000,045788
+//	  Multiplication:
+//	    Average: 000000000,048
+//	    Variance: 000000000,045788
+//	mArrayList:
+//	  Addition:
+//	    Average: 000000000,048
+//	    Variance: 000000000,045788
+//	  Multiplication:
+//	    Average: 000000000,048
+//	    Variance: 000000000,045788
+//
+//
+//	AccessCounts For pNonZero = 0.1:
+//	mList:
+//	  Addition:
+//	    Average: 000000000,108
+//	    Variance: 000000000,096529
+//	  Multiplication:
+//	    Average: 000000000,108
+//	    Variance: 000000000,096529
+//	mArrayList:
+//	  Addition:
+//	    Average: 000000000,108
+//	    Variance: 000000000,096529
+//	  Multiplication:
+//	    Average: 000000000,108
+//	    Variance: 000000000,096529
+
+
+
+
 	
 	// Output:
 //			Started experiments - 2,1462 ms
