@@ -65,30 +65,20 @@ public abstract class AbstractMatrix implements Matrix, IException {
 		return multedMatrix;
 	}
 
-	/**
-	 * Multiply a m x n Matrix with a given m x n Matrix. The M of this has to
-	 * be equal to the N of the given Matrix.
-	 * 
-	 * @param factor
-	 *            the given Matrix for a m x n Matrix.
-	 * @return New Matrix with m of this matrix and n of given matrix.
-	 */
-	@Override
-	public Matrix mul(Matrix factor) {
+	protected Matrix mul_(Matrix factor, Matrix destination) {
 		if (!assertMulLength(factor))
 			throw new IndexOutOfBoundsException(
 					"M of this Matrix does not equal N of given Matrix");
-		Matrix m2 = new MatrixArray(this.getM(), factor.getN());
-		for (int i = 1; i <= m2.getM(); i++) {
-			for (int j = 1; j <= m2.getN(); j++) {
+		for (int i = 1; i <= destination.getM(); i++) {
+			for (int j = 1; j <= destination.getN(); j++) {
 				double acc = 0;
 				for (int k = 1; k <= this.n; k++) {
 					acc += (this.get(i, k) * factor.get(k, j));
 				}
-				m2.insert(i, j, acc);
+				destination.insert(i, j, acc);
 			}
 		}
-		return m2;
+		return destination;
 	}
 
 	/**
