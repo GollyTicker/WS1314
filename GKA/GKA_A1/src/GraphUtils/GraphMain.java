@@ -4,7 +4,7 @@
  */
 package GraphUtils;
 
-import GKA_A1.GKA_IMPL.AIGraph;
+import GKA_A1.AIGraph;
 
 public class GraphMain {
 	

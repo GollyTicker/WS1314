@@ -9,8 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.nio.charset.Charset;
 
-import GKA_A1.GKA_IMPL.AIGraph;
-import GKA_A1.GKA_IMPL.AIGraphImpl;
+import GKA_A1.AIGraph;
+import GKA_A1.AIGraphImpl;
 
 /**
  * 
