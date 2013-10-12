@@ -16,7 +16,7 @@ public class GraphMain {
 	}
 
 	public static void graphBySrc(String src) {
-		JavaParser jp = new JavaParser(src);
+		JavaParser jp = new JavaParser(src, "distance");
 		AIGraph yolo = jp.createGraph();
 		System.out.println(yolo.toString());
 	}

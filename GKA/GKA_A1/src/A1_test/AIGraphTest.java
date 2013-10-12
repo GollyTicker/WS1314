@@ -32,7 +32,7 @@ public class AIGraphTest {
 	private AIGraph swag = new AIGraphImpl();
 
 	public AIGraphTest() {
-		JavaParser jp = new JavaParser(matzepath + graphname);
+		JavaParser jp = new JavaParser(matzepath + graphname, "distance");
 		yolo = jp.createGraph();
 	}
 
@@ -85,12 +85,12 @@ public class AIGraphTest {
 		assertEquals(yolo.getStrV(0, "balblaattribute"), "hallo2");
 
 		// list of attributes for edges
-		assertEquals(yolo.getAttrE(0).toString(), "[strAttri, miles, abcd, km]");
-		assertEquals(yolo.getAttrE(1).toString(), "[km]");
+		assertEquals(yolo.getAttrE(0), new HashSet<>(Arrays.asList("strAttri", "miles", "abcd", "distance")));
+		assertEquals(yolo.getAttrE(1), new HashSet<>(Arrays.asList("distance")));
 
 		// list of attributes for vertices
-		assertEquals(yolo.getAttrV(0).toString(), "[balblaattribute]");
-		assertEquals(yolo.getAttrV(1).toString(), "[]");
+		assertEquals(yolo.getAttrV(0), new HashSet<>(Arrays.asList("balblaattribute")));
+		assertEquals(yolo.getAttrV(1), new HashSet<>(Arrays.asList()));
 	}
 
 	@Test
