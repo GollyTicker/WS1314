@@ -142,6 +142,29 @@ public class Aufgabe7 {
 		// Average NoOfElements for p = 0.1:
 		// mList - 20218.4
 		// mArrayList - 20218.4
+		
+		// Output - 4 auf Matthias laptop:
+//		Started experiments - 0,117 ms
+//		p = 0.01 started - 1,354 ms
+//		p = 0.05 started - 71990,496 ms
+//		p = 0.1 started - 408894,977 ms
+//		Finisched - 1787230,669 ms
+//		Output:
+//		n = 1000
+//		t = 5
+//		Average NoOfElements for p = 0.01:
+//		mList - 9946.0
+//		mArrayList - 9946.0
+//
+//
+//		Average NoOfElements for p = 0.05:
+//		mList - 50088.2
+//		mArrayList - 50088.2
+//
+//
+//		Average NoOfElements for p = 0.1:
+//		mList - 99693.4
+//		mArrayList - 99693.4
 	}
 
 }
