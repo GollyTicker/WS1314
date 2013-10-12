@@ -135,7 +135,6 @@ public class ListAufgaben {
 
 
         // Aufgabe 6:
-
         AverageVariance zeitmess = new AverageVariance();
         for (int t = 5000; t > 0; t--) {      // repeat this t-times
             NoOfElements = 52;					// repeat with 52 elements
@@ -149,10 +148,8 @@ public class ListAufgaben {
             duration = System.nanoTime() - start;
             zeitmess.addValue(duration);
         }
-        System.out.println("For " + zeitmess.getN() + " repetitions we need");
         System.out.println(zeitmess.getAverage() + " nanoseconds on average");
         System.out.println("with a variance of " + Math.sqrt(zeitmess.getVariance()) +  " nanoseconds*nanoseconds");
-        System.out.println("for inserting " + NoOfElements + " elements at random positions.");
 
     }
 }
