@@ -17,7 +17,7 @@ public class Aufgabe7 {
 	// CAREFUL!! On overly overfilled and slightly old laptops like mine(Swaneet's) 
 	// already the n=450, t=5 experiment takes 415 seconds - 7mins!
 	
-	private final static int n = 450; // N x N is the size of the matrices
+	private final static int n = 120; // N x N is the size of the matrices
 	private final static int t = 5; // t the number of randomly generated matrices
 	private final static List<Double> pValues = new ArrayList<>(Arrays.asList(0.01,
 			0.05, 0.1));

@@ -18,6 +18,7 @@ import GraphUtils.JavaParser;
 public class AIGraphTest {
 	
 	private AIGraph yolo;
+	private AIGraph swag;
 	
 	public AIGraphTest() {
 			JavaParser jp = new JavaParser(
@@ -86,6 +87,11 @@ public class AIGraphTest {
 	
 	@Test
 	public void test_(){
+		
+		assertTrue(swag.isEmpty());
+		
+		long v1 = swag.addVertex("Erster Knoten");
+		
 		
 		// TODO tests fuer erstere Selektoren und Konstruktoren
 		
