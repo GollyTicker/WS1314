@@ -47,7 +47,7 @@ public class MatrixList extends AbstractMatrix {
 		if (Double.compare(value, 0.0) != 0) { // only non zero values need to
 												// be added
 			elems.add(new Element(i, j, value));
-							accessCount += 1;		// hinzufuegen einen NonZero elements
+							accessCount += 1;		// hinzufuegen eines NonZero elements
 		}
 	}
 

@@ -34,6 +34,7 @@ public class MatrixArray extends AbstractMatrix {
 	@Override
 	public void insert(int i, int j, double value) {
 		outOfBound(i - 1, j - 1);
+							accessCount += 1; // access auf das Element
 		mArray[i - 1][j - 1] = value;
 	}
 

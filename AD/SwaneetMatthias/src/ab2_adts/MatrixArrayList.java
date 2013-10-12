@@ -42,8 +42,17 @@ public class MatrixArrayList extends AbstractMatrix {
 	public void insert(int i, int j, double value) {
 		outOfBound(i - 1, j - 1);
 		// only non zero elements are saved
-		if (Double.compare(value, 0.0) != 0)
+		if (Double.compare(value, 0.0) != 0) {
+			for (ArrayListElement elem : mArray.get(i - 1)) {
+									accessCount += 1;		// durchsuchen des elements
+				if (elem.getJ() == (j - 1)) {
+					mArray.remove(elem);
+					break;
+				}
+			}
 			this.mArray.get(i - 1).add(new ArrayListElement(j - 1, value));
+								accessCount += 1;		// hinzufuegen eines NonZero elements
+		}
 	}
 
 	/**
@@ -59,8 +68,8 @@ public class MatrixArrayList extends AbstractMatrix {
 	public double get(int i, int j) {
 		outOfBound(i - 1, j - 1);
 		for (ArrayListElement elem : this.mArray.get(i - 1)) {
+							accessCount += 1; // access auf das Element
 			if (elem.getJ() == (j - 1)) {
-										accessCount += 1;		// access auf das Element
 				return elem.getValue();
 			}
 		}
