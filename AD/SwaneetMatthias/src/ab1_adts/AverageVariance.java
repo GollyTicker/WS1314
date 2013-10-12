@@ -98,7 +98,7 @@ public final class AverageVariance {
 	public double getVariance() {
 		// There is no variance with one value
 		if (this.n > 1) {
-			return calculateVarianceExplicit() * (1.0 / (this.n-1.0));
+			return calculateVarianceAccumulated() * (1.0 / (this.n-1.0));
 		} else
 			return 0.0;
 	}
