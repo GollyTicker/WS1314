@@ -1,6 +1,6 @@
 package GKA_A1;
 
-import java.util.List;
+import java.util.Set;
 
 public interface IVertice {
 
@@ -11,7 +11,7 @@ public interface IVertice {
 
 	String getStrV(String attr);
 
-	List<String> getAttrV();
+	Set<String> getAttrV();
 
 	// Mutators
 	void setValV(String attr, int val);

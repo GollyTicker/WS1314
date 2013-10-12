@@ -1,9 +1,11 @@
 package GKA_A1;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class AIGraphImpl implements AIGraph {
 
@@ -12,10 +14,9 @@ public class AIGraphImpl implements AIGraph {
 	// VerticeID -> Vertice (Object)
 	Map<Long, Vertice> vertices = new HashMap<>();
 	Map<Long, Edge> edges = new HashMap<>();
-	
+
 	private long VIDcounter = 0;
 	private long EIDcounter = 0;
-	
 
 	public AIGraphImpl() {
 	}
@@ -23,28 +24,38 @@ public class AIGraphImpl implements AIGraph {
 	@Override
 	public long addVertex(String name) {
 		Vertice v = new Vertice(name, VIDcounter);
-		VIDcounter+=1;
+		VIDcounter += 1;
 		vertices.put(v.ID, v);
 		return v.ID;
 	}
 
 	@Override
 	public boolean deleteVertex(long vID) {
+		for(long eId : this.getIncident(vID))
+			edges.remove(eId);
 		return vertices.remove(vID) != null;
 	}
 
 	@Override
 	public long addEdgeU(long v1ID, long v2ID) {
+		if (!vertices.containsKey(v1ID) || !vertices.containsKey(v2ID)) {
+			throw new IllegalArgumentException(
+					"At least one of the given vertice IDs is currently not in the Graph!");
+		}
 		Edge e = new EdgeU(v1ID, v2ID, EIDcounter);
-		EIDcounter+=1;
+		EIDcounter += 1;
 		edges.put(e.ID, e);
 		return e.ID;
 	}
 
 	@Override
 	public long addEdgeD(long v1ID, long v2ID) {
+		if (!vertices.containsKey(v1ID) || !vertices.containsKey(v2ID)) {
+			throw new IllegalArgumentException(
+					"At least one of the given vertice IDs is currently not in the Graph!");
+		}
 		Edge e = new EdgeD(v1ID, v2ID, EIDcounter);
-		EIDcounter+=1;
+		EIDcounter += 1;
 		edges.put(e.ID, e);
 		return e.ID;
 	}
@@ -73,8 +84,8 @@ public class AIGraphImpl implements AIGraph {
 	// The assumption is that incident edges are connected to another vertices
 	// in any way
 	@Override
-	public List<Long> getIncident(long v1) {
-		List<Long> eIDs = new ArrayList<>();
+	public Set<Long> getIncident(long v1) {
+		Set<Long> eIDs = new HashSet<>();
 		for (Edge e : edges.values()) {
 			if (e.getSrcVId() == v1 || e.getDestVId() == v1) {
 				eIDs.add(e.ID);
@@ -84,11 +95,11 @@ public class AIGraphImpl implements AIGraph {
 	}
 
 	@Override
-	public List<Long> getAdjacent(long v1) {
+	public Set<Long> getAdjacent(long v1) {
 		// traverse through all incident edges and make unique add all vertices
 		// except the own one
-		List<Long> vIDs = new ArrayList<>();
-		List<Long> incident = getIncident(v1);
+		Set<Long> vIDs = new HashSet<>();
+		Set<Long> incident = getIncident(v1);
 		for (Long eID : incident) {
 			long couldBeAdjc = edges.get(eID).getSrcVId();
 			if (!vIDs.contains(couldBeAdjc) && couldBeAdjc != v1) {
@@ -103,13 +114,13 @@ public class AIGraphImpl implements AIGraph {
 	}
 
 	@Override
-	public List<Long> getVertexes() {
-		return new ArrayList<>(vertices.keySet());
+	public Set<Long> getVertexes() {
+		return new HashSet<>(vertices.keySet());
 	}
 
 	@Override
-	public List<Long> getEdges() {
-		return new ArrayList<>(edges.keySet());
+	public Set<Long> getEdges() {
+		return new HashSet<>(edges.keySet());
 	}
 
 	// Selectors
@@ -135,12 +146,12 @@ public class AIGraphImpl implements AIGraph {
 	}
 
 	@Override
-	public List<String> getAttrV(long v1) {
+	public Set<String> getAttrV(long v1) {
 		return vertices.get(v1).getAttrV();
 	}
 
 	@Override
-	public List<String> getAttrE(long e1) {
+	public Set<String> getAttrE(long e1) {
 		return edges.get(e1).getAttrE();
 	}
 
@@ -177,10 +188,19 @@ public class AIGraphImpl implements AIGraph {
 	}
 
 	@Override
-	public List<String> getVertexNames() {
-		List<String> l = new ArrayList<>();
+	public Set<String> getVertexNames() {
+		Set<String> s = new HashSet<>();
 		for (Vertice k : vertices.values())
-			l.add(k.getName());
-		return l;
+			s.add(k.getName());
+		return s;
+	}
+
+	@Override
+	public long getVertexByName(String name) {
+		for (Vertice elem : vertices.values()) {
+			if (elem.getName() == name)
+				return elem.ID;
+		}
+		return -1;
 	}
 }
