@@ -64,11 +64,6 @@ public abstract class Edge implements IEdge {
 	}
 
 	@Override
-	public String toString() {
-		return "edge: " + this.ID + "\nbetween: " + this.vId1 + " " + this.vId2;
-	}
-
-	@Override
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;

@@ -138,6 +138,12 @@ public class AIGraphTest {
 		assertEquals(yolo1, yolo2);
 		yolo2.deleteVertex(0);
 		assertNotSame(yolo1, yolo2);
+
+		yolo1.deleteEdge(0, 1);
+		long v1Id = yolo1.getVertexByName("München");
+		long v2Id = yolo1.getVertexByName("Augsburg");
+		assertTrue((!yolo1.getAdjacent(v1Id).contains(v2Id)));
+
 	}
 
 }
