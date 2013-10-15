@@ -31,7 +31,7 @@ public class AIGraph implements IAIGraph {
 
 	@Override
 	public boolean deleteVertex(long vID) {
-		for(long eId : this.getIncident(vID))
+		for (long eId : this.getIncident(vID))
 			edges.remove(eId);
 		return vertices.remove(vID) != null;
 	}
@@ -202,5 +202,24 @@ public class AIGraph implements IAIGraph {
 				return elem.ID;
 		}
 		return -1;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof AIGraph))
+			return false;
+		AIGraph otherG = (AIGraph) obj;
+		return otherG.getEdgeMap().equals(this.getEdgeMap())
+				&& otherG.getVerticeMap().equals(this.getVerticeMap());
+	}
+
+	public Map<Long, Vertice> getVerticeMap() {
+		return this.vertices;
+	}
+
+	public Map<Long, Edge> getEdgeMap() {
+		return this.edges;
 	}
 }

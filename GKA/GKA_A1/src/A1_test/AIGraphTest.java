@@ -46,9 +46,6 @@ public class AIGraphTest {
 		int augsburgID = 0; // Augsburg (src), eId1 = 0, 70km
 		int munichID = 1; // Munich (target)
 
-		// Even though the graph itself is undirected, the interface requires
-		// .....
-
 		assertEquals(augsburgID, yolo.getSource(0));
 		assertNotSame(munichID, yolo.getSource(0));
 		assertEquals(munichID, yolo.getTarget(0));
@@ -85,11 +82,15 @@ public class AIGraphTest {
 		assertEquals(yolo.getStrV(0, "balblaattribute"), "hallo2");
 
 		// list of attributes for edges
-		assertEquals(yolo.getAttrE(0), new HashSet<>(Arrays.asList("strAttri", "miles", "abcd", "distance")));
+		assertEquals(
+				yolo.getAttrE(0),
+				new HashSet<>(Arrays.asList("strAttri", "miles", "abcd",
+						"distance")));
 		assertEquals(yolo.getAttrE(1), new HashSet<>(Arrays.asList("distance")));
 
 		// list of attributes for vertices
-		assertEquals(yolo.getAttrV(0), new HashSet<>(Arrays.asList("balblaattribute")));
+		assertEquals(yolo.getAttrV(0),
+				new HashSet<>(Arrays.asList("balblaattribute")));
 		assertEquals(yolo.getAttrV(1), new HashSet<>(Arrays.asList()));
 	}
 
@@ -116,17 +117,26 @@ public class AIGraphTest {
 		assertEquals(new HashSet<>(Arrays.asList(v1, v2)), swag.getVertexes());
 		assertEquals(new HashSet<>(Arrays.asList(e1, e2)), swag.getEdges());
 		assertEquals(v1, swag.getVertexByName("Matthias"));
-		
+
 		swag.deleteVertex(v2);
 		assertEquals(new HashSet<>(Arrays.asList(v1)), swag.getVertexes());
 		assertEquals(new HashSet<>(Arrays.asList(e1)), swag.getEdges());
 		assertEquals(v1, swag.getVertexByName("Matthias"));
 		assertEquals(-1, swag.getVertexByName("Swaneet"));
-		
+
 		swag.deleteEdge(e1);
 		assertEquals(new HashSet<>(Arrays.asList(v1)), swag.getVertexes());
 		assertEquals(new HashSet<>(Arrays.asList()), swag.getEdges());
 		assertEquals(v1, swag.getVertexByName("Matthias"));
+
+		// Equals
+		JavaParser jp1 = new JavaParser(matzepath + graphname, "distance");
+		IAIGraph yolo1 = jp1.createGraph();
+		JavaParser jp2 = new JavaParser(matzepath + graphname, "distance");
+		IAIGraph yolo2 = jp2.createGraph();
+		assertEquals(yolo1, yolo2);
+		yolo2.deleteVertex(0);
+		assertNotSame(yolo1, yolo2);
 	}
 
 }
