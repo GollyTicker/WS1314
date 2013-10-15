@@ -1,4 +1,4 @@
- package GKA_A1;
+package GKA_A1;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,7 +13,8 @@ public class AIGraph implements IAIGraph {
 	private Map<Long, Vertice> vertices = new HashMap<>();
 	private Map<Long, Edge> edges = new HashMap<>();
 
-	// Counter for Vertice and Edge incrementing by one each time an edge is added
+	// Counter for Vertice and Edge incrementing by one each time an edge is
+	// added
 	private long vIdCounter = 0;
 	private long eIdCounter = 0;
 
@@ -38,7 +39,8 @@ public class AIGraph implements IAIGraph {
 		return v.ID;
 	}
 
-	// if a vertex is deleted check all incident edges to this vertex and delete them.
+	// if a vertex is deleted check all incident edges to this vertex and delete
+	// them.
 	@Override
 	public boolean deleteVertex(long vId) {
 		for (long eId : this.getIncident(vId))
@@ -84,12 +86,13 @@ public class AIGraph implements IAIGraph {
 	public boolean deleteEdge(long v1Id, long v2Id) {
 		for (Edge e : edges.values()) {
 			// if it is directed then IDs have to match src and dest
-			boolean directed = e.getSrcVId() == v1Id
-					&& e.getDestVId() == v2Id;
-			// if it is undirected the edge has to be undirected and it is possible that src and dest are switched
+			boolean directed = e.getSrcVId() == v1Id && e.getDestVId() == v2Id;
+			// if it is undirected the edge has to be undirected and it is
+			// possible that src and dest are switched
 			boolean undirected = !e.isDirected() && e.getSrcVId() == v2Id
 					&& e.getDestVId() == v1Id;
-			// so either it is directed or undirected if it is none, don't delete
+			// so either it is directed or undirected if it is none, don't
+			// delete
 			if (undirected || directed)
 				return edges.remove(e.ID) != null;
 		}
@@ -97,7 +100,7 @@ public class AIGraph implements IAIGraph {
 	}
 
 	// Selectors
-	
+
 	// if Graph has no vertices it is empty
 	@Override
 	public boolean isEmpty() {
@@ -132,13 +135,17 @@ public class AIGraph implements IAIGraph {
 		// traverse through all incident edges and make unique add all vertices
 		// except the own one
 		Set<Long> vIds = new HashSet<>();
+		// get all incident Edges to the given Vertice. All adjacent are subset
+		// of the incidents
 		Set<Long> incident = getIncident(vId);
 		for (Long eId : incident) {
-			// test all srcIDs if they are adjacent and only add when it is not present (duplicates)
+			// test all srcIDs if they are not equal the given ID and is not
+			// already in the adjacent Set.
 			long couldBeAdjc = edges.get(eId).getSrcVId();
 			if (!vIds.contains(couldBeAdjc) && couldBeAdjc != vId) {
 				vIds.add(couldBeAdjc);
 			}
+			// Same goes for Destination IDs
 			couldBeAdjc = edges.get(eId).getDestVId();
 			if (!vIds.contains(couldBeAdjc) && couldBeAdjc != vId) {
 				vIds.add(couldBeAdjc);
@@ -218,9 +225,13 @@ public class AIGraph implements IAIGraph {
 		for (Edge e : edges.values()) {
 			Vertice source = vertices.get(e.getSrcVId());
 			Vertice target = vertices.get(e.getDestVId());
-			stracc += "Edge: " + e.ID + " - " + source.getName() + "("
-					+ source.ID + ")" + (e.isDirected() ? " => " : " <=> ")
-					+ target.getName() + "(" + target.ID + ")\n";
+
+			String edge = "Edge: " + e.ID + " - ";
+			String sourceS = source.getName() + "(" + source.ID + ")";
+			String destS = target.getName() + "(" + target.ID + ")";
+			String direction = (e.isDirected() ? " => " : " <=> ");
+			
+			stracc += edge + sourceS + direction + destS + "\n";
 		}
 
 		return stracc;
@@ -236,7 +247,8 @@ public class AIGraph implements IAIGraph {
 
 	@Override
 	public long getVertexByName(String name) {
-		// go through the list auf values and return the first element that matches given name
+		// go through the list auf values and return the first element that
+		// matches given name
 		for (Vertice elem : vertices.values()) {
 			if (elem.getName() == name)
 				return elem.ID;

@@ -1,0 +1,66 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf390
+{\fonttbl\f0\froman\fcharset0 TimesNewRomanPSMT;\f1\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww16600\viewh17840\viewkind0
+\deftab720
+\pard\pardeftab720\qj
+
+\f0\b\fs40 \cf0 Arbeitsblatt 1 - GKA - Klauck
+\b0\fs36 \
+Team: 08, Matthias Nitsche, Swaneet Sahoo\
+\
+
+\b Aufgabenaufteilung:
+\b0 \
+Swaneet:\
+AIGraphImpl, Edge, Vertice, AIGraphTest\
+\
+Matthias:\
+AIGraph, EdgeD, EdgeU, IVertice, IEdge, AIGraphImpl, Edge, Vertice, AIGraphTest\
+\
+Es lief sehr ausgeglichen, wir sa\'dfen die meiste Zeit nebeneinander. Es ist nicht m\'f6glich auseinanderzuhalten wer was genau gemacht hat, es sind daher nur Anteile. Grob hat jeder aber alles implementiert.\
+\
+
+\b Bearbeitungszeitraum
+\b0 : \
+Swaneet: 2-3 Stunden\
+Matthias: 2-3 Stunden\
+Zusammen: 5-6 Stunden\
+Insgesamt: 9-12 Stunden\
+\
+
+\b Aktueller Stand
+\b0 : \
+ADT Interface ist fertig.\
+Test Abdeckung ca 90% (keine Negativen Tests (Exception-Testing).\
+GraphParser ist in der BetaPhase\
+GraphUtils fehlen\
+\
+\
+
+\b Skizze
+\b0 :\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\qj
+
+\f1\fs24 \cf0 {{\NeXTGraphic Bildschirmfoto 2013-10-12 um 14.24.00.png \width14900 \height8540
+}¬}
+\f0\fs36 \
+\pard\pardeftab720\qj
+\cf0 \
+\
+Das Vorgehen der Gruppe war schnell gekl\'e4rt. Beide implementieren letztendlich jede Funktionalit\'e4t und im Refactoring werden dann Verst\'e4ndnisfragen gekl\'e4rt. Wir haben Agil mit kurzen Erkl\'e4rungsrunden gearbeitet und viel Pair Programming. Teilweise Exploration zum schnellen Testen von neuen Methoden.\
+\
+Die Skizze beschreibt relativ klar unsere Vererbung. Jede Entit\'e4t, daher AIGraphImpl, Vertice, Edge haben ein eigenes Interface AIGraph, IVertice, IEdge mit Vorgaben. Edge besitzt au\'dferdem zwei Unterklassen EdgeD und EdgeU. Diese sind nur f\'fcr die Klarheit implementiert und besitzen als unterschied eine Hood Methode isDirected die Im Falle von EdgeD True und im Falle von EdgeU False zur\'fcckgibt. Es gibt also keine Probleme gemischte Graphen zu bauen.  Der AIGraph hat die Aufgabe Edge und Vertice zu speichern (in diesem Falle in zwei HashMaps die ID und Objekt halten) und das vorgegebene Interface von den Vorlesungsfolien zu implementieren. Der AIGraph kennt jedoch nicht die Beziehung zwischen Edge und Vertice. Jeder Vertice h\'e4lt ein Set von Edges und jeder Edge h\'e4lt genau zwei Vertices. F\'fcr den Zugriff ist dies sehr viel einfacher.\
+\
+Die IDs werden intern vergeben und im AIGraphImpl gespeichert, bei jedem neuen Graphen werden ID's wieder von 0 hochgez\'e4hlt. Der Nutzer hat damit nicht die Aufgabe ID's selbst zu setzen. Sowohl Vertice als auch Edges haben eine UniqueID dadurch.\
+Der User kann nur \'fcber den AIGraphen auf den Graphen zugreifen und die entsprechenden Interface-Methoden benutzen. Die unteren Implementationen bekommt dieser niemals zu Gesicht.\
+\
+\pard\pardeftab720\qj
+
+\b \cf0 Quellen
+\b0 : \
+- Theoretische Annahmen und Grundlagen aus den Klauck Vorlesungsfolien\
+
+\b Begr\'fcndung f\'fcr Code\'fcbernahme
+\b0 : -}
