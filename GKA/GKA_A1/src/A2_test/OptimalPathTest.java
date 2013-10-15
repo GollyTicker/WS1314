@@ -1,4 +1,4 @@
-package GKA_A2;
+package A2_test;
 
 import static org.junit.Assert.*;
 

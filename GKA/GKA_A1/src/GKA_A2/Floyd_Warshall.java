@@ -1,4 +1,4 @@
-package A2_test;
+package GKA_A2;
 
 public class Floyd_Warshall {
 
