@@ -18,12 +18,14 @@ public class Vertice implements IVertice {
 	// Names - Values
 	private Map<String, String> attrs = new HashMap<>();
 
-	// source and target Vertices for easier use
-	private Set<Long> vertices = new HashSet<>();
-
 	private String name;
 	public final long ID;
-
+	
+	// the class for vertices
+	// contains a map for saving the attributes.
+	// It also knows it's name and vID.
+	// the Attribute methods are implemented here and are called from AiGraph.
+	
 	public Vertice(String name, long vId) {
 		ID = vId;
 		this.name = name;
@@ -87,16 +89,6 @@ public class Vertice implements IVertice {
 			return false;
 		Vertice k = (Vertice) o;
 		return this.ID == k.ID;
-	}
-
-	@Override
-	public boolean hasVertice(long vId) {
-		return vertices.contains(vId);
-	}
-
-	@Override
-	public boolean addVertice(long vId) {
-		return vertices.add(vId);
 	}
 
 }

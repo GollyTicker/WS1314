@@ -16,6 +16,11 @@ public abstract class Edge implements IEdge {
 	public final long ID;
 	private long vId1;
 	private long vId2;
+	
+	// Edge ist der superclass for directed and undirected Edges.
+	// The attributes are saved in a Map(String -> String).
+	// Integer values are saved as string and then parsed back to Integer when needed.
+	// The selectors and mutators for the attributes are implemented here. The AIGraph calls them.
 
 	public Edge(long vId1, long vId2, long EID) {
 		ID = EID;
@@ -73,6 +78,11 @@ public abstract class Edge implements IEdge {
 		return this.ID == k.ID;
 	}
 
+	
+	// All four of these methods can be called on both directed and undirected Graphs
+	// This had to be done to ensure the abstraction into an "Edge" in the AIGraph.java
+	// also, this is a consequence of the original interface.
+	// Source and Target methods
 	@Override
 	public long getSrcVId() {
 		return this.vId1;
@@ -82,12 +92,14 @@ public abstract class Edge implements IEdge {
 	public long getDestVId() {
 		return this.vId2;
 	}
-
+	
+	// additional methods, if the edge is undirected.
 	@Override
 	public boolean hasVertice(long vId) {
 		return (vId == this.vId1 || vId == this.vId2);
 	}
-
+	
+	// this method returns a set of IDs of the vertecies the Edge connects.
 	@Override
 	public Set<Long> getSourceTarget() {
 		return new HashSet<Long>(Arrays.asList(this.vId1, this.vId2));
