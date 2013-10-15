@@ -13,6 +13,7 @@ public class AIGraph implements IAIGraph {
 	private Map<Long, Vertice> vertices = new HashMap<>();
 	private Map<Long, Edge> edges = new HashMap<>();
 
+	// Counter for Vertice and Edge incrementing by one each time an edge is added
 	private long vIdCounter = 0;
 	private long eIdCounter = 0;
 
@@ -23,18 +24,21 @@ public class AIGraph implements IAIGraph {
 		addVertex(name);
 	}
 
+	// Adds a Vertex to the Graph with a given Name. The name has to be Unique.
 	@Override
 	public long addVertex(String name) {
-		// Strings are Unique
+		// Check if name is in the Hashmap
 		for (Vertice v : this.vertices.values())
 			if (name.equals(v.getName()))
 				return v.ID;
+		// if not create a new Vertice
 		Vertice v = new Vertice(name, vIdCounter);
 		vIdCounter += 1;
 		vertices.put(v.ID, v);
 		return v.ID;
 	}
 
+	// if a vertex is deleted check all incident edges to this vertex and delete them.
 	@Override
 	public boolean deleteVertex(long vId) {
 		for (long eId : this.getIncident(vId))
@@ -42,6 +46,7 @@ public class AIGraph implements IAIGraph {
 		return vertices.remove(vId) != null;
 	}
 
+	// if verticeIds are not present in the Graph throw an error.
 	@Override
 	public long addEdgeU(long v1Id, long v2Id) {
 		checkContainsVertices(v1Id, v2Id);
@@ -60,6 +65,7 @@ public class AIGraph implements IAIGraph {
 		return e.ID;
 	}
 
+	// check if ids are present else throw Error
 	private void checkContainsVertices(long v1Id, long v2Id) {
 		if (!vertices.containsKey(v1Id) || !vertices.containsKey(v2Id)) {
 			throw new IllegalArgumentException(
@@ -67,18 +73,23 @@ public class AIGraph implements IAIGraph {
 		}
 	}
 
+	// delete the edge from hashmap return true if element was removed
 	@Override
 	public boolean deleteEdge(long eId) {
 		return edges.remove(eId) != null;
 	}
 
+	// delete an edge between two vertices
 	@Override
 	public boolean deleteEdge(long v1Id, long v2Id) {
 		for (Edge e : edges.values()) {
+			// if it is directed then IDs have to match src and dest
 			boolean directed = e.getSrcVId() == v1Id
 					&& e.getDestVId() == v2Id;
+			// if it is undirected the edge has to be undirected and it is possible that src and dest are switched
 			boolean undirected = !e.isDirected() && e.getSrcVId() == v2Id
 					&& e.getDestVId() == v1Id;
+			// so either it is directed or undirected if it is none, don't delete
 			if (undirected || directed)
 				return edges.remove(e.ID) != null;
 		}
@@ -86,6 +97,8 @@ public class AIGraph implements IAIGraph {
 	}
 
 	// Selectors
+	
+	// if Graph has no vertices it is empty
 	@Override
 	public boolean isEmpty() {
 		return vertices.isEmpty();
@@ -121,6 +134,7 @@ public class AIGraph implements IAIGraph {
 		Set<Long> vIds = new HashSet<>();
 		Set<Long> incident = getIncident(vId);
 		for (Long eId : incident) {
+			// test all srcIDs if they are adjacent and only add when it is not present (duplicates)
 			long couldBeAdjc = edges.get(eId).getSrcVId();
 			if (!vIds.contains(couldBeAdjc) && couldBeAdjc != vId) {
 				vIds.add(couldBeAdjc);
@@ -176,7 +190,7 @@ public class AIGraph implements IAIGraph {
 	}
 
 	// Mutators
-	// through delegtion
+	// through delegation
 	@Override
 	public void setValE(long eId, String attr, int val) {
 		edges.get(eId).setValE(attr, val);
@@ -200,7 +214,7 @@ public class AIGraph implements IAIGraph {
 	@Override
 	public String toString() {
 		String stracc = "Graph\n";
-
+		// Edge: edgeId - VerticeName1(vId1) <=>//=> VerticeName2(vId2)
 		for (Edge e : edges.values()) {
 			Vertice source = vertices.get(e.getSrcVId());
 			Vertice target = vertices.get(e.getDestVId());
@@ -222,6 +236,7 @@ public class AIGraph implements IAIGraph {
 
 	@Override
 	public long getVertexByName(String name) {
+		// go through the list auf values and return the first element that matches given name
 		for (Vertice elem : vertices.values()) {
 			if (elem.getName() == name)
 				return elem.ID;
@@ -236,6 +251,7 @@ public class AIGraph implements IAIGraph {
 		if (!(obj instanceof AIGraph))
 			return false;
 		AIGraph otherG = (AIGraph) obj;
+		// assumption: both Hashmaps must be equal
 		return otherG.getEdgeMap().equals(this.getEdgeMap())
 				&& otherG.getVerticeMap().equals(this.getVerticeMap());
 	}
