@@ -19,8 +19,16 @@ public class AIGraph implements IAIGraph {
 	public AIGraph() {
 	}
 
+	public AIGraph(String name) {
+		addVertex(name);
+	}
+
 	@Override
 	public long addVertex(String name) {
+		// Strings are Unique
+		for (Vertice v : this.vertices.values())
+			if (name.equals(v.getName()))
+				return v.ID;
 		Vertice v = new Vertice(name, vIdCounter);
 		vIdCounter += 1;
 		vertices.put(v.ID, v);
@@ -62,6 +70,19 @@ public class AIGraph implements IAIGraph {
 	@Override
 	public boolean deleteEdge(long eId) {
 		return edges.remove(eId) != null;
+	}
+
+	@Override
+	public boolean deleteEdge(long v1Id, long v2Id) {
+		for (Edge e : edges.values()) {
+			boolean directed = e.getSrcVId() == v1Id
+					&& e.getDestVId() == v2Id;
+			boolean undirected = !e.isDirected() && e.getSrcVId() == v2Id
+					&& e.getDestVId() == v1Id;
+			if (undirected || directed)
+				return edges.remove(e.ID) != null;
+		}
+		return false;
 	}
 
 	// Selectors
@@ -179,8 +200,13 @@ public class AIGraph implements IAIGraph {
 	@Override
 	public String toString() {
 		String stracc = "Graph\n";
-		for (Long eId : edges.keySet()) {
-			stracc += edges.get(eId).toString() + "\n";
+
+		for (Edge e : edges.values()) {
+			Vertice source = vertices.get(e.getSrcVId());
+			Vertice target = vertices.get(e.getDestVId());
+			stracc += "Edge: " + e.ID + " - " + source.getName() + "("
+					+ source.ID + ")" + (e.isDirected() ? " => " : " <=> ")
+					+ target.getName() + "(" + target.ID + ")\n";
 		}
 
 		return stracc;

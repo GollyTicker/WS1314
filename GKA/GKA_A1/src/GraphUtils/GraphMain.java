@@ -9,10 +9,10 @@ import GKA_A1.IAIGraph;
 public class GraphMain {
 	
 	public static void main(String[] args) {
-//		String gitSrc1 = "/Users/matthias/dev/WS1314/GKA/graphs/graph1.graph";
-//		graphBySrc(gitSrc1);
-//		String gitSrc3 = "/Users/matthias/dev/WS1314/GKA/graphs/graph3.graph";
-//		graphBySrc(gitSrc3);
+		String gitSrc1 = "/Users/matthias/dev/WS1314/GKA/graphs/graph1.graph";
+		graphBySrc(gitSrc1);
+		String gitSrc3 = "/Users/matthias/dev/WS1314/GKA/graphs/graph3.graph";
+		graphBySrc(gitSrc3);
 	}
 
 	public static void graphBySrc(String src) {
