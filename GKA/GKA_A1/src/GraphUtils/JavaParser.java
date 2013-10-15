@@ -9,8 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.nio.charset.Charset;
 
+import GKA_A1.IAIGraph;
 import GKA_A1.AIGraph;
-import GKA_A1.AIGraphImpl;
 
 /**
  * 
@@ -24,15 +24,15 @@ public class JavaParser {
 	private String src = "";
 	private String direction = "";
 	private String attribute = "";
-	private AIGraph graph;
+	private IAIGraph graph;
 
 	public JavaParser(String src, String attribute) {
-		this.graph = new AIGraphImpl();
+		this.graph = new AIGraph();
 		this.src = src;
 		this.attribute = attribute;
 	}
 
-	public AIGraph createGraph() {
+	public IAIGraph createGraph() {
 
 		BufferedReader br = null;
 		try {

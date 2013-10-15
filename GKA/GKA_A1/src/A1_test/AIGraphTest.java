@@ -14,8 +14,8 @@ import java.util.HashSet;
 
 import org.junit.Test;
 
+import GKA_A1.IAIGraph;
 import GKA_A1.AIGraph;
-import GKA_A1.AIGraphImpl;
 import GraphUtils.JavaParser;
 
 /**
@@ -28,8 +28,8 @@ public class AIGraphTest {
 	private String matzepath = "/Users/matthias/dev/WS1314/GKA/graphs/";
 	private String graphname = "graph1.graph";
 
-	private AIGraph yolo;
-	private AIGraph swag = new AIGraphImpl();
+	private IAIGraph yolo;
+	private IAIGraph swag = new AIGraph();
 
 	public AIGraphTest() {
 		JavaParser jp = new JavaParser(matzepath + graphname, "distance");

@@ -4,7 +4,7 @@
  */
 package GraphUtils;
 
-import GKA_A1.AIGraph;
+import GKA_A1.IAIGraph;
 
 public class GraphMain {
 	
@@ -17,7 +17,7 @@ public class GraphMain {
 
 	public static void graphBySrc(String src) {
 		JavaParser jp = new JavaParser(src, "distance");
-		AIGraph yolo = jp.createGraph();
+		IAIGraph yolo = jp.createGraph();
 		System.out.println(yolo.toString());
 	}
 }
