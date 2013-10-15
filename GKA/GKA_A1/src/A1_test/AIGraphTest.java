@@ -26,13 +26,14 @@ public class AIGraphTest {
 
 	private String swaneetpath = "C:/Users/Swaneet/github/WS1314/GKA/graphs/";
 	private String matzepath = "/Users/matthias/dev/WS1314/GKA/graphs/";
-	private String graphname = "graph2.graph";
+	private String path = matzepath;
+	private String graphname = "graph1.graph";
 
 	private IAIGraph yolo;
 	private IAIGraph swag = new AIGraph();
 
 	public AIGraphTest() {
-		JavaParser jp = new JavaParser(matzepath + graphname, "distance");
+		JavaParser jp = new JavaParser(path + graphname, "distance");
 		yolo = jp.createGraph();
 	}
 
@@ -130,9 +131,9 @@ public class AIGraphTest {
 		assertEquals(v1, swag.getVertexByName("Matthias"));
 
 		// Equals
-		JavaParser jp1 = new JavaParser(matzepath + graphname, "distance");
+		JavaParser jp1 = new JavaParser(path + graphname, "distance");
 		IAIGraph yolo1 = jp1.createGraph();
-		JavaParser jp2 = new JavaParser(matzepath + graphname, "distance");
+		JavaParser jp2 = new JavaParser(path + graphname, "distance");
 		IAIGraph yolo2 = jp2.createGraph();
 		assertEquals(yolo1, yolo2);
 		yolo2.deleteVertex(0);
