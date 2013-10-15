@@ -6,6 +6,7 @@ public class EdgeU extends Edge {
 		super(vId1, vId2, eId);
 	}
 
+	// Hook-method: An EdgeD is directed
 	@Override
 	public boolean isDirected() {
 		return false;
