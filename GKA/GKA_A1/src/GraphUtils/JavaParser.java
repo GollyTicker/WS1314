@@ -7,6 +7,7 @@ package GraphUtils;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 import GKA_A1.IAIGraph;
@@ -73,12 +74,19 @@ public class JavaParser {
 
 	// Split current direction form top of the line (0)
 	public String getDirection(String line) {
-		try {
-			return (line.split("#")[1]).trim();
-		} catch (NullPointerException npe) {
-			npe.printStackTrace();
-		}
-		return "Couldn't find any direction!";
+		String direct = (line.split("#")[1]).trim();
+		directionOrThrow(direct);
+		return direct;
+	}
+
+	private void directionOrThrow(String direct) {
+		boolean dire = direct.equals(UNDIRECTED) || direct.equals(DIRECTED);
+		if (!dire)
+			try {
+				throw new IOException(
+						"No Direction Found at first line of given File!");
+			} catch (IOException e) {
+			}
 	}
 
 	// Encode a String to UTF-8
