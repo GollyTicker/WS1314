@@ -8,7 +8,6 @@ package GKA_A1;
  *
  * @author Swaneet Sahoo, Matthias Nitsche
  */
-import java.util.List;
 import java.util.Set;
 
 public interface IAIGraph {
