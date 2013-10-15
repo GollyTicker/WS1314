@@ -16,24 +16,24 @@ public interface IAIGraph {
     // Constructors
     long addVertex(String newItem);
     
-    boolean deleteVertex(long vID);
+    boolean deleteVertex(long vId);
     
-    long addEdgeU(long v1ID, long v2ID);
+    long addEdgeU(long v1Id, long v2Id);
      
-    long addEdgeD(long v1ID, long v2ID);
+    long addEdgeD(long v1Id, long v2Id);
     
-    boolean deleteEdge(long eID);
+    boolean deleteEdge(long eId);
     
     // Selectors
     boolean isEmpty();
     
-    long getSource(long eID);
+    long getSource(long eId);
     
-    long getTarget(long eID);
+    long getTarget(long eId);
     
-    Set<Long> getIncident(long vID);
+    Set<Long> getIncident(long vId);
     
-    Set<Long> getAdjacent(long vID);
+    Set<Long> getAdjacent(long vId);
     
     Set<Long> getVertexes();
     
@@ -44,25 +44,25 @@ public interface IAIGraph {
     long getVertexByName(String name);
     
     // Selectors
-    int getValE(long eID, String attr);
+    int getValE(long eId, String attr);
     
-    int getValV(long vID, String attr);
+    int getValV(long vId, String attr);
     
-    String getStrE(long eID, String attr);
+    String getStrE(long eId, String attr);
     
-    String getStrV(long vID, String attr);
+    String getStrV(long vId, String attr);
     
-    Set<String> getAttrV(long vID);
+    Set<String> getAttrV(long vId);
     
-    Set<String> getAttrE(long eID);
+    Set<String> getAttrE(long eId);
     
     // Mutators
-    void setValE(long eID, String attr, int val);
+    void setValE(long eId, String attr, int val);
     
-    void setValV(long vID, String attr, int val);
+    void setValV(long vId, String attr, int val);
     
-    void setStrE(long eID, String attr, String val);
+    void setStrE(long eId, String attr, String val);
     
-    void setStrV(long vID, String attr, String val);
+    void setStrV(long vId, String attr, String val);
     
 }

@@ -3,8 +3,8 @@ package GKA_A1;
 
 public class EdgeD extends Edge{
 	
-	public EdgeD(long srcVID, long destVID, long EID){
-		super(srcVID, destVID, EID);
+	public EdgeD(long srcVId, long destVId, long eId){
+		super(srcVId, destVId, eId);
 	}
 
 	@Override

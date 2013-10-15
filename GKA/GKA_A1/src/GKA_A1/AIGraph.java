@@ -15,49 +15,50 @@ public class AIGraph implements IAIGraph {
 	Map<Long, Vertice> vertices = new HashMap<>();
 	Map<Long, Edge> edges = new HashMap<>();
 
-	private long VIDcounter = 0;
-	private long EIDcounter = 0;
+	private long vIdCounter = 0;
+	private long eIdCounter = 0;
 
 	public AIGraph() {
 	}
 
 	@Override
 	public long addVertex(String name) {
-		Vertice v = new Vertice(name, VIDcounter);
-		VIDcounter += 1;
+		Vertice v = new Vertice(name, vIdCounter);
+		vIdCounter += 1;
 		vertices.put(v.ID, v);
 		return v.ID;
 	}
 
 	@Override
-	public boolean deleteVertex(long vID) {
-		for (long eId : this.getIncident(vID))
+	public boolean deleteVertex(long vId) {
+		for (long eId : this.getIncident(vId))
 			edges.remove(eId);
-		return vertices.remove(vID) != null;
+		return vertices.remove(vId) != null;
 	}
 
 	@Override
-	public long addEdgeU(long v1ID, long v2ID) {
-		if (!vertices.containsKey(v1ID) || !vertices.containsKey(v2ID)) {
-			throw new IllegalArgumentException(
-					"At least one of the given vertice IDs is currently not in the Graph!");
-		}
-		Edge e = new EdgeU(v1ID, v2ID, EIDcounter);
-		EIDcounter += 1;
+	public long addEdgeU(long v1Id, long v2Id) {
+		checkContainsVertices(v1Id, v2Id);
+		Edge e = new EdgeU(v1Id, v2Id, eIdCounter);
+		eIdCounter += 1;
 		edges.put(e.ID, e);
 		return e.ID;
 	}
 
 	@Override
-	public long addEdgeD(long v1ID, long v2ID) {
-		if (!vertices.containsKey(v1ID) || !vertices.containsKey(v2ID)) {
+	public long addEdgeD(long v1Id, long v2Id) {
+		checkContainsVertices(v1Id, v2Id);
+		Edge e = new EdgeD(v1Id, v2Id, eIdCounter);
+		eIdCounter += 1;
+		edges.put(e.ID, e);
+		return e.ID;
+	}
+
+	private void checkContainsVertices(long v1Id, long v2Id) {
+		if (!vertices.containsKey(v1Id) || !vertices.containsKey(v2Id)) {
 			throw new IllegalArgumentException(
 					"At least one of the given vertice IDs is currently not in the Graph!");
 		}
-		Edge e = new EdgeD(v1ID, v2ID, EIDcounter);
-		EIDcounter += 1;
-		edges.put(e.ID, e);
-		return e.ID;
 	}
 
 	@Override
@@ -72,45 +73,45 @@ public class AIGraph implements IAIGraph {
 	}
 
 	@Override
-	public long getSource(long e1) {
-		return edges.get(e1).getSrcVId();
+	public long getSource(long e1Id) {
+		return edges.get(e1Id).getSrcVId();
 	}
 
 	@Override
-	public long getTarget(long e1) {
-		return edges.get(e1).getDestVId();
+	public long getTarget(long eId) {
+		return edges.get(eId).getDestVId();
 	}
 
 	// The assumption is that incident edges are connected to another vertices
 	// in any way
 	@Override
-	public Set<Long> getIncident(long v1) {
-		Set<Long> eIDs = new HashSet<>();
+	public Set<Long> getIncident(long vId) {
+		Set<Long> eIds = new HashSet<>();
 		for (Edge e : edges.values()) {
-			if (e.getSrcVId() == v1 || e.getDestVId() == v1) {
-				eIDs.add(e.ID);
+			if (e.getSrcVId() == vId || e.getDestVId() == vId) {
+				eIds.add(e.ID);
 			}
 		}
-		return eIDs;
+		return eIds;
 	}
 
 	@Override
-	public Set<Long> getAdjacent(long v1) {
+	public Set<Long> getAdjacent(long vId) {
 		// traverse through all incident edges and make unique add all vertices
 		// except the own one
-		Set<Long> vIDs = new HashSet<>();
-		Set<Long> incident = getIncident(v1);
-		for (Long eID : incident) {
-			long couldBeAdjc = edges.get(eID).getSrcVId();
-			if (!vIDs.contains(couldBeAdjc) && couldBeAdjc != v1) {
-				vIDs.add(couldBeAdjc);
+		Set<Long> vIds = new HashSet<>();
+		Set<Long> incident = getIncident(vId);
+		for (Long eId : incident) {
+			long couldBeAdjc = edges.get(eId).getSrcVId();
+			if (!vIds.contains(couldBeAdjc) && couldBeAdjc != vId) {
+				vIds.add(couldBeAdjc);
 			}
-			couldBeAdjc = edges.get(eID).getDestVId();
-			if (!vIDs.contains(couldBeAdjc) && couldBeAdjc != v1) {
-				vIDs.add(couldBeAdjc);
+			couldBeAdjc = edges.get(eId).getDestVId();
+			if (!vIds.contains(couldBeAdjc) && couldBeAdjc != vId) {
+				vIds.add(couldBeAdjc);
 			}
 		}
-		return vIDs;
+		return vIds;
 	}
 
 	@Override
@@ -126,62 +127,62 @@ public class AIGraph implements IAIGraph {
 	// Selectors
 	// through delegation
 	@Override
-	public int getValE(long e1, String attr) {
-		return edges.get(e1).getValE(attr);
+	public int getValE(long eId, String attr) {
+		return edges.get(eId).getValE(attr);
 	}
 
 	@Override
-	public int getValV(long v1, String attr) {
-		return vertices.get(v1).getValV(attr);
+	public int getValV(long vId, String attr) {
+		return vertices.get(vId).getValV(attr);
 	}
 
 	@Override
-	public String getStrE(long e1, String attr) {
-		return edges.get(e1).getStrE(attr);
+	public String getStrE(long eId, String attr) {
+		return edges.get(eId).getStrE(attr);
 	}
 
 	@Override
-	public String getStrV(long v1, String attr) {
-		return vertices.get(v1).getStrV(attr);
+	public String getStrV(long vId, String attr) {
+		return vertices.get(vId).getStrV(attr);
 	}
 
 	@Override
-	public Set<String> getAttrV(long v1) {
-		return vertices.get(v1).getAttrV();
+	public Set<String> getAttrV(long vId) {
+		return vertices.get(vId).getAttrV();
 	}
 
 	@Override
-	public Set<String> getAttrE(long e1) {
-		return edges.get(e1).getAttrE();
+	public Set<String> getAttrE(long eId) {
+		return edges.get(eId).getAttrE();
 	}
 
 	// Mutators
-	// thorugh delegtion
+	// through delegtion
 	@Override
-	public void setValE(long e1, String attr, int val) {
-		edges.get(e1).setValE(attr, val);
+	public void setValE(long eId, String attr, int val) {
+		edges.get(eId).setValE(attr, val);
 	}
 
 	@Override
-	public void setValV(long v1, String attr, int val) {
-		vertices.get(v1).setValV(attr, val);
+	public void setValV(long vId, String attr, int val) {
+		vertices.get(vId).setValV(attr, val);
 	}
 
 	@Override
-	public void setStrE(long e1, String attr, String val) {
-		edges.get(e1).setStrE(attr, val);
+	public void setStrE(long eId, String attr, String val) {
+		edges.get(eId).setStrE(attr, val);
 	}
 
 	@Override
-	public void setStrV(long v1, String attr, String val) {
-		vertices.get(v1).setStrV(attr, val);
+	public void setStrV(long vId, String attr, String val) {
+		vertices.get(vId).setStrV(attr, val);
 	}
 
 	@Override
 	public String toString() {
 		String stracc = "Graph\n";
-		for (Long eID : edges.keySet()) {
-			stracc += edges.get(eID).toString() + "\n";
+		for (Long eId : edges.keySet()) {
+			stracc += edges.get(eId).toString() + "\n";
 		}
 
 		return stracc;

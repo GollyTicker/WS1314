@@ -14,13 +14,13 @@ public abstract class Edge implements IEdge {
 
 	private Map<String, String> attrs = new HashMap<>();
 	public final long ID;
-	private long vID1;
-	private long vID2;
+	private long vId1;
+	private long vId2;
 
-	public Edge(long vID1, long vID2, long EID) {
+	public Edge(long vId1, long vId2, long EID) {
 		ID = EID;
-		this.vID1 = vID1;
-		this.vID2 = vID2;
+		this.vId1 = vId1;
+		this.vId2 = vId2;
 	}
 
 	// Selectors
@@ -65,7 +65,7 @@ public abstract class Edge implements IEdge {
 
 	@Override
 	public String toString() {
-		return "edge: " + this.ID + "\nbetween: " + this.vID1 + " " + this.vID2;
+		return "edge: " + this.ID + "\nbetween: " + this.vId1 + " " + this.vId2;
 	}
 
 	@Override
@@ -80,22 +80,22 @@ public abstract class Edge implements IEdge {
 
 	@Override
 	public long getSrcVId() {
-		return this.vID1;
+		return this.vId1;
 	}
 
 	@Override
 	public long getDestVId() {
-		return this.vID2;
+		return this.vId2;
 	}
 
 	@Override
 	public boolean hasVertice(long vId) {
-		return (vId == this.vID1 || vId == this.vID2);
+		return (vId == this.vId1 || vId == this.vId2);
 	}
 
 	@Override
 	public Set<Long> getSourceTarget() {
-		return new HashSet<Long>(Arrays.asList(this.vID1, this.vID2));
+		return new HashSet<Long>(Arrays.asList(this.vId1, this.vId2));
 	}
 
 }

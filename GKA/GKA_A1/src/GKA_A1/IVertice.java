@@ -18,8 +18,8 @@ public interface IVertice {
 
 	void setStrV(String attr, String val);
 	
-	boolean hasVertice(long vID);
+	boolean hasVertice(long vId);
 	
-	boolean addVertice(long vID);
+	boolean addVertice(long vId);
 	
 }

@@ -4,6 +4,7 @@ import java.util.Set;
 
 public interface IEdge {
 
+	// Selectors
 	long getSrcVId();
 
 	long getDestVId();
@@ -16,6 +17,7 @@ public interface IEdge {
 
 	Set<String> getAttrE();
 
+	// Mutators
 	void setValE(String attr, int val);
 
 	void setStrE(String attr, String val);

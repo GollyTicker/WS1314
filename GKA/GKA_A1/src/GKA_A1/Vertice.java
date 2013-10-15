@@ -24,8 +24,8 @@ public class Vertice implements IVertice {
 	private String name;
 	public final long ID;
 
-	public Vertice(String name, long VID) {
-		ID = VID;
+	public Vertice(String name, long vId) {
+		ID = vId;
 		this.name = name;
 	}
 
@@ -90,13 +90,13 @@ public class Vertice implements IVertice {
 	}
 
 	@Override
-	public boolean hasVertice(long vID) {
-		return vertices.contains(vID);
+	public boolean hasVertice(long vId) {
+		return vertices.contains(vId);
 	}
 
 	@Override
-	public boolean addVertice(long vID) {
-		return vertices.add(vID);
+	public boolean addVertice(long vId) {
+		return vertices.add(vId);
 	}
 
 }
