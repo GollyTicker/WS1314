@@ -12,8 +12,8 @@ public class AIGraph implements IAIGraph {
 	// Vertices and Edges are saved to two Hashmaps that identify the ID to the
 	// Object
 	// VerticeID -> Vertice (Object)
-	Map<Long, Vertice> vertices = new HashMap<>();
-	Map<Long, Edge> edges = new HashMap<>();
+	private Map<Long, Vertice> vertices = new HashMap<>();
+	private Map<Long, Edge> edges = new HashMap<>();
 
 	private long vIdCounter = 0;
 	private long eIdCounter = 0;
