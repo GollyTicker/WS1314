@@ -1,6 +1,7 @@
 package ab2_adts;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -8,7 +9,9 @@ import java.util.ArrayList;
  */
 public class MatrixArrayList extends AbstractMatrix {
 
-	private ArrayList<ArrayList<ArrayListElement>> mArray = new ArrayList<ArrayList<ArrayListElement>>();
+	// private ArrayList<ArrayList<ArrayListElement>> mArray = new
+	// ArrayList<ArrayList<ArrayListElement>>();
+	private List<ArrayListElement>[] mArray;
 
 	/**
 	 * Creates a Matrix from a nested ArrayList.
@@ -20,11 +23,12 @@ public class MatrixArrayList extends AbstractMatrix {
 	 */
 	public MatrixArrayList(int m, int n) {
 		super(m, n);
+		mArray = new List[m];
 		for (int i = 0; i < m; i++) {
 			ArrayList<ArrayListElement> tmpi = new ArrayList<>();
 			// no elements need to be added since all are already initialized
 			// with zero
-			this.mArray.add(tmpi);
+			this.mArray[i] = tmpi;
 		}
 	}
 
@@ -43,15 +47,15 @@ public class MatrixArrayList extends AbstractMatrix {
 		outOfBound(i - 1, j - 1);
 		// only non zero elements are saved
 		if (Double.compare(value, 0.0) != 0) {
-			for (ArrayListElement elem : mArray.get(i - 1)) {
-									accessCount += 1;		// durchsuchen des elements
+			for (ArrayListElement elem : mArray[i - 1]) {
+				accessCount += 1; // durchsuchen des elements
 				if (elem.getJ() == (j - 1)) {
-					mArray.remove(elem);
+					mArray[i - 1].remove(elem);
 					break;
 				}
 			}
-			this.mArray.get(i - 1).add(new ArrayListElement(j - 1, value));
-								accessCount += 1;		// hinzufuegen eines NonZero elements
+			this.mArray[i - 1].add(new ArrayListElement(j - 1, value));
+			accessCount += 1; // hinzufuegen eines NonZero elements
 		}
 	}
 
@@ -67,8 +71,8 @@ public class MatrixArrayList extends AbstractMatrix {
 	@Override
 	public double get(int i, int j) {
 		outOfBound(i - 1, j - 1);
-		for (ArrayListElement elem : this.mArray.get(i - 1)) {
-							accessCount += 1; // access auf das Element
+		for (ArrayListElement elem : this.mArray[i - 1]) {
+			accessCount += 1; // access auf das Element
 			if (elem.getJ() == (j - 1)) {
 				return elem.getValue();
 			}
@@ -85,9 +89,8 @@ public class MatrixArrayList extends AbstractMatrix {
 	@Override
 	public int memoryUsage() {
 		int noOfElems = 0;
-		for (ArrayList<ArrayListElement> outerList : mArray) {
-			noOfElems += outerList.size();
-		}
+		for (int i = 0; i < mArray.length; i++)
+			noOfElems += mArray[i].size();
 		return noOfElems;
 	}
 
