@@ -220,12 +220,13 @@ public class AIGraph implements IAIGraph {
 
 	@Override
 	public String toString() {
-		String stracc = "Graph\n";
+		String stracc = "Graph: \n";
+		
 		// Edge: edgeId - VerticeName1(vId1) <=>//=> VerticeName2(vId2)
 		for (Edge e : edges.values()) {
 			Vertice source = vertices.get(e.getSrcVId());
 			Vertice target = vertices.get(e.getDestVId());
-
+			
 			String edge = "Edge: " + e.ID + " - ";
 			String sourceS = source.getName() + "(" + source.ID + ")";
 			String destS = target.getName() + "(" + target.ID + ")";
@@ -233,7 +234,7 @@ public class AIGraph implements IAIGraph {
 			
 			stracc += edge + sourceS + direction + destS + "\n";
 		}
-
+		
 		return stracc;
 	}
 
