@@ -14,7 +14,7 @@ public class ListAufgaben {
 
     public static void main(String[] args) {
 
-        // Aufgabe 3:
+        // Aufgabe 5:
 
         MLinkedList<Integer> mll = new MLinkedList<>();
         System.out.println("Before inserting elements:");
@@ -33,7 +33,7 @@ public class ListAufgaben {
         // Therefore with NoOfElements=15 we have: 1 + (15 - 1)*2 = 29 accesses
 
 
-        // Aufgabe 4:
+        // Aufgabe 6:
 
         mll = new MLinkedList<>();      // reseting the list
 
@@ -82,7 +82,7 @@ public class ListAufgaben {
 
 
 
-        // Aufgabe 5:
+        // Aufgabe 7:
 
         mll = new MLinkedList<>();      // reset
 
@@ -134,7 +134,7 @@ public class ListAufgaben {
         // linked list is indeed of quadratic complexity.
 
 
-        // Aufgabe 6:
+        // Aufgabe 8:
         AverageVariance zeitmess = new AverageVariance();
         for (int t = 5000; t > 0; t--) {      // repeat this t-times
             NoOfElements = 52;					// repeat with 52 elements
