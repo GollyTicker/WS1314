@@ -1,7 +1,7 @@
 package ab1_test;
 
-import ab1_adts.AverageVariance;
 import ab1_adts.ListImpl.MLinkedList;
+import ab1_adts.statmodule.AverageVariance;
 
 /**
  *

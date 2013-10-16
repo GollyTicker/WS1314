@@ -5,8 +5,12 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import ab1_adts.AverageVariance;
+import ab1_adts.statmodule.AverageVariance;
 import ab2_adts.*;
+import ab2_adts.generator.GeneratorModule;
+import ab2_adts.matrix.Matrix;
+import ab2_adts.matrix.MatrixArrayList;
+import ab2_adts.matrix.MatrixList;
 
 import java.util.*;
 

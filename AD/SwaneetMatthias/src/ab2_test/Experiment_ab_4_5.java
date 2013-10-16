@@ -5,6 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import ab2_adts.*;
+import ab2_adts.generator.GeneratorModule;
+import ab2_adts.matrix.Matrix;
+import ab2_adts.matrix.MatrixArray;
+import ab2_adts.matrix.MatrixArrayList;
+import ab2_adts.matrix.MatrixList;
 
 // TODO: Matthias: update the javadoc because of the addition of copyFrom.
 // TODO: delete the tests duplicates in ab2_adts

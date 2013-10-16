@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import ab2_adts.*;
+import ab2_adts.matrix.Matrix;
+import ab2_adts.matrix.MatrixArray;
+import ab2_adts.matrix.MatrixList;
 
 /**
  * 

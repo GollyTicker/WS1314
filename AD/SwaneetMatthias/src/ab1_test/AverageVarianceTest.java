@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import ab1_adts.AverageVariance;
+import ab1_adts.statmodule.AverageVariance;
 
 /**
  *
