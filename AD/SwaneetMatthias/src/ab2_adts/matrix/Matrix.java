@@ -1,10 +1,12 @@
 package ab2_adts.matrix;
 
+import ad_utils.ITimeSpace;
+
 /**
  * 
  * @author Swaneet Sahoo, Matthias Nitsche
  */
-public interface Matrix {
+public interface Matrix extends ITimeSpace{
 
 	// insert an element in m x n Matrix with value
 	void insert(int i, int j, double value);
@@ -20,15 +22,6 @@ public interface Matrix {
 
 	// make a deep copy for every matrix and take the type of the source
 	void copyFrom(Matrix source);
-
-	// get memory Usage
-	int memoryUsage();
-
-	// get current accesCount of operations
-	int accessCount();
-	
-	// reset the current accescount to zero
-	void resetAccessCount();
 
 	// All implementations create a new Object -> Immutable
 	Matrix add(Matrix m);

@@ -1,26 +1,18 @@
 package ab2_adts.matrix;
 
+import ad_utils.ITimeSpace;
+
 /**
  * 
  * @author Swaneet Sahoo, Matthias Nitsche
  */
-public abstract class AbstractMatrix implements Matrix, IException {
+public abstract class AbstractMatrix implements Matrix, IException, ITimeSpace {
 
 	protected int m; // i
 	protected int n; // j
 
 	// counting accesses for Aufgabe 8
 	protected int accessCount = 0;
-
-	@Override
-	public int accessCount() {
-		return this.accessCount;
-	}
-
-	@Override
-	public void resetAccessCount() {
-		this.accessCount = 0;
-	}
 
 	// Creation
 	/**
@@ -144,7 +136,7 @@ public abstract class AbstractMatrix implements Matrix, IException {
 
 	protected Matrix pow_(int exponent, Matrix destination) { // the exponent
 																// goes from 1
-														// to infinity
+		// to infinity
 		AssertExponentValid(exponent);
 		destination.copyFrom(this);
 		// bei matrix hoch 1 wird die schleife nicht erst ausgefuehrt
@@ -157,7 +149,7 @@ public abstract class AbstractMatrix implements Matrix, IException {
 
 		return destination;
 	}
-	
+
 	/**
 	 * Multiply this Matrix to the power of n. It is only possible to Multiply a
 	 * Matrix if M and N are equal.
@@ -170,12 +162,15 @@ public abstract class AbstractMatrix implements Matrix, IException {
 	@Override
 	public abstract Matrix powFast(int exponent);
 
-	protected Matrix powFast_(int exponent, Matrix destination) { // the exponent
-																// goes from 1
-																// to infinity
+	protected Matrix powFast_(int exponent, Matrix destination) { // the
+																	// exponent
+																	// goes from
+																	// 1
+																	// to
+																	// infinity
 		AssertExponentValid(exponent);
 		// bei matrix hoch 1 wird die schleife nicht erst ausgefuehrt
-		
+
 		if (exponent == 1)
 			return destination;
 		if (exponent % 2 == 0) {
@@ -183,7 +178,7 @@ public abstract class AbstractMatrix implements Matrix, IException {
 			destination = destination.mul(destination);
 			return destination;
 		}
-		destination = powFast_((exponent-1) / 2, destination);
+		destination = powFast_((exponent - 1) / 2, destination);
 		destination = destination.mul(destination).mul(this);
 		return destination;
 	}
@@ -306,5 +301,25 @@ public abstract class AbstractMatrix implements Matrix, IException {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public int accessCount() {
+		return this.accessCount;
+	}
+
+	@Override
+	public void resetAccessCount() {
+		this.accessCount = 0;
+	}
+
+	@Override
+	public void setAccessCount(int ac) {
+		this.accessCount = ac;
+	}
+
+	@Override
+	public void printCount() {
+		System.out.println();
 	}
 }

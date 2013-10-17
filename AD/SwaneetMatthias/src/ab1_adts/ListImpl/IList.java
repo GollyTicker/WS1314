@@ -1,11 +1,13 @@
 package ab1_adts.ListImpl;
 
+import ad_utils.ITimeSpace;
+
 /**
- *
+ * 
  * @author Swaneet Sahoo, Matthias Nitsche
  */
 
-public interface IList<T> {
+public interface IList<T> extends ITimeSpace {
 
 	// add elem to the front
 	void cons(T elem);

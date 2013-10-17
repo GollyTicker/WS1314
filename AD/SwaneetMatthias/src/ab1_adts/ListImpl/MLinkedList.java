@@ -1,28 +1,19 @@
 package ab1_adts.ListImpl;
 
+import ad_utils.ITimeSpace;
+
 /**
  * 
  * @author Swaneet Sahoo, Matthias Nitsche
  */
 
-public class MLinkedList<T> implements IList<T> {
+public class MLinkedList<T> implements IList<T>, ITimeSpace {
 
 	private Node<T> first = null;
 	private int length;
 
 	// counting references
 	private int accessCount = 0;
-
-	public void printCount() {
-		System.out.println("AccessCount: " + accessCount);
-	}
-	public int getAccessCount() {
-		return accessCount;
-	}
-	public void resetAccessCount() {
-		accessCount = 0;
-	}
-	
 
 	// Our interpretation of access:
 	// As access(es) count:
@@ -192,5 +183,30 @@ public class MLinkedList<T> implements IList<T> {
 	public String toString() {
 		return "Lists HashCode: " + this.hashCode() + " with length: "
 				+ this.length;
+	}
+
+	@Override
+	public void printCount() {
+		System.out.println("AccessCount: " + accessCount);
+	}
+
+	@Override
+	public int accessCount() {
+		return this.accessCount;
+	}
+
+	@Override
+	public void resetAccessCount() {
+		this.accessCount = 0;
+	}
+
+	@Override
+	public void setAccessCount(int ac) {
+		this.accessCount = ac;
+	}
+
+	@Override
+	public int memoryUsage() {
+		return this.length;
 	}
 }

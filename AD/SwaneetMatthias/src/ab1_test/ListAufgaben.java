@@ -15,11 +15,11 @@ public class ListAufgaben {
 
 	public static void main(String[] args) {
 
-//		aufgabe5();
-//
-//		aufgabe6();
-//
-//		aufgabe7();
+		// aufgabe5();
+		//
+		// aufgabe6();
+		//
+		// aufgabe7();
 
 		aufgabe8();
 
@@ -105,7 +105,7 @@ public class ListAufgaben {
 				int pos = (int) Math.floor(Math.random() * i);
 				mll.insert(i, pos);
 			}
-			zeitmess.addValue(mll.getAccessCount());
+			zeitmess.addValue(mll.accessCount());
 		}
 		System.out.println(zeitmess.getAverage());
 		System.out.println(zeitmess.getVariance());
