@@ -16,6 +16,13 @@ public class MLinkedList<T> implements IList<T> {
 	public void printCount() {
 		System.out.println("AccessCount: " + accessCount);
 	}
+	public int getAccessCount() {
+		return accessCount;
+	}
+	public void resetAccessCount() {
+		accessCount = 0;
+	}
+	
 
 	// Our interpretation of access:
 	// As access(es) count:
