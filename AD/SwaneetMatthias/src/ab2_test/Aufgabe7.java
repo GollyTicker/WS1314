@@ -9,6 +9,7 @@ import ab1_adts.statmodule.AverageVariance;
 import ab2_adts.*;
 import ab2_adts.generator.GeneratorModule;
 import ab2_adts.matrix.Matrix;
+import ab2_adts.matrix.MatrixArray;
 import ab2_adts.matrix.MatrixArrayList;
 import ab2_adts.matrix.MatrixList;
 
@@ -52,6 +53,7 @@ public class Aufgabe7 {
 
 			AverageVariance statsList = new AverageVariance();
 			AverageVariance statsArrayList = new AverageVariance();
+			AverageVariance statsArray = new AverageVariance();
 
 			GeneratorModule gm = new GeneratorModule(n, n, pNonZero);
 
@@ -64,19 +66,23 @@ public class Aufgabe7 {
 
 				Matrix mList = new MatrixList(n, n);
 				Matrix mArrayList = new MatrixArrayList(n, n);
+				Matrix mArray = new MatrixArray(n, n);
 
 				// fill matrices in the different implementations
 				mList.copyFrom(m);
 				mArrayList.copyFrom(m);
+				mArray.copyFrom(m);
 
 				// save the memUsage for each impl.
 				statsList.addValue(mList.memoryUsage());
 				statsArrayList.addValue(mArrayList.memoryUsage());
+				statsArray.addValue(mArray.memoryUsage());
 			}
 
 			acc += "Average NoOfElements for p = " + pNonZero + ":\n";
 			acc += "mList - " + statsList.getAverage() + "\n";
 			acc += "mArrayList - " + statsArrayList.getAverage() + "\n";
+			acc += "mArray - " + statsArray.getAverage() + "\n";
 			acc += "\n\n";
 
 		}
