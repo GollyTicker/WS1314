@@ -38,7 +38,7 @@ public class MatrixList extends AbstractMatrix {
 	@Override
 	public void insert(int i, int j, double value) {
 		for (Element e : elems) {
-							accessCount += 1;		// durchsuchen des elements
+			accessCount += 1; // durchsuchen des elements
 			if (e.getI() == i && e.getJ() == j) {
 				elems.remove(e);
 				break;
@@ -47,7 +47,7 @@ public class MatrixList extends AbstractMatrix {
 		if (Double.compare(value, 0.0) != 0) { // only non zero values need to
 												// be added
 			elems.add(new Element(i, j, value));
-							accessCount += 1;		// hinzufuegen eines NonZero elements
+			accessCount += 1; // hinzufuegen eines NonZero elements
 		}
 	}
 
@@ -64,7 +64,7 @@ public class MatrixList extends AbstractMatrix {
 	public double get(int i, int j) {
 		outOfBound(i - 1, j - 1);
 		for (Element e : elems) {
-						accessCount += 1;		// access auf das Element
+			accessCount += 1; // access auf das Element
 			if (e.getI() == i && e.getJ() == j) {
 				return e.getValue();
 			}
@@ -101,5 +101,12 @@ public class MatrixList extends AbstractMatrix {
 	@Override
 	public Matrix pow(int exponent) {
 		return super.pow_(exponent, new MatrixList(this.getM(), this.getN()));
+	}
+
+	@Override
+	public Matrix powFast(int exponent) {
+		Matrix newMatrix = new MatrixList(this.getM(), this.getN());
+		newMatrix.copyFrom(this);
+		return super.powFast_(exponent, newMatrix);
 	}
 }

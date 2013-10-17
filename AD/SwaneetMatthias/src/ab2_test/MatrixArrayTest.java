@@ -7,6 +7,7 @@ import org.junit.Test;
 import ab2_adts.*;
 import ab2_adts.matrix.Matrix;
 import ab2_adts.matrix.MatrixArray;
+import ab2_adts.matrix.MatrixArrayList;
 import ab2_adts.matrix.MatrixList;
 
 /**
@@ -273,6 +274,7 @@ public class MatrixArrayTest {
 		int dim = 3;
 		Matrix m1 = new MatrixList(dim,dim);
 		Matrix m2 = new MatrixList(dim,dim);
+		Matrix m3 = new MatrixArray(dim, dim);
 
 		m1.insert(1, 1, 1.0);
 		m1.insert(1, 2, 2.0);
@@ -299,8 +301,27 @@ public class MatrixArrayTest {
 		m2.insert(3, 3, 150.0);
 		
 		
-		assertEquals(m1,m1.pow(1));
+		m3.insert(1, 1, 194251120.0);
+		m3.insert(1, 2, 238678984.0);
+		m3.insert(1, 3, 283106848.0);
+
+		m3.insert(2, 1, 439902154.0);
+		m3.insert(2, 2, 540513739.0);
+		m3.insert(2, 3, 641125324.0);
+
+		m3.insert(3, 1, 685553188.0);
+		m3.insert(3, 2, 842348494.0);
+		m3.insert(3, 3, 999143800.0);
+
+		m3.copyFrom(m3.mul(177147));
+
+		assertEquals(m1, m1.powFast(1));
+		assertEquals(m2, m1.powFast(2));
+		assertEquals(m3, m1.powFast(12));
 		
-		assertEquals(m2,m1.pow(2));
+
+		assertEquals(m1, m1.pow(1));
+		assertEquals(m2, m1.pow(2));
+		assertEquals(m3, m1.pow(12));
 	}
 }

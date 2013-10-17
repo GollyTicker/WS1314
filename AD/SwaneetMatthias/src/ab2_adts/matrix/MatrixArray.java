@@ -18,7 +18,8 @@ public class MatrixArray extends AbstractMatrix {
 	 */
 	public MatrixArray(int m, int n) {
 		super(m, n);
-		mArray = new double[m][n];		// Arrays werden automatische mit 0.0 gefuellt
+		mArray = new double[m][n]; // Arrays werden automatische mit 0.0
+									// gefuellt
 	}
 
 	/**
@@ -34,7 +35,7 @@ public class MatrixArray extends AbstractMatrix {
 	@Override
 	public void insert(int i, int j, double value) {
 		outOfBound(i - 1, j - 1);
-							accessCount += 1; // access auf das Element
+		accessCount += 1; // access auf das Element
 		mArray[i - 1][j - 1] = value;
 	}
 
@@ -50,7 +51,7 @@ public class MatrixArray extends AbstractMatrix {
 	@Override
 	public double get(int i, int j) {
 		outOfBound(i - 1, j - 1);
-										accessCount += 1;		// access auf das Element
+		accessCount += 1; // access auf das Element
 		return mArray[i - 1][j - 1];
 	}
 
@@ -67,22 +68,28 @@ public class MatrixArray extends AbstractMatrix {
 
 	@Override
 	public Matrix mul(Matrix factor) {
-		return super.mul_(factor,new MatrixArray(this.getM(), factor.getN()));
+		return super.mul_(factor, new MatrixArray(this.getM(), factor.getN()));
 	}
-	
 
 	@Override
 	public Matrix add(Matrix m) {
-		return super.add_(m,new MatrixArray(this.getM(), this.getN()));
+		return super.add_(m, new MatrixArray(this.getM(), this.getN()));
 	}
 
 	@Override
 	public Matrix mul(double skalar) {
-		return super.mul_(skalar,new MatrixArray(this.getM(), this.getN()));
+		return super.mul_(skalar, new MatrixArray(this.getM(), this.getN()));
 	}
 
 	@Override
 	public Matrix pow(int exponent) {
-		return super.pow_(exponent,new MatrixArray(this.getM(), this.getN()));
+		return super.pow_(exponent, new MatrixArray(this.getM(), this.getN()));
+	}
+
+	@Override
+	public Matrix powFast(int exponent) {
+		Matrix newMatrix = new MatrixArray(this.getM(), this.getN());
+		newMatrix.copyFrom(this);
+		return super.powFast_(exponent, newMatrix);
 	}
 }
