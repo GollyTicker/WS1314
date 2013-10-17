@@ -18,7 +18,7 @@ import ab2_adts.matrix.*;
 
 public class Aufgabe4_Matrizenpotenzen {
 
-	static int n = 180;
+	static int n = 100;
 	static int tMax = 5;
 	static List<Integer> expValues = new ArrayList<>(Arrays.asList(5, 12, 13));
 
@@ -62,6 +62,10 @@ public class Aufgabe4_Matrizenpotenzen {
 
 		System.out.println(statsNormal);
 		System.out.println(statsFast);
+		
+		
+		//Diskussion:
+		// gleiches ergebnis wie bei zahlenpotenzierung nur halt auf matrizen statt zahlen
 
 	}
 

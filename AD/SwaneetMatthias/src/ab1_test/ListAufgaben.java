@@ -90,7 +90,7 @@ public class ListAufgaben {
         // insert needs an (n+1) element for the new element to put inbetween n and (n+1).
         // therefore we begin with an initial element, and then always insert the new element
         // at the forelast position
-        NoOfElements = 15;
+        NoOfElements = 10;
         mll.cons(-1);
         start = System.nanoTime();
         for (int n = 0; n < NoOfElements; n++) {
@@ -113,6 +113,7 @@ public class ListAufgaben {
         }
         duration = System.nanoTime() - start;
         System.out.println(NoOfElements + " elements need:  " + duration + " ns.");
+        mll.printCount();
 
         // 15 elements need:  36775 ns.
         // AccessCount: 153
