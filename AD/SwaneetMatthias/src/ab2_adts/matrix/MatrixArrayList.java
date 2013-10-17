@@ -116,4 +116,11 @@ public class MatrixArrayList extends AbstractMatrix {
 		return super.pow_(exponent,
 				new MatrixArrayList(this.getM(), this.getN()));
 	}
+	
+	@Override
+	public Matrix powFast(int exponent) {
+		Matrix newMatrix = new MatrixArrayList(this.getM(), this.getN());
+		newMatrix.copyFrom(this);
+		return super.powFast_(exponent, newMatrix);
+	}
 }

@@ -3,8 +3,6 @@ package ab3_adts;
 import java.util.List;
 import java.util.ArrayList;
 
-import ab1_adts.statmodule.AverageVariance;
-
 public class PotenceImpl {
 
 	public static void main(String[] args) {

@@ -144,16 +144,47 @@ public abstract class AbstractMatrix implements Matrix, IException {
 
 	protected Matrix pow_(int exponent, Matrix destination) { // the exponent
 																// goes from 1
-																// to infinity
+														// to infinity
 		AssertExponentValid(exponent);
+		destination.copyFrom(this);
 		// bei matrix hoch 1 wird die schleife nicht erst ausgefuehrt
 		if (exponent == 1)
 			return this;
 
 		for (int i = 2; i <= exponent; i++) {
-			destination = this.mul(this);
+			destination = destination.mul(this);
 		}
 
+		return destination;
+	}
+	
+	/**
+	 * Multiply this Matrix to the power of n. It is only possible to Multiply a
+	 * Matrix if M and N are equal.
+	 * 
+	 * @param exponent
+	 *            multiply the Matrix to the power of the exponent.
+	 * @return New Matrix.
+	 */
+
+	@Override
+	public abstract Matrix powFast(int exponent);
+
+	protected Matrix powFast_(int exponent, Matrix destination) { // the exponent
+																// goes from 1
+																// to infinity
+		AssertExponentValid(exponent);
+		// bei matrix hoch 1 wird die schleife nicht erst ausgefuehrt
+		
+		if (exponent == 1)
+			return destination;
+		if (exponent % 2 == 0) {
+			destination = powFast_(exponent / 2, destination);
+			destination = destination.mul(destination);
+			return destination;
+		}
+		destination = powFast_((exponent-1) / 2, destination);
+		destination = destination.mul(destination).mul(this);
 		return destination;
 	}
 

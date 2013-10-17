@@ -15,11 +15,11 @@ public interface Matrix {
 	double get(int i, int j);
 
 	void copyFrom(Matrix source);
-	
+
 	int memoryUsage();
-	
+
 	int accessCount();
-	
+
 	void resetAccessCount();
 
 	Matrix add(Matrix m);
@@ -29,5 +29,7 @@ public interface Matrix {
 	Matrix mul(Matrix factor);
 
 	Matrix pow(int exponent);
+
+	Matrix powFast(int exponent);
 
 }
