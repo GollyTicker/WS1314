@@ -9,16 +9,13 @@ import GKA_A2.FloydWarshall;
 
 public class OptimalPathTest {
 
-	private IAIGraph yolo;
-
 	public OptimalPathTest() {
-
 	}
 
 	@Test
-	public void test() {
+	public void testFloydWarshall() {
 
-		yolo = new AIGraph(true);
+		IAIGraph yolo = new AIGraph(true);
 
 		long v1 = yolo.addVertex("v1");
 		long v2 = yolo.addVertex("v2");
@@ -50,22 +47,21 @@ public class OptimalPathTest {
 
 		FloydWarshall algo = new FloydWarshall(yolo, "km");
 
-		algo.start();	
+		algo.start();
 
 		System.out.println("v1: " + v1 + "; v1: " + v1);
 		System.out.println(algo.getPath(v1, v1));
 
 		System.out.println("v1: " + v1 + "; v2: " + v2);
 		System.out.println(algo.getPath(v1, v2));
-		
+
 		System.out.println("v3: " + v3 + "; v1: " + v1);
 		System.out.println(algo.getPath(v3, v1));
 
 		assertEquals("v2 -> v1 -> v3 -> v0", algo.getPath(v3, v1));
-		
+
 		System.out.println(algo.getDist());
 		System.out.println(algo.getTrans());
-
 	}
 
 }

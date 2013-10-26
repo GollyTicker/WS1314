@@ -162,12 +162,8 @@ public abstract class AbstractMatrix implements Matrix, IException, ITimeSpace {
 	@Override
 	public abstract Matrix powFast(int exponent);
 
-	protected Matrix powFast_(int exponent, Matrix destination) { // the
-																	// exponent
-																	// goes from
-																	// 1
-																	// to
-																	// infinity
+	// the exponent goes from1 to infinity
+	protected Matrix powFast_(int exponent, Matrix destination) {
 		AssertExponentValid(exponent);
 		// bei matrix hoch 1 wird die schleife nicht erst ausgefuehrt
 
