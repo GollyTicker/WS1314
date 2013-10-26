@@ -4,7 +4,7 @@ import GKA_A1.IAIGraph;
 import GKA_A2.Matrix.Matrix;
 import GKA_A2.Matrix.MatrixArray;
 
-public class Floyd_Warshall {
+public class FloydWarshall {
 
 	private IAIGraph graph;
 	private String cmpByAttribute;
@@ -14,7 +14,7 @@ public class Floyd_Warshall {
 
 	private double inf = Double.POSITIVE_INFINITY;
 
-	public Floyd_Warshall(IAIGraph graph, String cmpByAttribute) {
+	public FloydWarshall(IAIGraph graph, String cmpByAttribute) {
 		this.graph = graph;
 		this.cmpByAttribute = cmpByAttribute;
 		this.size = graph.getVertexes().size();
@@ -67,7 +67,7 @@ public class Floyd_Warshall {
 
 	private void initMatrices() {
 		this.trans = new MatrixArray(this.size, this.size);
-		dist = new MatrixArray(this.size, this.size);
+		this.dist = new MatrixArray(this.size, this.size);
 
 		for (int i = 1; i <= this.size; i++)
 			for (int j = 1; j <= this.size; j++)

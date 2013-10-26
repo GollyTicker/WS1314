@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 
 import GKA_A1.AIGraph;
 import GKA_A1.IAIGraph;
-import GKA_A2.Floyd_Warshall;
+import GKA_A2.FloydWarshall;
 
 public class OptimalPathTest {
 
@@ -48,10 +48,9 @@ public class OptimalPathTest {
 
 		System.out.println(yolo);
 
-		Floyd_Warshall algo = new Floyd_Warshall(yolo, "km");
+		FloydWarshall algo = new FloydWarshall(yolo, "km");
 
-		algo.start();
-		
+		algo.start();	
 
 		System.out.println("v1: " + v1 + "; v1: " + v1);
 		System.out.println(algo.getPath(v1, v1));
@@ -66,10 +65,7 @@ public class OptimalPathTest {
 		
 		System.out.println(algo.getDist());
 		System.out.println(algo.getTrans());
-		// System.out.println(yolo.toMatrixU());
-		// System.out.println(yolo);
-		// System.out.println(swag.toMatrixD());
-		// System.out.println(swag);
+
 	}
 
 }
