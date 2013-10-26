@@ -13,6 +13,7 @@ public class BellmanFord {
 	private IAIGraph graph;
 	private String cmpByAttribute;
 	private long srcVId;
+	private static Long nullLong = -1L;
 
 	private Map<Long, Double> distance;
 	private Map<Long, Long> predecessor;
@@ -35,7 +36,7 @@ public class BellmanFord {
 				distance.put(vId, 0.0);
 			else
 				distance.put(vId, INF);
-			predecessor.put(vId, null);
+			predecessor.put(vId, nullLong);
 		}
 
 		// Step 2
@@ -63,8 +64,25 @@ public class BellmanFord {
 				break;
 			}
 		}
+
+	}
+
+	// Shortest Path from -> to
+	public String getPath(long dest) {
+		long predId = predecessor.get(dest);
+		if (predId == nullLong) {
+			return "IDs of the Path: (" + srcVId + ")";
+		}
+		return getPath(predId) + " -> (" + dest + ")";
 	}
 	
+	public Map<Long, Double> getDist(){
+		return distance;
+	}
 	
-	
+	public Map<Long, Long> getPred(){
+		return predecessor;
+	}
+
+
 }
