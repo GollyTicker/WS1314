@@ -10,6 +10,8 @@ package GKA_A1;
  */
 import java.util.Set;
 
+import GKA_A2.Matrix.Matrix;
+
 public interface IAIGraph {
 
 	// Constructors
@@ -56,6 +58,10 @@ public interface IAIGraph {
 	Set<String> getAttrV(long vId);
 
 	Set<String> getAttrE(long eId);
+
+	Matrix toMatrixU();
+
+	Matrix toMatrixD();
 
 	// Mutators
 	void setValE(long eId, String attr, int val);

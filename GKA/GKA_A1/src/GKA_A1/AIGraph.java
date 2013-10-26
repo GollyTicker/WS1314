@@ -5,14 +5,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import GKA_A2.Matrix.Matrix;
+import GKA_A2.Matrix.MatrixArray;
 import GraphUtils.ITimeSpace;
 
-public class AIGraph implements IAIGraph,ITimeSpace {
-	
-	
+public class AIGraph implements IAIGraph, ITimeSpace {
+
 	// accesscount variable for counting
 	int accessCount = 0;
-	
 
 	// Vertices and Edges are saved to two Hashmaps that identify the ID to the
 	// Object
@@ -228,20 +228,20 @@ public class AIGraph implements IAIGraph,ITimeSpace {
 	@Override
 	public String toString() {
 		String stracc = "Graph: \n";
-		
+
 		// Edge: edgeId - VerticeName1(vId1) <=>//=> VerticeName2(vId2)
 		for (Edge e : edges.values()) {
 			Vertice source = vertices.get(e.getSrcVId());
 			Vertice target = vertices.get(e.getDestVId());
-			
+
 			String edge = "Edge: " + e.ID + " - ";
 			String sourceS = source.getName() + "(" + source.ID + ")";
 			String destS = target.getName() + "(" + target.ID + ")";
 			String direction = (e.isDirected() ? " => " : " <=> ");
-			
+
 			stracc += edge + sourceS + direction + destS + "\n";
 		}
-		
+
 		return stracc;
 	}
 
@@ -283,7 +283,41 @@ public class AIGraph implements IAIGraph,ITimeSpace {
 	public Map<Long, Edge> getEdgeMap() {
 		return this.edges;
 	}
-	
+
+	@Override
+	public Matrix toMatrixU() {
+		int vSize = vertices.size();
+		Matrix graphMatrix = new MatrixArray(vSize, vSize);
+		for (int i = 0; i < vSize; i++) {
+			for (int j = 0; j < vSize; j++) {
+				int edgesFromItoJ = 0;
+				for (long eid : getIncident(i))
+					if (edges.get(eid).getSrcVId() == i
+							&& edges.get(eid).getDestVId() == j)
+						edgesFromItoJ += 1;
+				graphMatrix.insert(i + 1, j + 1, edgesFromItoJ);
+			}
+		}
+		return graphMatrix;
+	}
+
+	@Override
+	public Matrix toMatrixD() {
+		int vSize = vertices.size();
+		Matrix graphMatrix = new MatrixArray(vSize, vSize);
+		for (int i = 0; i < vSize; i++) {
+			for (int j = 0; j < vSize; j++) {
+				int edgesFromItoJ = 0;
+				for (long eid : getIncident(i))
+					if (edges.get(eid).getSrcVId() == i
+							&& edges.get(eid).getDestVId() == j)
+						edgesFromItoJ += 1;
+				graphMatrix.insert(i + 1, j + 1, edgesFromItoJ);
+			}
+		}
+		return graphMatrix;
+	}
+
 	@Override
 	public int accessCount() {
 		return accessCount;
@@ -292,19 +326,20 @@ public class AIGraph implements IAIGraph,ITimeSpace {
 	@Override
 	public void setAccessCount(int ac) {
 		accessCount = ac;
-		
+
 	}
 
 	@Override
 	public void resetAccessCount() {
 		accessCount = 0;
-		
+
 	}
 
 	@Override
 	public int memoryUsage() {
 		// wir interpretieren einfachheitshalber die VerticesZahl und Edgeszahl
-		// als Speicherverbrauch - Diese Methode gehört eigentlich zum Interface, ist aber kein Teil der Aufgabe.
+		// als Speicherverbrauch - Diese Methode gehört eigentlich zum
+		// Interface, ist aber kein Teil der Aufgabe.
 		return edges.size() + vertices.size();
 	}
 
