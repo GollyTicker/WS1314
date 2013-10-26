@@ -58,10 +58,8 @@ public interface IAIGraph {
 	Set<String> getAttrV(long vId);
 
 	Set<String> getAttrE(long eId);
-
-	Matrix toMatrixU();
-
-	Matrix toMatrixD();
+	
+	boolean isDirected();
 
 	// Mutators
 	void setValE(long eId, String attr, int val);

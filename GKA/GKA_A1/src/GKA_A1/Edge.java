@@ -10,7 +10,7 @@ import java.util.Set;
  * 
  * @author Swaneet Sahoo, Matthias Nitsche
  */
-public abstract class Edge implements IEdge {
+public class Edge implements IEdge {
 
 	private Map<String, String> attrs = new HashMap<>();
 	public final long ID;

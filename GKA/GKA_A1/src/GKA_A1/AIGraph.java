@@ -25,10 +25,14 @@ public class AIGraph implements IAIGraph, ITimeSpace {
 	private long vIdCounter = 0;
 	private long eIdCounter = 0;
 
-	public AIGraph() {
+	private boolean isDirected;
+
+	public AIGraph(boolean isDirected) {
+		this.isDirected = isDirected;
 	}
 
-	public AIGraph(String name) {
+	public AIGraph(String name, boolean isDirected) {
+		this.isDirected = isDirected;
 		addVertex(name);
 	}
 
@@ -59,7 +63,11 @@ public class AIGraph implements IAIGraph, ITimeSpace {
 	@Override
 	public long addEdgeU(long v1Id, long v2Id) {
 		checkContainsVertices(v1Id, v2Id);
-		Edge e = new EdgeU(v1Id, v2Id, eIdCounter);
+		if (isDirected) {
+			throw new IllegalArgumentException(
+					"The Graph is directed! You cannot add any undirected edges!");
+		}
+		Edge e = new Edge(v1Id, v2Id, eIdCounter);
 		eIdCounter += 1;
 		edges.put(e.ID, e);
 		return e.ID;
@@ -68,7 +76,11 @@ public class AIGraph implements IAIGraph, ITimeSpace {
 	@Override
 	public long addEdgeD(long v1Id, long v2Id) {
 		checkContainsVertices(v1Id, v2Id);
-		Edge e = new EdgeD(v1Id, v2Id, eIdCounter);
+		if (!isDirected) {
+			throw new IllegalArgumentException(
+					"The Graph is undirected! You cannot add any directed edges!");
+		}
+		Edge e = new Edge(v1Id, v2Id, eIdCounter);
 		eIdCounter += 1;
 		edges.put(e.ID, e);
 		return e.ID;
@@ -96,7 +108,7 @@ public class AIGraph implements IAIGraph, ITimeSpace {
 			boolean directed = e.getSrcVId() == v1Id && e.getDestVId() == v2Id;
 			// if it is undirected the edge has to be undirected and it is
 			// possible that src and dest are switched
-			boolean undirected = !e.isDirected() && e.getSrcVId() == v2Id
+			boolean undirected = !this.isDirected() && e.getSrcVId() == v2Id
 					&& e.getDestVId() == v1Id;
 			// so either it is directed or undirected if it is none, don't
 			// delete
@@ -237,7 +249,7 @@ public class AIGraph implements IAIGraph, ITimeSpace {
 			String edge = "Edge: " + e.ID + " - ";
 			String sourceS = source.getName() + "(" + source.ID + ")";
 			String destS = target.getName() + "(" + target.ID + ")";
-			String direction = (e.isDirected() ? " => " : " <=> ");
+			String direction = (this.isDirected() ? " => " : " <=> ");
 
 			stracc += edge + sourceS + direction + destS + "\n";
 		}
@@ -285,40 +297,6 @@ public class AIGraph implements IAIGraph, ITimeSpace {
 	}
 
 	@Override
-	public Matrix toMatrixU() {
-		int vSize = vertices.size();
-		Matrix graphMatrix = new MatrixArray(vSize, vSize);
-		for (int i = 0; i < vSize; i++) {
-			for (int j = 0; j < vSize; j++) {
-				int edgesFromItoJ = 0;
-				for (long eid : getIncident(i))
-					if (edges.get(eid).getSrcVId() == i
-							&& edges.get(eid).getDestVId() == j)
-						edgesFromItoJ += 1;
-				graphMatrix.insert(i + 1, j + 1, edgesFromItoJ);
-			}
-		}
-		return graphMatrix;
-	}
-
-	@Override
-	public Matrix toMatrixD() {
-		int vSize = vertices.size();
-		Matrix graphMatrix = new MatrixArray(vSize, vSize);
-		for (int i = 0; i < vSize; i++) {
-			for (int j = 0; j < vSize; j++) {
-				int edgesFromItoJ = 0;
-				for (long eid : getIncident(i))
-					if (edges.get(eid).getSrcVId() == i
-							&& edges.get(eid).getDestVId() == j)
-						edgesFromItoJ += 1;
-				graphMatrix.insert(i + 1, j + 1, edgesFromItoJ);
-			}
-		}
-		return graphMatrix;
-	}
-
-	@Override
 	public int accessCount() {
 		return accessCount;
 	}
@@ -346,5 +324,10 @@ public class AIGraph implements IAIGraph, ITimeSpace {
 	@Override
 	public void printCount() {
 		System.out.println("AccessCount: " + accessCount);
+	}
+
+	@Override
+	public boolean isDirected() {
+		return isDirected;
 	}
 }

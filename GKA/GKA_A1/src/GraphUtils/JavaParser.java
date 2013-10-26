@@ -28,7 +28,6 @@ public class JavaParser {
 	private IAIGraph graph;
 
 	public JavaParser(String src, String attribute) {
-		this.graph = new AIGraph();
 		this.src = src;
 		this.attribute = attribute;
 	}
@@ -43,6 +42,7 @@ public class JavaParser {
 			String line1 = UTF8EncodedString(br.readLine());
 			this.direction = getDirection(line1);
 			System.out.println(direction);
+			initGraph();
 
 			String line = UTF8EncodedString(br.readLine());
 			while (line != null && line != "") {
@@ -70,6 +70,11 @@ public class JavaParser {
 			}
 		}
 		return graph;
+	}
+
+	public void initGraph() {
+		this.graph = new AIGraph(this.direction.equals(UNDIRECTED) ? false
+				: true);
 	}
 
 	// Split current direction form top of the line (0)

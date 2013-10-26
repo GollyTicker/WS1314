@@ -23,6 +23,4 @@ public interface IEdge {
 	void setStrE(String attr, String val);
 
 	boolean hasVertice(long vId);
-
-	boolean isDirected();
 }

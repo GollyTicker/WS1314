@@ -30,7 +30,7 @@ public class AIGraphTest {
 	private String graphname = "graph1.graph";
 
 	private IAIGraph yolo;
-	private IAIGraph swag = new AIGraph();
+	private IAIGraph swag;
 
 	public AIGraphTest() {
 		JavaParser jp = new JavaParser(path + graphname, "distance");
@@ -97,7 +97,8 @@ public class AIGraphTest {
 
 	@Test
 	public void test_mutation() {
-
+		swag = new AIGraph(true);
+		
 		assertTrue(swag.isEmpty());
 		long v1 = swag.addVertex("Matthias");
 		assertTrue(!swag.isEmpty());
