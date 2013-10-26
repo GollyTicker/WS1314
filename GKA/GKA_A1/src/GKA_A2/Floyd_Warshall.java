@@ -59,8 +59,9 @@ public class Floyd_Warshall {
 	// Shortest Path from -> to
 	private String getPath_(int src, int dest) {
 		int predId = (int) trans.get(src, dest);
-		if (predId == 0.0)
+		if (predId == 0.0) {
 			return "v" + (src - 1) + " -> v" + (dest - 1);
+		}
 		return getPath_(src, predId) + " -> v" + (dest - 1);
 	}
 

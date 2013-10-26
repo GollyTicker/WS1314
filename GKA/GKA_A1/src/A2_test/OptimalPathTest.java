@@ -1,8 +1,7 @@
 package A2_test;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 import GKA_A1.AIGraph;
 import GKA_A1.IAIGraph;
@@ -59,6 +58,7 @@ public class OptimalPathTest {
 		System.out.println("v3: " + v3 + "; v1: " + v1);
 		System.out.println(algo.getPath(v3, v1));
 
+		assertEquals("v2 -> v1 -> v3 -> v0", algo.getPath(v3, v1));
 		System.out.println(algo.getDist());
 		System.out.println(algo.getTrans());
 		// System.out.println(yolo.toMatrixU());
