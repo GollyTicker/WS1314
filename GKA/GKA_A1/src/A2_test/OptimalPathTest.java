@@ -51,14 +51,19 @@ public class OptimalPathTest {
 		Floyd_Warshall algo = new Floyd_Warshall(yolo, "km");
 
 		algo.start();
+		
+
+		System.out.println("v1: " + v1 + "; v1: " + v1);
+		System.out.println(algo.getPath(v1, v1));
 
 		System.out.println("v1: " + v1 + "; v2: " + v2);
 		System.out.println(algo.getPath(v1, v2));
-
+		
 		System.out.println("v3: " + v3 + "; v1: " + v1);
 		System.out.println(algo.getPath(v3, v1));
 
 		assertEquals("v2 -> v1 -> v3 -> v0", algo.getPath(v3, v1));
+		
 		System.out.println(algo.getDist());
 		System.out.println(algo.getTrans());
 		// System.out.println(yolo.toMatrixU());
