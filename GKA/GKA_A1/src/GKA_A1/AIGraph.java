@@ -5,7 +5,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class AIGraph implements IAIGraph {
+import GraphUtils.ITimeSpace;
+
+public class AIGraph implements IAIGraph,ITimeSpace {
+	
+	
+	// accesscount variable for counting
+	int accessCount = 0;
+	
 
 	// Vertices and Edges are saved to two Hashmaps that identify the ID to the
 	// Object
@@ -275,5 +282,34 @@ public class AIGraph implements IAIGraph {
 
 	public Map<Long, Edge> getEdgeMap() {
 		return this.edges;
+	}
+	
+	@Override
+	public int accessCount() {
+		return accessCount;
+	}
+
+	@Override
+	public void setAccessCount(int ac) {
+		accessCount = ac;
+		
+	}
+
+	@Override
+	public void resetAccessCount() {
+		accessCount = 0;
+		
+	}
+
+	@Override
+	public int memoryUsage() {
+		// wir interpretieren einfachheitshalber die VerticesZahl und Edgeszahl
+		// als Speicherverbrauch - Diese Methode gehört eigentlich zum Interface, ist aber kein Teil der Aufgabe.
+		return edges.size() + vertices.size();
+	}
+
+	@Override
+	public void printCount() {
+		System.out.println("AccessCount: " + accessCount);
 	}
 }
