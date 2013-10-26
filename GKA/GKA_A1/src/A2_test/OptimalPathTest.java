@@ -8,6 +8,7 @@ import GKA_A1.AIGraph;
 import GKA_A1.IAIGraph;
 import GKA_A2.BellmanFord;
 import GKA_A2.FloydWarshall;
+import GraphUtils.JavaParser;
 
 public class OptimalPathTest {
 
@@ -16,7 +17,7 @@ public class OptimalPathTest {
 
 	@Test
 	public void testFloydWarshall() {
-
+		System.out.println("----- testFloydWarshall -----");
 		IAIGraph yolo = new AIGraph(true);
 
 		long v1 = yolo.addVertex("v1");
@@ -48,8 +49,9 @@ public class OptimalPathTest {
 		System.out.println(yolo);
 
 		FloydWarshall algo = new FloydWarshall(yolo, "km");
-
+		algo.printCount();
 		algo.start();
+		algo.printCount();
 
 		System.out.println("v1: " + v1 + "; v1: " + v1);
 		System.out.println(algo.getPath(v1, v1));
@@ -68,7 +70,8 @@ public class OptimalPathTest {
 
 	@Test
 	public void testBellmanFord() {
-
+		System.out.println("----- testBellmanFord -----");
+		
 		IAIGraph yolo = new AIGraph(true);
 
 		long v1 = yolo.addVertex("v1");
@@ -96,18 +99,43 @@ public class OptimalPathTest {
 
 		long v4v1 = yolo.addEdgeD(v4, v1);
 		yolo.setValE(v4v1, "km", 2);
-		
+
 		BellmanFord algo = new BellmanFord(yolo, "km", v3);
 
+		algo.printCount();
 		algo.start();
+		algo.printCount();
 
 		System.out.println(algo.getDist());
 		System.out.println(algo.getPred());
-		
-		System.out.println(algo.getPath(v3));	// path zu sich selber
-		
 
-		System.out.println(algo.getPath(v1));	// path nach v1
+		System.out.println(algo.getPath(v3)); // path zu sich selber
+
+		System.out.println(algo.getPath(v1)); // path nach v1
+	}
+
+	private String swaneetpath = "C:/Users/Swaneet/github/WS1314/GKA/graphs/";
+	private String matzepath = "/Users/matthias/dev/WS1314/GKA/graphs/";
+	private String path = matzepath;
+	private String graphname = "graph2.graph";
+	
+	@Test
+	public void testBoth() {
+		System.out.println("----- testBoth -----");
+		JavaParser jp = new JavaParser(path + graphname, "km");
+		IAIGraph yolo = jp.createGraph();
+		IAIGraph swag = jp.createGraph();
+		
+		FloydWarshall algoF = new FloydWarshall(yolo, "km");
+		algoF.printCount();
+		algoF.start();
+		algoF.printCount();
+		
+		BellmanFord algoB = new BellmanFord(swag, "km", 0);
+
+		algoB.printCount();
+		algoB.start();
+		algoB.printCount();
 	}
 
 }

@@ -11,9 +11,6 @@ public interface ITimeSpace {
 	// set the current accesscounter to zero
 	void resetAccessCount();
 
-	// List, Matrix -> size()
-	int memoryUsage();
-
 	// print out the current accessCount
 	void printCount();
 }

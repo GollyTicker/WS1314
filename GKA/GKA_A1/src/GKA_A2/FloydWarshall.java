@@ -3,14 +3,16 @@ package GKA_A2;
 import GKA_A1.IAIGraph;
 import GKA_A2.Matrix.Matrix;
 import GKA_A2.Matrix.MatrixArray;
+import GraphUtils.ITimeSpace;
 
-public class FloydWarshall {
+public class FloydWarshall implements ITimeSpace {
 
 	private IAIGraph graph;
 	private String cmpByAttribute;
 	private Matrix trans;
 	private Matrix dist;
 	private int size;
+	private int accessCount = 0;
 
 	private double inf = Double.POSITIVE_INFINITY;
 
@@ -18,16 +20,18 @@ public class FloydWarshall {
 		this.graph = graph;
 		this.cmpByAttribute = cmpByAttribute;
 		this.size = graph.getVertexes().size();
-		initMatrices();
 	}
 
 	public void start() {
-
+		
+		initMatrices();
+		
 		for (int j = 1; j <= this.size; j++)
 			for (int i = 1; i <= this.size; i++)
 				if (i != j)
 					for (int k = 1; k <= this.size; k++)
 						if (j != k) {
+							accessCount += 4;
 							// falls es cycles gibt:
 							if (dist.get(i, i) < 0.0) {
 								System.out.println("Cycle detected!");
@@ -80,13 +84,35 @@ public class FloydWarshall {
 		for (Long eId : graph.getEdges()) {
 			int srcID = (int) graph.getSource(eId);
 			int destID = (int) graph.getTarget(eId);
-
+			accessCount += 2;
 			// minus 1 rechnen, weil die IDs nullbasiert sind,
 			// und die Matrix 1 basiert ist
 
 			dist.insert(srcID + 1, destID + 1,
 					graph.getValE(eId, cmpByAttribute));
 		}
+	}
+
+	@Override
+	public int accessCount() {
+		return this.accessCount;
+	}
+
+	@Override
+	public void setAccessCount(int ac) {
+		this.accessCount = ac;
+
+	}
+
+	@Override
+	public void resetAccessCount() {
+		this.accessCount = 0;
+
+	}
+
+	@Override
+	public void printCount() {
+		System.out.println("accessCount: " + accessCount);
 	}
 
 }

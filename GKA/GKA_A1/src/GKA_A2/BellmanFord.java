@@ -5,8 +5,9 @@ import java.util.Map;
 import java.util.Set;
 
 import GKA_A1.IAIGraph;
+import GraphUtils.ITimeSpace;
 
-public class BellmanFord {
+public class BellmanFord implements ITimeSpace {
 
 	private static final double INF = Double.POSITIVE_INFINITY;
 
@@ -14,6 +15,7 @@ public class BellmanFord {
 	private String cmpByAttribute;
 	private long srcVId;
 	private static Long nullLong = -1L;
+	private int accessCount = 0;
 
 	private Map<Long, Double> distance;
 	private Map<Long, Long> predecessor;
@@ -42,6 +44,7 @@ public class BellmanFord {
 		// Step 2
 		for (int i = 0; i < vertices.size(); i++) {
 			for (long eId : edges) {
+				accessCount += 5;
 				long source = graph.getSource(eId);
 				long target = graph.getTarget(eId);
 				double weight = graph.getValE(eId, cmpByAttribute);
@@ -55,6 +58,7 @@ public class BellmanFord {
 
 		// Step 3:
 		for (long eId : edges) {
+			accessCount += 5;
 			long source = graph.getSource(eId);
 			long target = graph.getTarget(eId);
 			double weight = graph.getValE(eId, cmpByAttribute);
@@ -75,14 +79,35 @@ public class BellmanFord {
 		}
 		return getPath(predId) + " -> (" + dest + ")";
 	}
-	
-	public Map<Long, Double> getDist(){
+
+	public Map<Long, Double> getDist() {
 		return distance;
 	}
-	
-	public Map<Long, Long> getPred(){
+
+	public Map<Long, Long> getPred() {
 		return predecessor;
 	}
 
+	@Override
+	public int accessCount() {
+		return this.accessCount;
+	}
+
+	@Override
+	public void setAccessCount(int ac) {
+		this.accessCount = ac;
+
+	}
+
+	@Override
+	public void resetAccessCount() {
+		this.accessCount = 0;
+
+	}
+
+	@Override
+	public void printCount() {
+		System.out.println("accessCount: " + accessCount);
+	}
 
 }

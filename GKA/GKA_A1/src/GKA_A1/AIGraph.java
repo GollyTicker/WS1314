@@ -5,11 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import GKA_A2.Matrix.Matrix;
-import GKA_A2.Matrix.MatrixArray;
-import GraphUtils.ITimeSpace;
-
-public class AIGraph implements IAIGraph, ITimeSpace {
+public class AIGraph implements IAIGraph {
 
 	// accesscount variable for counting
 	int accessCount = 0;
@@ -248,17 +244,17 @@ public class AIGraph implements IAIGraph, ITimeSpace {
 
 			Set<String> attrs = e.getAttrE();
 			String accuAttuibute = "[";
-			for(String attr:attrs){
+			for (String attr : attrs) {
 				accuAttuibute += attr + " => " + e.getStrE(attr);
 			}
-			
+
 			String edge = "Edge: " + e.ID + " - ";
 			String sourceS = source.getName() + "(" + source.ID + ")";
 			String destS = target.getName() + "(" + target.ID + ")";
 			String direction = (this.isDirected() ? " => " : " <=> ");
-			
 
-			stracc += edge + sourceS + direction + destS + ": " + accuAttuibute + "]" + "\n";
+			stracc += edge + sourceS + direction + destS + ": " + accuAttuibute
+					+ "]" + "\n";
 		}
 
 		return stracc;
@@ -301,36 +297,6 @@ public class AIGraph implements IAIGraph, ITimeSpace {
 
 	public Map<Long, Edge> getEdgeMap() {
 		return this.edges;
-	}
-
-	@Override
-	public int accessCount() {
-		return accessCount;
-	}
-
-	@Override
-	public void setAccessCount(int ac) {
-		accessCount = ac;
-
-	}
-
-	@Override
-	public void resetAccessCount() {
-		accessCount = 0;
-
-	}
-
-	@Override
-	public int memoryUsage() {
-		// wir interpretieren einfachheitshalber die VerticesZahl und Edgeszahl
-		// als Speicherverbrauch - Diese Methode gehört eigentlich zum
-		// Interface, ist aber kein Teil der Aufgabe.
-		return edges.size() + vertices.size();
-	}
-
-	@Override
-	public void printCount() {
-		System.out.println("AccessCount: " + accessCount);
 	}
 
 	@Override
