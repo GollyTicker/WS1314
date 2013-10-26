@@ -246,12 +246,19 @@ public class AIGraph implements IAIGraph, ITimeSpace {
 			Vertice source = vertices.get(e.getSrcVId());
 			Vertice target = vertices.get(e.getDestVId());
 
+			Set<String> attrs = e.getAttrE();
+			String accuAttuibute = "[";
+			for(String attr:attrs){
+				accuAttuibute += attr + " => " + e.getStrE(attr);
+			}
+			
 			String edge = "Edge: " + e.ID + " - ";
 			String sourceS = source.getName() + "(" + source.ID + ")";
 			String destS = target.getName() + "(" + target.ID + ")";
 			String direction = (this.isDirected() ? " => " : " <=> ");
+			
 
-			stracc += edge + sourceS + direction + destS + "\n";
+			stracc += edge + sourceS + direction + destS + ": " + accuAttuibute + "]" + "\n";
 		}
 
 		return stracc;
