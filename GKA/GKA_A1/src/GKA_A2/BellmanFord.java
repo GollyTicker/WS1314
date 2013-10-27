@@ -53,9 +53,9 @@ public class BellmanFord implements ITimeSpace {
 				long source = graph.getSource(eId);
 				long target = graph.getTarget(eId);
 				double weight = graph.getValE(eId, cmpByAttribute);
-				double temp = distance.get(source) + weight;
-				if (temp < distance.get(target)) {
-					distance.put(target, temp);
+				double weight_in_edge = distance.get(source) + weight;
+				if (weight_in_edge < distance.get(target)) {
+					distance.put(target, weight_in_edge);
 					predecessor.put(target, source);
 				}
 			}
@@ -67,8 +67,8 @@ public class BellmanFord implements ITimeSpace {
 			long source = graph.getSource(eId);
 			long target = graph.getTarget(eId);
 			double weight = graph.getValE(eId, cmpByAttribute);
-			double temp = distance.get(source) + weight;
-			if (temp < distance.get(target)) {
+			double weight_in_edge = distance.get(source) + weight;
+			if (weight_in_edge < distance.get(target)) {
 				System.out.println("Negative weighted Cycle Detected!");
 				break;
 			}

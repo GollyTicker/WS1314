@@ -86,7 +86,7 @@ public class OptimalPathTest {
 	private String graphname = "graph2.graph";
 
 	@Test
-	public void testBoth() {
+	public void testCmpBoth() {
 		System.out.println("----- testBoth -----");
 		JavaParser jp = new JavaParser(path + graphname, "km");
 
