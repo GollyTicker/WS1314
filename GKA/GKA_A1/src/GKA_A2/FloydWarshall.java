@@ -71,7 +71,7 @@ public class FloydWarshall implements ITimeSpace {
 			int srcID = (int) graph.getSource(eId);
 			int destID = (int) graph.getTarget(eId);
 			accessCount += 2;
-			// minus 1 rechnen, weil die IDs nullbasiert sind,
+			// plus 1 rechnen, weil die IDs nullbasiert sind,
 			// und die Matrix 1 basiert ist
 
 			dist.insert(srcID + 1, destID + 1,
