@@ -57,6 +57,11 @@ public class OptimalPathTest {
 		assertEquals(expected, algo.getPathList(v3, v1));
 		expected = new ArrayList<>(Arrays.asList(0L, 0L));
 		assertEquals(expected, algo.getPathList(v1, v1));
+
+		long v5 = this.testGraph.addVertex("v5");
+		algo = new FloydWarshall(this.testGraph, "km");
+		algo.start();
+		System.out.println(algo.getPathList(v1, v5));
 		// printFloyd(algo);
 	}
 
@@ -77,6 +82,10 @@ public class OptimalPathTest {
 		algo.start();
 		assertEquals(Arrays.asList(0L), algo.getPathList(v1));
 
+		long v5 = this.testGraph.addVertex("v5");
+		algo = new BellmanFord(this.testGraph, "km", v5);
+		algo.start();
+		System.out.println(algo.getPathList(v1));
 		// printBell(algo);
 	}
 
