@@ -61,10 +61,8 @@ public class OptimalPathTest {
 		long v5 = this.testGraph.addVertex("v5");
 		algo = new FloydWarshall(this.testGraph, "km");
 		algo.start();
-		assertEquals(Arrays.asList(0L, 4L), algo.getPathList(v1, v5)); // Thats
-																		// not
-																		// really
-																		// true...
+		// Thats not really true...
+		assertEquals(Arrays.asList(0L, 4L), algo.getPathList(v1, v5));
 		// printFloyd(algo);
 	}
 
