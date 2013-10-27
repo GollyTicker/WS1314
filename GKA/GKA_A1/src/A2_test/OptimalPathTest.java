@@ -2,6 +2,10 @@ package A2_test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
 
 import GKA_A1.AIGraph;
@@ -46,32 +50,15 @@ public class OptimalPathTest {
 		long v4v1 = yolo.addEdgeD(v4, v1);
 		yolo.setValE(v4v1, "km", 2);
 
-		System.out.println(yolo);
-
 		FloydWarshall algo = new FloydWarshall(yolo, "km");
-		algo.printCount();
-		algo.start();
-		algo.printCount();
 
-		System.out.println("v1: " + v1 + "; v1: " + v1);
-		System.out.println(algo.getPath(v1, v1));
-
-		System.out.println("v1: " + v1 + "; v2: " + v2);
-		System.out.println(algo.getPath(v1, v2));
-
-		System.out.println("v3: " + v3 + "; v1: " + v1);
-		System.out.println(algo.getPath(v3, v1));
-
-		assertEquals("v2 -> v1 -> v3 -> v0", algo.getPath(v3, v1));
-
-		System.out.println(algo.getDist());
-		System.out.println(algo.getTrans());
+		printFloyd(algo, v1, v2, v3);
 	}
 
 	@Test
 	public void testBellmanFord() {
 		System.out.println("----- testBellmanFord -----");
-		
+
 		IAIGraph yolo = new AIGraph(true);
 
 		long v1 = yolo.addVertex("v1");
@@ -101,41 +88,61 @@ public class OptimalPathTest {
 		yolo.setValE(v4v1, "km", 2);
 
 		BellmanFord algo = new BellmanFord(yolo, "km", v3);
-
-		algo.printCount();
-		algo.start();
-		algo.printCount();
-
-		System.out.println(algo.getDist());
-		System.out.println(algo.getPred());
-
-		System.out.println(algo.getPath(v3)); // path zu sich selber
-
-		System.out.println(algo.getPath(v1)); // path nach v1
+		printBell(algo, v3, v1);
 	}
 
 	private String swaneetpath = "C:/Users/Swaneet/github/WS1314/GKA/graphs/";
 	private String matzepath = "/Users/matthias/dev/WS1314/GKA/graphs/";
 	private String path = matzepath;
 	private String graphname = "graph2.graph";
-	
+
 	@Test
 	public void testBoth() {
 		System.out.println("----- testBoth -----");
 		JavaParser jp = new JavaParser(path + graphname, "km");
 		IAIGraph yolo = jp.createGraph();
-		IAIGraph swag = jp.createGraph();
-		
 		FloydWarshall algoF = new FloydWarshall(yolo, "km");
+		IAIGraph swag = jp.createGraph();
+		BellmanFord algoB = new BellmanFord(swag, "km", 0);
+		printBoth(algoF, algoB);
+	}
+
+	private void printBoth(FloydWarshall algoF, BellmanFord algoB) {
 		algoF.printCount();
 		algoF.start();
 		algoF.printCount();
-		
-		BellmanFord algoB = new BellmanFord(swag, "km", 0);
-
 		algoB.printCount();
 		algoB.start();
 		algoB.printCount();
 	}
 
+	private void printFloyd(FloydWarshall algo, long v1, long v2, long v3) {
+		algo.printCount();
+		algo.start();
+		algo.printCount();
+		System.out.println("v1: " + v1 + "; v1: " + v1);
+		System.out.println(algo.getPath(v1, v1));
+		System.out.println("v1: " + v1 + "; v2: " + v2);
+		System.out.println(algo.getPath(v1, v2));
+		System.out.println("v3: " + v3 + "; v1: " + v1);
+		System.out.println(algo.getPath(v3, v1));
+		assertEquals("v2 -> v1 -> v3 -> v0", algo.getPath(v3, v1));
+		List<Long> expected = new ArrayList<>(Arrays.asList(2L, 1L, 3L, 0L));
+		assertEquals(expected, algo.getPathList(v3, v1));
+		System.out.println(algo.getDist());
+		System.out.println(algo.getTrans());
+	}
+
+	private void printBell(BellmanFord algo, long v3, long v1) {
+		algo.printCount();
+		algo.start();
+		algo.printCount();
+		System.out.println(algo.getDist());
+		System.out.println(algo.getPred());
+		System.out.println(algo.getPath(v3)); // path zu sich selber
+		System.out.println(algo.getPath(v1)); // path nach v1
+		assertEquals("v2 -> v1 -> v3 -> v0", algo.getPath(v1));
+		List<Long> expected = new ArrayList<>(Arrays.asList(2L, 1L, 3L, 0L));
+		assertEquals(expected, algo.getPathList(v1));
+	}
 }

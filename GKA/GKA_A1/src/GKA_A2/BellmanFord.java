@@ -1,6 +1,8 @@
 package GKA_A2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -75,17 +77,33 @@ public class BellmanFord implements ITimeSpace {
 	public String getPath(long dest) {
 		long predId = predecessor.get(dest);
 		if (predId == nullLong) {
-			return "IDs of the Path: (" + srcVId + ")";
+			return "v"+srcVId;
 		}
-		return getPath(predId) + " -> (" + dest + ")";
+		return getPath(predId) + " -> v" + dest;
+	}
+
+	// Shortest Path from -> to
+	public List<Long> getPathList(long dest) {
+		return getPathListAcc(dest, new ArrayList<Long>());
+	}
+
+	// Shortest Path from -> to
+	private List<Long> getPathListAcc(long dest, List<Long> accu) {
+		long predId = predecessor.get(dest);
+		if (predId == nullLong) {
+			accu.add(0, srcVId);
+			return accu;
+		}
+		accu.add(0, dest);
+		return getPathListAcc(predId, accu);
 	}
 
 	public Map<Long, Double> getDist() {
-		return distance;
+		return this.distance;
 	}
 
 	public Map<Long, Long> getPred() {
-		return predecessor;
+		return this.predecessor;
 	}
 
 	@Override

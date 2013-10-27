@@ -1,5 +1,9 @@
 package GKA_A2;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import GKA_A1.IAIGraph;
 import GKA_A2.Matrix.Matrix;
 import GKA_A2.Matrix.MatrixArray;
@@ -23,9 +27,9 @@ public class FloydWarshall implements ITimeSpace {
 	}
 
 	public void start() {
-		
+
 		initMatrices();
-		
+
 		for (int j = 1; j <= this.size; j++)
 			for (int i = 1; i <= this.size; i++)
 				if (i != j)
@@ -67,6 +71,22 @@ public class FloydWarshall implements ITimeSpace {
 			return "v" + (src - 1) + " -> v" + (dest - 1);
 		}
 		return getPath_(src, predId) + " -> v" + (dest - 1);
+	}
+
+	public List<Long> getPathList(long src, long dest) {
+		return getPatListAcc(src + 1, dest + 1, new ArrayList<Long>());
+	}
+
+	// Shortest Path from -> to
+	private List<Long> getPatListAcc(long src, long dest, List<Long> accu) {
+		int predId = (int) trans.get((int) src, (int) dest);
+		if (predId == 0.0) {
+			accu.add(0, dest - 1);
+			accu.add(0, src - 1);
+			return accu;
+		}
+		accu.add(0, dest - 1);
+		return getPatListAcc(src, predId, accu);
 	}
 
 	private void initMatrices() {
