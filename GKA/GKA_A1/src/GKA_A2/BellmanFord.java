@@ -12,7 +12,6 @@ import static GKA_A2.Constants.*;
 
 public class BellmanFord implements ITimeSpace {
 
-	// INITIALIZATION
 	private IAIGraph graph;
 	private String cmpByAttribute;
 	private long srcVId;
@@ -76,6 +75,21 @@ public class BellmanFord implements ITimeSpace {
 
 	}
 
+	// MUTATORS
+	public void setSrc(long srcVId) {
+		this.srcVId = srcVId;
+		throwIfOutOfBound(this.srcVId);
+	}
+
+	public void setGraph(IAIGraph g) {
+		this.graph = g;
+		throwIfOutOfBound(this.srcVId);
+	}
+
+	public void setCmpAttr(String s) {
+		this.cmpByAttribute = s;
+	}
+
 	// SELECTORS
 	public Map<Long, Double> getDist() {
 		return this.distance;
@@ -83,10 +97,6 @@ public class BellmanFord implements ITimeSpace {
 
 	public Map<Long, Long> getPred() {
 		return this.predecessor;
-	}
-
-	public void setSrc(long srcVId) {
-		this.srcVId = srcVId;
 	}
 
 	public long getSrc() {

@@ -11,7 +11,6 @@ import static GKA_A2.Constants.*;
 
 public class FloydWarshall implements ITimeSpace {
 
-	// INITIALIZATION
 	private IAIGraph graph;
 	private String cmpByAttribute;
 	private int size;
@@ -54,7 +53,7 @@ public class FloydWarshall implements ITimeSpace {
 						}
 
 	}
-	
+
 	// INITIALIZATION
 	private void initMatrices() {
 		this.trans = new MatrixArray(this.size, this.size);
@@ -78,6 +77,16 @@ public class FloydWarshall implements ITimeSpace {
 			dist.insert(srcID + 1, destID + 1,
 					graph.getValE(eId, cmpByAttribute));
 		}
+	}
+
+	// MUTATORS
+	public void setGraph(IAIGraph g) {
+		this.graph = g;
+		this.size = this.graph.getVertexes().size();
+	}
+
+	public void setCmpAttr(String s) {
+		this.cmpByAttribute = s;
 	}
 
 	// SELECTORS
