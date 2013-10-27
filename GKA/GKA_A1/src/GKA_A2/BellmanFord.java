@@ -8,26 +8,29 @@ import java.util.Set;
 
 import GKA_A1.IAIGraph;
 import GraphUtils.ITimeSpace;
+import static GKA_A2.Constants.*;
 
 public class BellmanFord implements ITimeSpace {
 
-	private static final double INF = Double.POSITIVE_INFINITY;
-
+	// INITIALIZATION
 	private IAIGraph graph;
 	private String cmpByAttribute;
 	private long srcVId;
-	private static Long nullLong = -1L;
-	private int accessCount = 0;
 
 	private Map<Long, Double> distance;
 	private Map<Long, Long> predecessor;
 
+	private int accessCount = 0;
+
+	// CREATION
 	public BellmanFord(IAIGraph graph, String cmpByAttribute, long srcVId) {
 		this.graph = graph;
 		this.cmpByAttribute = cmpByAttribute;
 		this.srcVId = srcVId;
+		throwIfOutOfBound(this.srcVId);
 	}
 
+	// BELLMAN FORD ALGORITHM
 	public void start() {
 		Set<Long> vertices = graph.getVertexes();
 		Set<Long> edges = graph.getEdges();
@@ -40,7 +43,7 @@ public class BellmanFord implements ITimeSpace {
 				distance.put(vId, 0.0);
 			else
 				distance.put(vId, INF);
-			predecessor.put(vId, nullLong);
+			predecessor.put(vId, NULL_LONG);
 		}
 
 		// Step 2
@@ -73,31 +76,7 @@ public class BellmanFord implements ITimeSpace {
 
 	}
 
-	// Shortest Path from -> to
-	public String getPath(long dest) {
-		long predId = predecessor.get(dest);
-		if (predId == nullLong) {
-			return "v"+srcVId;
-		}
-		return getPath(predId) + " -> v" + dest;
-	}
-
-	// Shortest Path from -> to
-	public List<Long> getPathList(long dest) {
-		return getPathListAcc(dest, new ArrayList<Long>());
-	}
-
-	// Shortest Path from -> to
-	private List<Long> getPathListAcc(long dest, List<Long> accu) {
-		long predId = predecessor.get(dest);
-		if (predId == nullLong) {
-			accu.add(0, srcVId);
-			return accu;
-		}
-		accu.add(0, dest);
-		return getPathListAcc(predId, accu);
-	}
-
+	// SELECTORS
 	public Map<Long, Double> getDist() {
 		return this.distance;
 	}
@@ -106,6 +85,42 @@ public class BellmanFord implements ITimeSpace {
 		return this.predecessor;
 	}
 
+	public void setSrc(long srcVId) {
+		this.srcVId = srcVId;
+	}
+
+	public long getSrc() {
+		return this.srcVId;
+	}
+
+	public String getPath(long dest) {
+		throwIfOutOfBound(dest);
+		return getPathAcc(dest);
+	}
+
+	public List<Long> getPathList(long dest) {
+		return getPathListAcc(dest, new ArrayList<Long>());
+	}
+
+	private String getPathAcc(long dest) {
+		long predId = predecessor.get(dest);
+		if (predId == NULL_LONG) {
+			return "v" + srcVId;
+		}
+		return getPathAcc(predId) + " -> v" + dest;
+	}
+
+	private List<Long> getPathListAcc(long dest, List<Long> accu) {
+		long predId = predecessor.get(dest);
+		if (predId == NULL_LONG) {
+			accu.add(0, srcVId);
+			return accu;
+		}
+		accu.add(0, dest);
+		return getPathListAcc(predId, accu);
+	}
+
+	// ACCESSCOUNT
 	@Override
 	public int accessCount() {
 		return this.accessCount;
@@ -126,6 +141,13 @@ public class BellmanFord implements ITimeSpace {
 	@Override
 	public void printCount() {
 		System.out.println("accessCount: " + accessCount);
+	}
+
+	// EXCEPTION
+	private void throwIfOutOfBound(long vertice) {
+		if (!this.graph.getVertexes().contains(vertice))
+			throw new IndexOutOfBoundsException(
+					"srcVId has to be in the current Graph!");
 	}
 
 }

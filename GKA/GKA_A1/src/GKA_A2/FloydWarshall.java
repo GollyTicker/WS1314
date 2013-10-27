@@ -1,31 +1,34 @@
 package GKA_A2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import GKA_A1.IAIGraph;
 import GKA_A2.Matrix.Matrix;
 import GKA_A2.Matrix.MatrixArray;
 import GraphUtils.ITimeSpace;
+import static GKA_A2.Constants.*;
 
 public class FloydWarshall implements ITimeSpace {
 
+	// INITIALIZATION
 	private IAIGraph graph;
 	private String cmpByAttribute;
+	private int size;
+
 	private Matrix trans;
 	private Matrix dist;
-	private int size;
+
 	private int accessCount = 0;
 
-	private double inf = Double.POSITIVE_INFINITY;
-
+	// CREATION
 	public FloydWarshall(IAIGraph graph, String cmpByAttribute) {
 		this.graph = graph;
 		this.cmpByAttribute = cmpByAttribute;
 		this.size = graph.getVertexes().size();
 	}
 
+	// FLOYD WARSHALL ALGORITHM
 	public void start() {
 
 		initMatrices();
@@ -52,6 +55,7 @@ public class FloydWarshall implements ITimeSpace {
 
 	}
 
+	// SELECTORS
 	public Matrix getDist() {
 		return this.dist;
 	}
@@ -60,11 +64,20 @@ public class FloydWarshall implements ITimeSpace {
 		return this.trans;
 	}
 
+	// Shortest Path from -> to
 	public String getPath(long src, long dest) {
+		throwIfOutOfBound(src);
+		throwIfOutOfBound(dest);
 		return getPath_((int) (src + 1), (int) (dest + 1));
 	}
 
 	// Shortest Path from -> to
+	public List<Long> getPathList(long src, long dest) {
+		throwIfOutOfBound(src);
+		throwIfOutOfBound(dest);
+		return getPatListAcc(src + 1, dest + 1, new ArrayList<Long>());
+	}
+
 	private String getPath_(int src, int dest) {
 		int predId = (int) trans.get(src, dest);
 		if (predId == 0.0) {
@@ -73,11 +86,6 @@ public class FloydWarshall implements ITimeSpace {
 		return getPath_(src, predId) + " -> v" + (dest - 1);
 	}
 
-	public List<Long> getPathList(long src, long dest) {
-		return getPatListAcc(src + 1, dest + 1, new ArrayList<Long>());
-	}
-
-	// Shortest Path from -> to
 	private List<Long> getPatListAcc(long src, long dest, List<Long> accu) {
 		int predId = (int) trans.get((int) src, (int) dest);
 		if (predId == 0.0) {
@@ -89,6 +97,7 @@ public class FloydWarshall implements ITimeSpace {
 		return getPatListAcc(src, predId, accu);
 	}
 
+	// INITIALIZATION
 	private void initMatrices() {
 		this.trans = new MatrixArray(this.size, this.size);
 		this.dist = new MatrixArray(this.size, this.size);
@@ -98,7 +107,7 @@ public class FloydWarshall implements ITimeSpace {
 				if (i == j) {
 					dist.insert(i, j, 0);
 				} else {
-					dist.insert(i, j, inf);
+					dist.insert(i, j, INF);
 				}
 
 		for (Long eId : graph.getEdges()) {
@@ -113,6 +122,7 @@ public class FloydWarshall implements ITimeSpace {
 		}
 	}
 
+	// ACCESSCOUNT
 	@Override
 	public int accessCount() {
 		return this.accessCount;
@@ -133,6 +143,13 @@ public class FloydWarshall implements ITimeSpace {
 	@Override
 	public void printCount() {
 		System.out.println("accessCount: " + accessCount);
+	}
+
+	// EXCEPTION
+	private void throwIfOutOfBound(long vertice) {
+		if (!this.graph.getVertexes().contains(vertice))
+			throw new IndexOutOfBoundsException(
+					"srcVId has to be in the current Graph!");
 	}
 
 }
