@@ -2,6 +2,7 @@ package A2_test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.awt.IllegalComponentStateException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,8 +21,16 @@ public class OptimalPathTest {
 	private IAIGraph testGraph;
 	private long v1, v2, v3, v4;
 
+	private IAIGraph cyclicGraph;
+	private long v10, v11, v12;
+
 	public OptimalPathTest() {
 		// Create Graph from sample of the Book we are using in GKA
+		setUpGraph();
+		setUpCycleGraph();
+	}
+
+	private void setUpGraph() {
 		this.testGraph = new AIGraph(true);
 		this.v1 = testGraph.addVertex("v1");
 		this.v2 = testGraph.addVertex("v2");
@@ -41,6 +50,25 @@ public class OptimalPathTest {
 		testGraph.setValE(v4v3, "km", 2);
 		long v4v1 = testGraph.addEdgeD(v4, v1);
 		testGraph.setValE(v4v1, "km", 2);
+	}
+
+	private void setUpCycleGraph() {
+		this.cyclicGraph = new AIGraph(true);
+		this.v10 = this.cyclicGraph.addVertex("v10");
+		this.v11 = this.cyclicGraph.addVertex("v11");
+		this.v12 = this.cyclicGraph.addVertex("v12");
+		long v10v11 = this.cyclicGraph.addEdgeD(v10, v11);
+		cyclicGraph.setValE(v10v11, "km", 1);
+		long v10v12 = this.cyclicGraph.addEdgeD(v10, v12);
+		cyclicGraph.setValE(v10v12, "km", -2);
+		long v11v10 = this.cyclicGraph.addEdgeD(v11, v10);
+		cyclicGraph.setValE(v11v10, "km", 1);
+		long v11v12 = this.cyclicGraph.addEdgeD(v11, v12);
+		cyclicGraph.setValE(v11v12, "km", 1);
+		long v12v10 = this.cyclicGraph.addEdgeD(v12, v10);
+		cyclicGraph.setValE(v12v10, "km", 1);
+		long v12v11 = this.cyclicGraph.addEdgeD(v12, v11);
+		cyclicGraph.setValE(v12v11, "km", 1);
 	}
 
 	@Test
@@ -145,4 +173,17 @@ public class OptimalPathTest {
 		System.out.println(algo.getPath(v3)); // path zu sich selber
 		System.out.println(algo.getPath(v1)); // path nach v1
 	}
+
+	@Test(expected = IllegalComponentStateException.class)
+	public void testBellmanCycle() {
+		BellmanFord algo = new BellmanFord(this.cyclicGraph, "km", this.v10);
+		algo.start();
+	}
+
+	@Test(expected = IllegalComponentStateException.class)
+	public void testFloydCycle() {
+		FloydWarshall algo = new FloydWarshall(this.cyclicGraph, "km");
+		algo.start();
+	}
+
 }

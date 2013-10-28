@@ -41,8 +41,7 @@ public class FloydWarshall implements ITimeSpace {
 							accessCount += 4;
 							// falls es cycles gibt:
 							if (dist.get(i, i) < 0.0) {
-								System.out.println("Cycle detected!");
-								return;
+								throwIfCycleDetected();
 							}
 							double elem_i_j_k = dist.get(i, j) + dist.get(j, k);
 							if (dist.get(i, k) > elem_i_j_k) {
@@ -101,15 +100,15 @@ public class FloydWarshall implements ITimeSpace {
 
 	// Shortest Path from -> to
 	public String getPath(long src, long dest) {
-		throwIfOutOfBound(src);
-		throwIfOutOfBound(dest);
+		throwIfOutOfBound(this.graph, dest);
+		throwIfOutOfBound(this.graph, dest);
 		return getPath_((int) (src + 1), (int) (dest + 1));
 	}
 
 	// Shortest Path from -> to
 	public List<Long> getPathList(long src, long dest) {
-		throwIfOutOfBound(src);
-		throwIfOutOfBound(dest);
+		throwIfOutOfBound(this.graph, dest);
+		throwIfOutOfBound(this.graph, dest);
 		return getPatListAcc(src + 1, dest + 1, new ArrayList<Long>());
 	}
 
@@ -157,13 +156,6 @@ public class FloydWarshall implements ITimeSpace {
 	@Override
 	public void printCount() {
 		System.out.println("accessCount: " + accessCount);
-	}
-
-	// EXCEPTION
-	private void throwIfOutOfBound(long vertice) {
-		if (!this.graph.getVertexes().contains(vertice))
-			throw new IndexOutOfBoundsException(
-					"srcVId has to be in the current Graph!");
 	}
 
 }

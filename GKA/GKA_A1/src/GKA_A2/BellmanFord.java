@@ -26,7 +26,7 @@ public class BellmanFord implements ITimeSpace {
 		this.graph = graph;
 		this.cmpByAttribute = cmpByAttribute;
 		this.srcVId = srcVId;
-		throwIfOutOfBound(this.srcVId);
+		throwIfOutOfBound(this.graph, this.srcVId);
 	}
 
 	// BELLMAN FORD ALGORITHM
@@ -68,8 +68,7 @@ public class BellmanFord implements ITimeSpace {
 			double weight = graph.getValE(eId, cmpByAttribute);
 			double weight_in_edge = distance.get(source) + weight;
 			if (weight_in_edge < distance.get(target)) {
-				System.out.println("Negative weighted Cycle Detected!");
-				break;
+				throwIfCycleDetected();
 			}
 		}
 
@@ -78,12 +77,12 @@ public class BellmanFord implements ITimeSpace {
 	// MUTATORS
 	public void setSrc(long srcVId) {
 		this.srcVId = srcVId;
-		throwIfOutOfBound(this.srcVId);
+		throwIfOutOfBound(this.graph, this.srcVId);
 	}
 
 	public void setGraph(IAIGraph g) {
 		this.graph = g;
-		throwIfOutOfBound(this.srcVId);
+		throwIfOutOfBound(this.graph, this.srcVId);
 	}
 
 	public void setCmpAttr(String s) {
@@ -104,7 +103,7 @@ public class BellmanFord implements ITimeSpace {
 	}
 
 	public String getPath(long dest) {
-		throwIfOutOfBound(dest);
+		throwIfOutOfBound(this.graph, dest);
 		return getPathAcc(dest);
 	}
 
@@ -155,13 +154,6 @@ public class BellmanFord implements ITimeSpace {
 	@Override
 	public void printCount() {
 		System.out.println("accessCount: " + accessCount);
-	}
-
-	// EXCEPTION
-	private void throwIfOutOfBound(long vertice) {
-		if (!this.graph.getVertexes().contains(vertice))
-			throw new IndexOutOfBoundsException(
-					"srcVId has to be in the current Graph!");
 	}
 
 }
