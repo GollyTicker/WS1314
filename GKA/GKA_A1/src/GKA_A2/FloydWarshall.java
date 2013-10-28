@@ -1,6 +1,7 @@
 package GKA_A2;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import GKA_A1.IAIGraph;
@@ -113,6 +114,8 @@ public class FloydWarshall implements ITimeSpace {
 	}
 
 	private String getPath_(int src, int dest) {
+		if (this.dist.get((int) src, (int) dest) == INF)
+			return NO_PATH;
 		int predId = (int) trans.get(src, dest);
 		if (predId == 0.0) {
 			return "v" + (src - 1) + " -> v" + (dest - 1);
@@ -121,6 +124,8 @@ public class FloydWarshall implements ITimeSpace {
 	}
 
 	private List<Long> getPatListAcc(long src, long dest, List<Long> accu) {
+		if (this.dist.get((int) src, (int) dest) == INF)
+			return new ArrayList<Long>();
 		int predId = (int) trans.get((int) src, (int) dest);
 		if (predId == 0.0) {
 			accu.add(0, dest - 1);

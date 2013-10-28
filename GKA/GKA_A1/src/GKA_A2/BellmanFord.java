@@ -113,6 +113,8 @@ public class BellmanFord implements ITimeSpace {
 	}
 
 	private String getPathAcc(long dest) {
+		if (this.distance.get(dest) == INF)
+			return NO_PATH;
 		long predId = predecessor.get(dest);
 		if (predId == NULL_LONG) {
 			return "v" + srcVId;
@@ -121,6 +123,8 @@ public class BellmanFord implements ITimeSpace {
 	}
 
 	private List<Long> getPathListAcc(long dest, List<Long> accu) {
+		if (this.distance.get(dest) == INF)
+			return new ArrayList<Long>();
 		long predId = predecessor.get(dest);
 		if (predId == NULL_LONG) {
 			accu.add(0, srcVId);

@@ -13,6 +13,7 @@ import GKA_A1.IAIGraph;
 import GKA_A2.BellmanFord;
 import GKA_A2.FloydWarshall;
 import GraphUtils.JavaParser;
+import static GKA_A2.Constants.*;
 
 public class OptimalPathTest {
 
@@ -51,6 +52,7 @@ public class OptimalPathTest {
 		algo.start();
 		algo.printCount();
 
+		// If there is a Path!
 		assertEquals("v2 -> v1 -> v3 -> v0", algo.getPath(v3, v1));
 		assertEquals("v0 -> v0", algo.getPath(v1, v1));
 		List<Long> expected = new ArrayList<>(Arrays.asList(2L, 1L, 3L, 0L));
@@ -58,11 +60,15 @@ public class OptimalPathTest {
 		expected = new ArrayList<>(Arrays.asList(0L, 0L));
 		assertEquals(expected, algo.getPathList(v1, v1));
 
+		// If there is no Path!
 		long v5 = this.testGraph.addVertex("v5");
 		algo = new FloydWarshall(this.testGraph, "km");
 		algo.start();
-		// Thats not really true...
-		assertEquals(Arrays.asList(0L, 4L), algo.getPathList(v1, v5));
+		assertEquals(new ArrayList<Long>(), algo.getPathList(v1, v5));
+		assertEquals(NO_PATH, algo.getPath(v1, v5));
+
+		// If there is a cyclic Path!
+		assertEquals(1, 1);
 		// printFloyd(algo);
 	}
 
@@ -75,6 +81,7 @@ public class OptimalPathTest {
 		algo.start();
 		algo.printCount();
 
+		// If there is a Path!
 		assertEquals("v2 -> v1 -> v3 -> v0", algo.getPath(v1));
 		List<Long> expected = new ArrayList<>(Arrays.asList(2L, 1L, 3L, 0L));
 		assertEquals(expected, algo.getPathList(v1));
@@ -83,11 +90,16 @@ public class OptimalPathTest {
 		algo.start();
 		assertEquals(Arrays.asList(0L), algo.getPathList(v1));
 
+		// If there is no Path!
 		long v5 = this.testGraph.addVertex("v5");
 		algo = new BellmanFord(this.testGraph, "km", v5);
 		algo.start();
-		// Thats true... no way to 4
-		assertEquals(Arrays.asList(4L), algo.getPathList(v1));
+		assertEquals(new ArrayList<Long>(), algo.getPathList(v1));
+		assertEquals(NO_PATH, algo.getPath(v1));
+
+		// If there is a cyclic Path!
+		assertEquals(1, 1);
+
 		// printBell(algo);
 	}
 
