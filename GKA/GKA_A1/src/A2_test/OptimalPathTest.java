@@ -30,6 +30,99 @@ public class OptimalPathTest {
 		setUpCycleGraph();
 	}
 
+	@Test
+	public void testFloydWarshall() {
+		System.out.println("----- testFloydWarshall -----");
+		FloydWarshall algo = new FloydWarshall(this.testGraph, "km");
+
+		algo.printCount();
+		algo.start();
+		algo.printCount();
+
+		// If there is a Path!
+		assertEquals("v2 -> v1 -> v3 -> v0", algo.getPath(v3, v1));
+		assertEquals("v0 -> v0", algo.getPath(v1, v1));
+		List<Long> expected = new ArrayList<>(Arrays.asList(2L, 1L, 3L, 0L));
+		assertEquals(expected, algo.getPathList(v3, v1));
+		expected = new ArrayList<>(Arrays.asList(0L, 0L));
+		assertEquals(expected, algo.getPathList(v1, v1));
+
+		// If there is no Path!
+		long v5 = this.testGraph.addVertex("v5");
+		algo = new FloydWarshall(this.testGraph, "km");
+		algo.start();
+		assertEquals(new ArrayList<Long>(), algo.getPathList(v1, v5));
+		assertEquals(NO_PATH, algo.getPath(v1, v5));
+
+		// printFloyd(algo);
+	}
+
+	@Test(expected = IllegalComponentStateException.class)
+	public void testFloydCycle() {
+		FloydWarshall algo = new FloydWarshall(this.cyclicGraph, "km");
+		algo.start();
+	}
+
+	@Test
+	public void testBellmanFord() {
+		System.out.println("----- testBellmanFord -----");
+		BellmanFord algo = new BellmanFord(this.testGraph, "km", v3);
+
+		algo.printCount();
+		algo.start();
+		algo.printCount();
+
+		// If there is a Path!
+		assertEquals("v2 -> v1 -> v3 -> v0", algo.getPath(v1));
+		List<Long> expected = new ArrayList<>(Arrays.asList(2L, 1L, 3L, 0L));
+		assertEquals(expected, algo.getPathList(v1));
+
+		algo.setSrc(v1);
+		algo.start();
+		assertEquals(Arrays.asList(0L), algo.getPathList(v1));
+
+		// If there is no Path!
+		long v5 = this.testGraph.addVertex("v5");
+		algo = new BellmanFord(this.testGraph, "km", v5);
+		algo.start();
+		assertEquals(new ArrayList<Long>(), algo.getPathList(v1));
+		assertEquals(NO_PATH, algo.getPath(v1));
+
+		// printBell(algo);
+	}
+
+	@Test(expected = IllegalComponentStateException.class)
+	public void testBellmanCycle() {
+		BellmanFord algo = new BellmanFord(this.cyclicGraph, "km", this.v10);
+		algo.start();
+	}
+
+	@Test
+	public void testCmpBoth() {
+		String swaneetpath = "C:/Users/Swaneet/github/WS1314/GKA/graphs/";
+		String matzepath = "/Users/matthias/dev/WS1314/GKA/graphs/";
+		String path = matzepath;
+		String graphname = "graph2.graph";
+
+		System.out.println("----- testBoth -----");
+		JavaParser jp = new JavaParser(path + graphname, "km");
+
+		System.out.println("----- countFloydWarshall -----");
+		IAIGraph yolo = jp.createGraph();
+		FloydWarshall algoF = new FloydWarshall(yolo, "km");
+		algoF.printCount();
+		algoF.start();
+		algoF.printCount();
+
+		System.out.println("----- countBellmanFord -----");
+		IAIGraph swag = jp.createGraph();
+		BellmanFord algoB = new BellmanFord(swag, "km", 0);
+		algoB.printCount();
+		algoB.start();
+		algoB.printCount();
+	}
+
+	// INITIALIZATION
 	private void setUpGraph() {
 		this.testGraph = new AIGraph(true);
 		this.v1 = testGraph.addVertex("v1");
@@ -71,91 +164,7 @@ public class OptimalPathTest {
 		cyclicGraph.setValE(v12v11, "km", 1);
 	}
 
-	@Test
-	public void testFloydWarshall() {
-		System.out.println("----- testFloydWarshall -----");
-		FloydWarshall algo = new FloydWarshall(this.testGraph, "km");
-
-		algo.printCount();
-		algo.start();
-		algo.printCount();
-
-		// If there is a Path!
-		assertEquals("v2 -> v1 -> v3 -> v0", algo.getPath(v3, v1));
-		assertEquals("v0 -> v0", algo.getPath(v1, v1));
-		List<Long> expected = new ArrayList<>(Arrays.asList(2L, 1L, 3L, 0L));
-		assertEquals(expected, algo.getPathList(v3, v1));
-		expected = new ArrayList<>(Arrays.asList(0L, 0L));
-		assertEquals(expected, algo.getPathList(v1, v1));
-
-		// If there is no Path!
-		long v5 = this.testGraph.addVertex("v5");
-		algo = new FloydWarshall(this.testGraph, "km");
-		algo.start();
-		assertEquals(new ArrayList<Long>(), algo.getPathList(v1, v5));
-		assertEquals(NO_PATH, algo.getPath(v1, v5));
-
-		// If there is a cyclic Path!
-		assertEquals(1, 1);
-		// printFloyd(algo);
-	}
-
-	@Test
-	public void testBellmanFord() {
-		System.out.println("----- testBellmanFord -----");
-		BellmanFord algo = new BellmanFord(this.testGraph, "km", v3);
-
-		algo.printCount();
-		algo.start();
-		algo.printCount();
-
-		// If there is a Path!
-		assertEquals("v2 -> v1 -> v3 -> v0", algo.getPath(v1));
-		List<Long> expected = new ArrayList<>(Arrays.asList(2L, 1L, 3L, 0L));
-		assertEquals(expected, algo.getPathList(v1));
-
-		algo.setSrc(v1);
-		algo.start();
-		assertEquals(Arrays.asList(0L), algo.getPathList(v1));
-
-		// If there is no Path!
-		long v5 = this.testGraph.addVertex("v5");
-		algo = new BellmanFord(this.testGraph, "km", v5);
-		algo.start();
-		assertEquals(new ArrayList<Long>(), algo.getPathList(v1));
-		assertEquals(NO_PATH, algo.getPath(v1));
-
-		// If there is a cyclic Path!
-		assertEquals(1, 1);
-
-		// printBell(algo);
-	}
-
-	private String swaneetpath = "C:/Users/Swaneet/github/WS1314/GKA/graphs/";
-	private String matzepath = "/Users/matthias/dev/WS1314/GKA/graphs/";
-	private String path = matzepath;
-	private String graphname = "graph2.graph";
-
-	@Test
-	public void testCmpBoth() {
-		System.out.println("----- testBoth -----");
-		JavaParser jp = new JavaParser(path + graphname, "km");
-
-		System.out.println("----- countFloydWarshall -----");
-		IAIGraph yolo = jp.createGraph();
-		FloydWarshall algoF = new FloydWarshall(yolo, "km");
-		algoF.printCount();
-		algoF.start();
-		algoF.printCount();
-
-		System.out.println("----- countBellmanFord -----");
-		IAIGraph swag = jp.createGraph();
-		BellmanFord algoB = new BellmanFord(swag, "km", 0);
-		algoB.printCount();
-		algoB.start();
-		algoB.printCount();
-	}
-
+	// HELPERS
 	private void printFloyd(FloydWarshall algo) {
 		System.out.println("v1: " + v1 + "; v1: " + v1);
 		System.out.println(algo.getPath(v1, v1));
@@ -172,18 +181,6 @@ public class OptimalPathTest {
 		System.out.println(algo.getPred());
 		System.out.println(algo.getPath(v3)); // path zu sich selber
 		System.out.println(algo.getPath(v1)); // path nach v1
-	}
-
-	@Test(expected = IllegalComponentStateException.class)
-	public void testBellmanCycle() {
-		BellmanFord algo = new BellmanFord(this.cyclicGraph, "km", this.v10);
-		algo.start();
-	}
-
-	@Test(expected = IllegalComponentStateException.class)
-	public void testFloydCycle() {
-		FloydWarshall algo = new FloydWarshall(this.cyclicGraph, "km");
-		algo.start();
 	}
 
 }
