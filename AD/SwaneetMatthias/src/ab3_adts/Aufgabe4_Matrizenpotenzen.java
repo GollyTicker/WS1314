@@ -18,12 +18,17 @@ import ab2_adts.matrix.*;
 
 public class Aufgabe4_Matrizenpotenzen {
 
-	static int n = 100;
+	static int n = 78;
 	static int tMax = 5;
-	static List<Integer> expValues = new ArrayList<>(Arrays.asList(5, 12, 13));
+	static List<Integer> expValues = new ArrayList<>();
 
 	@Test
 	public void test() {
+		
+		// not all exponents are being tested
+		for(int k = 1; k < n; k+=7){
+			expValues.add(Integer.valueOf(k));
+		}
 
 		Map<Integer, List<Double>> messwerteNormal = new HashMap<>();
 		Map<Integer, List<Double>> messwerteFast = new HashMap<>();
@@ -54,14 +59,22 @@ public class Aufgabe4_Matrizenpotenzen {
 				mFast.powFast(i.intValue());
 				Double value2 = Double.valueOf(mFast.accessCount());
 				messwerteFast.get(i).add(value2);
+				
+				System.out.println(i.toString() + "executed" + System.nanoTime());
 
 			}
 		}
+		
+		// turn the values into Statistics Objects
 		Map<Integer, IAverageVariance> statsNormal = refact(messwerteNormal);
 		Map<Integer, IAverageVariance> statsFast = refact(messwerteFast);
-
-		System.out.println(statsNormal);
-		System.out.println(statsFast);
+		
+		System.out.println("\n\n\n\n======================Output==================\n\n");
+		System.out.println("k      NormalPotAverage     FastPotAverage");
+		
+		for(Integer k : expValues){
+			System.out.println(k + " " + statsNormal.get(k).getAverage() + " " + statsFast.get(k).getAverage());
+		}
 		
 		
 		//Diskussion:
