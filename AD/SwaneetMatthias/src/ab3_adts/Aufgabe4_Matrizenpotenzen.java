@@ -18,7 +18,7 @@ import ab2_adts.matrix.*;
 
 public class Aufgabe4_Matrizenpotenzen {
 
-	static int n = 78;
+	static int n = 60;
 	static int tMax = 5;
 	static List<Integer> expValues = new ArrayList<>();
 
@@ -26,7 +26,7 @@ public class Aufgabe4_Matrizenpotenzen {
 	public void test() {
 		
 		// not all exponents are being tested
-		for(int k = 1; k < n; k+=7){
+		for(int k = 1; k < n; k++){
 			expValues.add(Integer.valueOf(k));
 		}
 
@@ -70,10 +70,19 @@ public class Aufgabe4_Matrizenpotenzen {
 		Map<Integer, IAverageVariance> statsFast = refact(messwerteFast);
 		
 		System.out.println("\n\n\n\n======================Output==================\n\n");
-		System.out.println("k      NormalPotAverage     FastPotAverage");
-		
+		// for to copy into Excel
+
+		System.out.println("k:");
 		for(Integer k : expValues){
-			System.out.println(k + " " + statsNormal.get(k).getAverage() + " " + statsFast.get(k).getAverage());
+			System.out.println(k);
+		}
+		System.out.println("NormalPotAverage:");
+		for(Integer k : expValues){
+			System.out.println(statsNormal.get(k).getAverage());
+		}
+		System.out.println("FastPotAverage:");
+		for(Integer k : expValues){
+			System.out.println(statsFast.get(k).getAverage());
 		}
 		
 		
