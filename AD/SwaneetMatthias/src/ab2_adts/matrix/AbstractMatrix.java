@@ -136,9 +136,9 @@ public abstract class AbstractMatrix implements Matrix, IException, ITimeSpace {
 
 	protected Matrix pow_(int exponent, Matrix destination) { // the exponent
 																// goes from 1
-		// to infinity
-		AssertExponentValid(exponent);
+																// to infinity
 
+		AssertExponentValid(exponent);
 		Matrix result;
 
 		destination.copyFrom(this);
@@ -150,14 +150,18 @@ public abstract class AbstractMatrix implements Matrix, IException, ITimeSpace {
 		if (exponent == 1)
 			result = this;
 		else {
+			
 			for (int i = 2; i <= exponent; i++) {
 				Matrix temp = destination.mul(this);
-				
-				// add the accessCount of both the intermed. result(temp) and intermed. result of the prev. iteration(destination)
-				this.accessCount += temp.accessCount() + destination.accessCount();
-				
+
+				// add the accessCount of both the intermed. result(temp) and
+				// intermed. result of the prev. iteration(destination)
+				this.accessCount += temp.accessCount()
+						+ destination.accessCount();
+
 				destination = temp;
 			}
+			
 			result = destination;
 		}
 
@@ -179,41 +183,44 @@ public abstract class AbstractMatrix implements Matrix, IException, ITimeSpace {
 	// the exponent goes from1 to infinity
 	protected Matrix powFast_(int exponent, Matrix destination) {
 		AssertExponentValid(exponent);
-		
+
 		Matrix result = destination;
-		
+
 		// der accessCount der rekursiv tieferen Ebenen muss auch mitgezählt
 		// werden!
 
-		// the accessCount of destination is being counted here.
-		// incontrast to the iterative potence implementation,
-		// we dont need to count the accessCount of the intermediate destinations
-		// in these blocks here, because the destinations accessCount is already
-		// being counted/accumulated in the recursive call
-		// (this doesn't happen in the iterative version, therefore we had to do it there manually)
+		// therefore the accessCount of all related matrices have to be added to
+		// this.accessCount
 
 		if (exponent == 1) {
 			// nothing to do, if the exponent is 1
-			// destination is being returned then. destination is
-			// initialzed with a copy of the original matrix
-			// on the uppermost/first call of the powFast (see the
-			// implementations in the subclasses)
+			// destination is being returned then.
+			// the "destination"-matrix is initialized with a copy of the
+			// original matrix in the uppermost/first call
+			// in powFast(...) (see the implementations in the subclasses)
 		} else if (exponent % 2 == 0) { // even Exponent
+
 			Matrix power = powFast_(exponent / 2, destination);
-			
-			//accessCount += power.accessCount() + destination.accessCount();
-			
-			
+
 			result = power.mul(power);
+
+			this.accessCount += power.accessCount();
+			this.accessCount += destination.accessCount();
 
 		} else { // odd Exponent
 			Matrix power = powFast_((exponent - 1) / 2, destination);
+
 			Matrix temp = power.mul(power);
-			//accessCount += destination.accessCount();
+
 			result = temp.mul(this);
+
+			this.accessCount += temp.accessCount();
+			this.accessCount += power.accessCount();
+			this.accessCount += destination.accessCount();
 		}
-		
-		//this.accessCount += destination.accessCount();
+
+		// add the accesses on the result before returning it
+		this.accessCount += result.accessCount();
 
 		return result;
 	}
