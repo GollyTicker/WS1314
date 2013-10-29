@@ -180,6 +180,8 @@ public abstract class AbstractMatrix implements Matrix, IException, ITimeSpace {
 	protected Matrix powFast_(int exponent, Matrix destination) {
 		AssertExponentValid(exponent);
 		
+		Matrix result = destination;
+		
 		// der accessCount der rekursiv tieferen Ebenen muss auch mitgezählt
 		// werden!
 
@@ -197,19 +199,23 @@ public abstract class AbstractMatrix implements Matrix, IException, ITimeSpace {
 			// on the uppermost/first call of the powFast (see the
 			// implementations in the subclasses)
 		} else if (exponent % 2 == 0) { // even Exponent
-			destination = powFast_(exponent / 2, destination);
-			destination = destination.mul(destination);
+			Matrix power = powFast_(exponent / 2, destination);
+			
+			//accessCount += power.accessCount() + destination.accessCount();
+			
+			
+			result = power.mul(power);
 
 		} else { // odd Exponent
-			destination = powFast_((exponent - 1) / 2, destination);
-			Matrix temp = destination.mul(destination);
-			accessCount += destination.accessCount();
-			destination = temp.mul(this);
+			Matrix power = powFast_((exponent - 1) / 2, destination);
+			Matrix temp = power.mul(power);
+			//accessCount += destination.accessCount();
+			result = temp.mul(this);
 		}
 		
-		this.accessCount += destination.accessCount();
+		//this.accessCount += destination.accessCount();
 
-		return destination;
+		return result;
 	}
 
 	/**
