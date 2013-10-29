@@ -25,7 +25,6 @@ public class Aufgabe4_Matrizenpotenzen {
 	@Test
 	public void test() {
 		
-		// not all exponents are being tested
 		for(int k = 1; k < n; k++){
 			expValues.add(Integer.valueOf(k));
 		}

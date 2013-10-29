@@ -138,16 +138,26 @@ public abstract class AbstractMatrix implements Matrix, IException, ITimeSpace {
 																// goes from 1
 		// to infinity
 		AssertExponentValid(exponent);
+
+		Matrix result;
+
 		destination.copyFrom(this);
+		this.accessCount += destination.accessCount();
+		// add the destinations accessCount because its also part of the
+		// calculation
+
 		// bei matrix hoch 1 wird die schleife nicht erst ausgefuehrt
 		if (exponent == 1)
-			return this;
-
-		for (int i = 2; i <= exponent; i++) {
-			destination = destination.mul(this);
+			result = this;
+		else {
+			for (int i = 2; i <= exponent; i++){
+				destination = destination.mul(this);
+				this.accessCount += destination.accessCount();	// add the accessCount of the multiplication
+			}
+			result = destination;
 		}
 
-		return destination;
+		return result;
 	}
 
 	/**
@@ -167,13 +177,31 @@ public abstract class AbstractMatrix implements Matrix, IException, ITimeSpace {
 		AssertExponentValid(exponent);
 		// bei matrix hoch 1 wird die schleife nicht erst ausgefuehrt
 
+		// der accessCount der rekursiv tieferen Ebenen muss auch mitgezählt
+		// werden!
+
+		// /int recursiveAccessCount = destination.accessCount();
+		// this recursiveAccessCount doesnt start with zero, because the Matrix
+		// had to be copied(in powFast(...)) because of
+		// non-destructive functional programming. also, it has counts form
+		// earlier recursive calls
+
 		if (exponent == 1)
 			return destination;
-		if (exponent % 2 == 0) {
+		if (exponent % 2 == 0) { // gerader Exponent
+
 			destination = powFast_(exponent / 2, destination);
+			/*
+			 * Matrix temp = powFast_(exponent / 2, destination);
+			 * 
+			 * 
+			 * recursiveAccessCount += destination.accessCount();
+			 * recursiveAccessCount += temp.accessCount();
+			 */
+
 			destination = destination.mul(destination);
 			return destination;
-		}
+		} // ungerader Exponent
 		destination = powFast_((exponent - 1) / 2, destination);
 		destination = destination.mul(destination).mul(this);
 		return destination;
