@@ -18,7 +18,7 @@ import ab2_adts.matrix.*;
 
 public class Aufgabe4_Matrizenpotenzen {
 
-	static int n = 23;		// n = 60
+	static int n = 45;
 	static int tMax = 5;
 	static List<Integer> expValues = new ArrayList<>();
 
