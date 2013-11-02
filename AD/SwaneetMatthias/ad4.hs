@@ -6,7 +6,7 @@ b n = 3 ^ (n+1)
 c n = 3 ^ (n+1) - 1
 
 
-m n = ("F:", f n, ("A:", a n), ("B:", b n), ("C:", c n))
+comps n = (f n, c n)
 
 
-main = putStrLn $ show (map (m) [0..7])
+main = putStrLn $ show (map (comps) [0..7])
