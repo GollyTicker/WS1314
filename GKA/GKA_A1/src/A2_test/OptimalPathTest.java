@@ -49,11 +49,17 @@ public class OptimalPathTest {
 
 		// If there is no Path!
 		long v5 = this.testGraph.addVertex("v5");
-		algo = new FloydWarshall(this.testGraph, "km");
 		algo.start();
 		assertEquals(new ArrayList<Long>(), algo.getPathList(v1, v5));
 		assertEquals(NO_PATH, algo.getPath(v1, v5));
 
+		// testing if the algorithm works correctly if the graph was changed in
+		// between
+		this.testGraph.deleteVertex(0);
+		algo.start();
+		System.out.println(testGraph);
+		expected = new ArrayList<>(Arrays.asList(2L, 1L));
+		assertEquals(expected, algo.getPathList(v3, v2));
 		// printFloyd(algo);
 	}
 
@@ -101,7 +107,7 @@ public class OptimalPathTest {
 	public void testCmpBoth() {
 		String swaneetpath = "C:/Users/Swaneet/github/WS1314/GKA/graphs/";
 		String matzepath = "/Users/matthias/dev/WS1314/GKA/graphs/";
-		String path = matzepath;
+		String path = swaneetpath;
 		String graphname = "graph2.graph";
 
 		System.out.println("----- testBoth -----");

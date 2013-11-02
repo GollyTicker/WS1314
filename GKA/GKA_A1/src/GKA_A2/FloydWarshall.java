@@ -30,7 +30,6 @@ public class FloydWarshall implements ITimeSpace {
 	public FloydWarshall(IAIGraph graph, String cmpByAttribute) {
 		this.graph = graph;
 		this.cmpByAttribute = cmpByAttribute;
-		this.size = graph.getVertexes().size();
 	}
 
 	// FLOYD WARSHALL ALGORITHM
@@ -61,6 +60,7 @@ public class FloydWarshall implements ITimeSpace {
 
 	// INITIALIZATION
 	private void initMatrices() {
+		this.size = graph.getVertexes().size();
 		this.trans = new MatrixArray(this.size, this.size);
 		this.dist = new MatrixArray(this.size, this.size);
 
