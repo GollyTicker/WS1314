@@ -57,10 +57,10 @@ public class PotenceImpl {
 		if (k == 0)
 			return 1;
 		if (k % 2 == 0) {
-			long tmp = expFast(x, k / 2);
-			return tmp * tmp;
+			long a = expFast(x, k / 2);
+			return a * a;
 		}
-		long tmp = expFast(x, (k - 1) / 2);
-		return tmp * tmp * x;
+		long a = expFast(x, (k - 1) / 2);
+		return a * a * x;
 	}
 }
