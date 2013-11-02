@@ -1,1 +1,0 @@
-INDEX VERSION 1.126+/Users/sacry/dev/uni/s3/WS1314/.metadata/.plugins/org.eclipse.jdt.core
