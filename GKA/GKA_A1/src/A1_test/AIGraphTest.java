@@ -17,6 +17,7 @@ import org.junit.Test;
 import GKA_A1.IAIGraph;
 import GKA_A1.AIGraph;
 import GraphUtils.JavaParser;
+import GraphUtils.WhichOs;
 
 /**
  * 
@@ -24,9 +25,7 @@ import GraphUtils.JavaParser;
  */
 public class AIGraphTest {
 
-	private String swaneetpath = "C:/Users/Swaneet/github/WS1314/GKA/graphs/";
-	private String matzepath = "/Users/matthias/dev/WS1314/GKA/graphs/";
-	private String path = matzepath;
+	private String path = WhichOs.getPath();
 	private String graphname = "graph1.graph";
 
 	private IAIGraph yolo;
@@ -98,7 +97,7 @@ public class AIGraphTest {
 	@Test
 	public void test_mutation() {
 		swag = new AIGraph(true);
-		
+
 		assertTrue(swag.isEmpty());
 		long v1 = swag.addVertex("Matthias");
 		assertTrue(!swag.isEmpty());

@@ -1,7 +1,6 @@
 package GKA_A2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import GKA_A1.IAIGraph;
@@ -12,11 +11,6 @@ import static GKA_A2.Constants.*;
 
 public class FloydWarshall implements ITimeSpace {
 
-	
-	// TODO: iterate over a List of eID/vIDs with list indices instead of
-	// the IDs themselves. The IDs themselves should not be used as indices!
-	
-	
 	private IAIGraph graph;
 	private String cmpByAttribute;
 	private int size;
