@@ -30,7 +30,12 @@ public class FloydWarshall implements ITimeSpace {
 	public void start() {
 
 		initMatrices();
-
+		
+		
+		// for each vertice(i,k) check,
+		// whether the path over the vertice j (i->j->k) is shorter,
+		// than the direct path (i->k), then update the
+		// shorter distance and save this j as predecessor
 		for (int j = 1; j <= this.size; j++)
 			for (int i = 1; i <= this.size; i++)
 				if (i != j)
@@ -57,7 +62,9 @@ public class FloydWarshall implements ITimeSpace {
 		this.size = graph.getVertexes().size();
 		this.trans = new MatrixArray(this.size, this.size, NULL_DOUBLE);
 		this.dist = new MatrixArray(this.size, this.size);
-
+		
+		// the distance from each vertice to itself is zero.
+		// the distance to all other vertices is initialized with INFINITY
 		for (int i = 1; i <= this.size; i++)
 			for (int j = 1; j <= this.size; j++)
 				if (i == j) {
@@ -65,7 +72,10 @@ public class FloydWarshall implements ITimeSpace {
 				} else {
 					dist.insert(i, j, INF);
 				}
-
+		
+		// update the distances in the matrix
+		// so that the weights at the edges are the elements
+		// of the matrix
 		for (Long eId : graph.getEdges()) {
 			int srcID = (int) graph.getSource(eId);
 			int destID = (int) graph.getTarget(eId);
@@ -112,12 +122,18 @@ public class FloydWarshall implements ITimeSpace {
 	}
 
 	private String getPath_(int src, int dest) {
+		// check, whether the vertice is reachable at all
 		if (this.dist.get((int) src, (int) dest) == INF)
 			return NO_PATH;
+		
+		
 		int predId = (int) trans.get(src, dest);
 		if (predId == NULL_DOUBLE) {
 			return "v" + (src - 1) + " -> v" + (dest - 1);
 		}
+		
+		// every time, we come closer to the source,
+		// we add the dest to the output string
 		return getPath_(src, predId) + " -> v" + (dest - 1);
 	}
 
