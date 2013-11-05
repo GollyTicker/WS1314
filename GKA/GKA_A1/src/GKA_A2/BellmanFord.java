@@ -130,8 +130,17 @@ public class BellmanFord implements ITimeSpace {
 	}
 
 	private String getPathAcc(long dest) {
+		// check, whether the vertice is reachable at all
 		if (this.distance.get(dest) == INF)
 			return NO_PATH;
+		
+		// fetch the previous vertice to
+		// be traversed to reach the sourceVertice.
+		// If there is no vertice saved as predecessor
+		// then this means, that we can now go directly
+		// from Src to Dest. Dest has already been added to
+		// the output string in the previous call
+		// so we only need to add src to the string now.
 		long predId = predecessor.get(dest);
 		if (predId == NULL_LONG) {
 			return "v" + srcVId;
