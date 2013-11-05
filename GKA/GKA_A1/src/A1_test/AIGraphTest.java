@@ -17,7 +17,7 @@ import org.junit.Test;
 import GKA_A1.IAIGraph;
 import GKA_A1.AIGraph;
 import GraphUtils.JavaParser;
-import GraphUtils.WhichOs;
+import GraphUtils.WhichPath;
 
 /**
  * 
@@ -25,7 +25,7 @@ import GraphUtils.WhichOs;
  */
 public class AIGraphTest {
 
-	private String path = WhichOs.getPath();
+	private String path = WhichPath.getPath();
 	private String graphname = "graph1.graph";
 
 	private IAIGraph yolo;
