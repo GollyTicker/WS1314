@@ -10,8 +10,6 @@ package GKA_A1;
  */
 import java.util.Set;
 
-import GKA_A2.Matrix.Matrix;
-
 public interface IAIGraph {
 
 	// Constructors

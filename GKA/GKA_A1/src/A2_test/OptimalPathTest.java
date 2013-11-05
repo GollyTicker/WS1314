@@ -14,7 +14,7 @@ import GKA_A1.IAIGraph;
 import GKA_A2.BellmanFord;
 import GKA_A2.FloydWarshall;
 import GraphUtils.JavaParser;
-import GraphUtils.WhichOs;
+import GraphUtils.WhichPath;
 import static GKA_A2.Constants.*;
 
 public class OptimalPathTest {
@@ -107,7 +107,7 @@ public class OptimalPathTest {
 	@Test
 	public void testCmpBoth() {
 		
-		String path = WhichOs.getPath();
+		String path = WhichPath.getPath();
 		String graphname = "graph2.graph";
 
 		System.out.println("----- testBoth -----");
