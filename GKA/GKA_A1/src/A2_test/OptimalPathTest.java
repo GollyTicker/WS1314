@@ -58,7 +58,7 @@ public class OptimalPathTest {
 		// between
 		this.testGraph.deleteVertex(0);
 		algo.start();
-		System.out.println(testGraph);
+		
 		expected = new ArrayList<>(Arrays.asList(2L, 1L));
 		assertEquals(expected, algo.getPathList(v3, v2));
 		// printFloyd(algo);
