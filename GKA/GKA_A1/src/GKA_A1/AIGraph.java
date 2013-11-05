@@ -21,7 +21,10 @@ public class AIGraph implements IAIGraph {
 	private long vIdCounter = 0;
 	private long eIdCounter = 0;
 
-	private boolean isDirected;
+	private boolean isDirected = true;
+
+	public AIGraph() {
+	}
 
 	public AIGraph(boolean isDirected) {
 		this.isDirected = isDirected;
