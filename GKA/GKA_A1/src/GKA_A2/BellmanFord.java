@@ -39,6 +39,8 @@ public class BellmanFord implements ITimeSpace {
 		Set<Long> edges = graph.getEdges();
 
 		// Step 1
+		// initialize the two hashmaps for storing the distance
+		// and predecessor
 		distance = new HashMap<>();
 		predecessor = new HashMap<>();
 		for (long vId : vertices) {
@@ -46,10 +48,16 @@ public class BellmanFord implements ITimeSpace {
 				distance.put(vId, 0.0);
 			else
 				distance.put(vId, INF);
+			// we're using NULL_LONG(=-1) instead of the java null,
+			// because it allows us to interpret the -1 as an invalid index.
 			predecessor.put(vId, NULL_LONG);
 		}
 
 		// Step 2
+		// we iterate over all the edges and ask whether
+		// the path over a given vertice is shorter
+		// than the direct path. If so, then
+		// we save the vertice as predecessor and update the distance.
 		for (int i = 0; i < vertices.size(); i++) {
 			for (long eId : edges) {
 				accessCount += 5;
@@ -65,10 +73,16 @@ public class BellmanFord implements ITimeSpace {
 		}
 
 		// Step 3:
+		// We check whether we can still find shorter paths.
+		// This is an indicator for a negative cycle.
 		for (long eId : edges) {
 			accessCount += 5;
 			long source = graph.getSource(eId);
 			long target = graph.getTarget(eId);
+			
+			// The following statements are equal to the shorter path detection in step 2.
+			// But since all the shortest paths have been found in step 2,
+			// further shorter paths only can be a cause of negative cycles.
 			double weight = graph.getValE(eId, cmpByAttribute);
 			double weight_in_edge = distance.get(source) + weight;
 			if (weight_in_edge < distance.get(target)) {

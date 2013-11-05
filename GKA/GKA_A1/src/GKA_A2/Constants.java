@@ -8,6 +8,7 @@ public class Constants {
 
 	public static final double INF = Double.POSITIVE_INFINITY;
 	public static final Long NULL_LONG = -1L;
+	public static final Double NULL_DOUBLE = -1.0;
 	public static final String NO_PATH = "No Path!";
 
 	public static final void throwIfCycleDetected() {

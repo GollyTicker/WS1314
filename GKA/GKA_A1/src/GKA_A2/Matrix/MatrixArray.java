@@ -22,6 +22,17 @@ public class MatrixArray extends AbstractMatrix {
 		mArray = new double[m][n]; // Arrays werden automatische mit 0.0
 									// gefuellt
 	}
+	
+	public MatrixArray(int m, int n, Double defaultValue) {
+		super(m, n);
+		mArray = new double[m][n];
+
+		for (int i = 1; i <= this.getM(); i++) {
+			for (int j = 1; j <= this.getN(); j++) {
+				this.insert(i, j, defaultValue);
+			}
+		}
+	}
 
 	/**
 	 * Inserts a double value into the current array in row i at position j.

@@ -55,7 +55,7 @@ public class FloydWarshall implements ITimeSpace {
 	// INITIALIZATION
 	private void initMatrices() {
 		this.size = graph.getVertexes().size();
-		this.trans = new MatrixArray(this.size, this.size);
+		this.trans = new MatrixArray(this.size, this.size, NULL_DOUBLE);
 		this.dist = new MatrixArray(this.size, this.size);
 
 		for (int i = 1; i <= this.size; i++)
@@ -115,7 +115,7 @@ public class FloydWarshall implements ITimeSpace {
 		if (this.dist.get((int) src, (int) dest) == INF)
 			return NO_PATH;
 		int predId = (int) trans.get(src, dest);
-		if (predId == 0.0) {
+		if (predId == NULL_DOUBLE) {
 			return "v" + (src - 1) + " -> v" + (dest - 1);
 		}
 		return getPath_(src, predId) + " -> v" + (dest - 1);
@@ -125,7 +125,7 @@ public class FloydWarshall implements ITimeSpace {
 		if (this.dist.get((int) src, (int) dest) == INF)
 			return new ArrayList<Long>();
 		int predId = (int) trans.get((int) src, (int) dest);
-		if (predId == 0.0) {
+		if (predId == NULL_DOUBLE) {
 			accu.add(0, dest - 1);
 			accu.add(0, src - 1);
 			return accu;
