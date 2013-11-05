@@ -10,23 +10,23 @@ public class WhichPath {
 	private static String matzepath = "/Users/sacry/dev/uni/s3/WS1314/GKA/graphs/";
 	private static String klauckpath = "";
 
-	public static String getPathWithMacAddr() {
+	public static String getPath() {
 		String computername = "";
 		try {
 			computername = InetAddress.getLocalHost().getHostName();
 			if (computername.equals("Matthiass-MacBook-Pro.local")) {
 				return matzepath;
-			} else if (computername.equals("irgendwas Swaneet-Windows")) {
+			} else if (computername.equals("VAIO-2")) {
 				return swaneetpath;
 			} else {
 				return klauckpath;
 			}
 		} catch (UnknownHostException e) {
-			return getPath();
+			return getPathOS();
 		}
 	}
 
-	public static String getPath() {
+	public static String getPathOS() {
 		return isWindows() ? swaneetpath : matzepath;
 	}
 
