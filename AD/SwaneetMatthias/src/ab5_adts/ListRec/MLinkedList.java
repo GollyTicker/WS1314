@@ -11,7 +11,7 @@ import ad_utils.ITimeSpace;
 public class MLinkedList<T> implements IList<T>, ITimeSpace {
 
 	private Node<T> first = null;
-	private int length;
+	private int length=0;
 
 	// counting references
 	private int accessCount = 0;
@@ -141,12 +141,21 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 	 */
 	@Override
 	public void insert(T elem, int n) {
-		IndexOutOfBound(n); // TODO:recursive insert
+		IndexOutOfBound(n);
+		insertHelper(elem, n);
+	}
+	
+	private void insertHelper(T elem, int n){
+		// ins(y, 0, xs) = y:xs
 		if (n == 0) {
 			cons(elem);
-			this.length += 1;
+		} else {
+			// ins(y, n , hd:tl) = hd:ins(y, n-1, tl)
+			T head = this.first();
+			// the current list(this) becomes tail
+			this.insert(elem, n - 1);
+			this.cons(head);
 		}
-
 	}
 
 	/**
@@ -209,6 +218,28 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 		result = inter_universal_teichmueller_prime * result
 				+ ((first == null) ? 0 : first.hashCode());
 		return result;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+
+		if (this == o)
+			return true;
+
+		if (!(o instanceof IList<?>))
+			return false;
+
+		IList<T> otherList = (IList<T>) o;
+		if (this.length() != otherList.length()) {
+			return false;
+		}
+
+		for (int i = 0; i < this.length(); i++)
+			if (!this.get(i).equals(otherList.get(i)))
+				return false;
+
+		return true;
+
 	}
 
 	@Override
