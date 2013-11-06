@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import ab1_adts.statmodule.AverageVariance;
 import ab5_adts.ListRec.IList;
 import ab5_adts.ListRec.MLinkedList;
 
@@ -11,34 +12,65 @@ public class ListRecIter {
 
 	IList<Integer> itr;
 	IList<Integer> rec;
-	
-	@Test
-	public void test_experimente() { // Aufgabe 7:
-		// reset both lists
-		itr = new MLinkedList<>();
-		rec = new MLinkedList<>();
 
-//		NoOfElements = 10;
-//		mll.cons(-1);
-//		for (int n = 0; n < NoOfElements; n++) {
-//			mll.insert(n, n);
-//		}
-//		mll.printCount();
-//
-//		// now with 10x many elements
-//
-//		mll = new MLinkedList<>(); // reset
-//
-//		NoOfElements = NoOfElements * 10;
-//		mll.cons(-1);
-//		for (int n = 0; n < NoOfElements; n++) {
-//			mll.insert(n, n);
-//		}
-//		mll.printCount();
-		shouldBeSame();
+	AverageVariance itrStats;
+	AverageVariance recStats;
+
+	private static int NoOfElements = 500;
+	private static int NoOfRepeats = 100;
+
+	@Test
+	public void test_experimente() { // Aufgabe 5.1.3:
+		
+		
+		// Frage an Prof. Köhler:
+		// Haben wir hier auch die Experimentergebnisse
+		// durch Diagramme und Auswertungen zu diskutieren
+		// oder ist random Testing und ImplementationsTesting
+		// der Zweck dieser Aufgabe?
+		
+		
+		initStats();
+		for (int t = NoOfRepeats; t > 0; t--) {
+
+			// reset both lists
+			itr = new MLinkedList<>();
+			rec = new MLinkedList<>();
+			
+			cons(0);// initialize with one element
+			// because insert at index 0 is disallowed
+			
+			for (int i = 0; i < NoOfElements; i++) {
+				int pos = (int) Math.floor(Math.random() * i);
+				insert(i, pos);
+			}
+			addAccessCount();
+			
+			shouldBeSame();
+		}
+		
+		outStats();
+
 	}
 
-	
+	private void outStats() {
+		System.out.println("NoOfElements: " + NoOfElements);
+		System.out.println("NoOfRepeats: " + NoOfRepeats);
+		System.out.println("ItrAvg," + itrStats.getAverage());
+		System.out.println("RecAvg," + recStats.getAverage());
+		System.out.println("Factor: "+recStats.getAverage()/itrStats.getAverage());
+	}
+
+	private void addAccessCount() {
+		itrStats.addValue(itr.accessCount());
+		recStats.addValue(rec.accessCount());
+	}
+
+	private void initStats() {
+		itrStats = new AverageVariance();
+		recStats = new AverageVariance();
+	}
+
 	// test whether new functions are working
 	@Test
 	public void test_both() {
@@ -72,14 +104,15 @@ public class ListRecIter {
 		assertEquals((Integer) 4, rec.get(0));
 		shouldBeSame();
 
-		// insert in-between (btw, inserting at the end is not allowed)
+		// insert in-between
 		insert(5, 2);
 		shouldBeSame();
 
-		// insert in-between (btw, inserting at the end is not allowed)
+		// insert in-between
 		insert(6, 2);
 		shouldBeSame();
 
+		// (btw, inserting at the end or in a empty list is not allowed)
 	}
 
 	// test tail negative
