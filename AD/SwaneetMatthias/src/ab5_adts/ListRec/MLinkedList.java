@@ -1,6 +1,6 @@
 package ab5_adts.ListRec;
 
-import ab1_adts.ListImpl.Node;
+import ab5_adts.ListRec.*;
 import ad_utils.ITimeSpace;
 
 /**
@@ -33,7 +33,7 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 
 	/**
 	 * Takes the first element of the list and returns a linked list with this
-	 * element alreaady included.
+	 * element already included.
 	 * 
 	 * @param first
 	 *            the first element to be included
@@ -71,8 +71,7 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 	 */
 	@Override
 	public T head() {
-		if (this.isempty())
-			return null;
+		CheckListNotEmpty();
 		Node<T> oldFirst = first;
 		accessCount += 1; // first
 		Node<T> newFirst = oldFirst.getNext();
@@ -142,11 +141,12 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 	 */
 	@Override
 	public void insert(T elem, int n) {
-		IndexOutOfBound(n);
-		if (n == 0)
+		IndexOutOfBound(n); // TODO:recursive insert
+		if (n == 0) {
 			cons(elem);
+			this.length += 1;
+		}
 
-		this.length += 1;
 	}
 
 	/**
@@ -154,10 +154,12 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 	 */
 	@Override
 	public T first() {
+		CheckListNotEmpty();
 		return getFirst().getElem();
 	}
 
 	public Node<T> getFirst() {
+		CheckListNotEmpty();
 		accessCount += 1; // first
 		return this.first;
 	}
@@ -182,6 +184,12 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 		if (this.isempty() || givenIndex > this.length - 1 || givenIndex < 0)
 			throw new IndexOutOfBoundsException(
 					"Given index is bigger than List max length!");
+	}
+
+	private void CheckListNotEmpty() {
+		if (this.isempty())
+			throw new IndexOutOfBoundsException(
+					"Cannot use this Operation on an empty list. Here, have a Cookie....");
 	}
 
 	private Node<T> _get(Node<T> node, int currentIndex, int givenIndex) {
@@ -215,25 +223,9 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 	}
 
 	@Override
-	public T last() {
-		return get(this.length - 1);
-	}
-
-	@Override
-	public IList<T> tail() {
-		MLinkedList<T> copy = (MLinkedList<T>) this.clone();
-		copy.changeToTail();
-		return copy;
-	}
-	
-	private void changeToTail(){
-		this.getFirst().next(this.getFirst().getNext());
-	}
-
-	@Override
-	public IList<T> init() {
-		// TODO Auto-generated method stub
-		return null;
+	public void tail() {
+		CheckListNotEmpty();
+		this.first = first.getNext();
 	}
 
 	@Override

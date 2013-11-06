@@ -22,14 +22,8 @@ public interface IList<T> extends ITimeSpace {
 	// get first element
 	T first();
 
-	// get last element
-	T last();
-
-	// get all but first element
-	IList<T> tail();
-
-	// get all except last element
-	IList<T> init();
+	// remove all but first element
+	void tail();
 
 	// how many elements has a list?
 	int length();

@@ -9,10 +9,18 @@ public class e {
 		IList<Integer> l = new MLinkedList<>();
 		l.cons(1);
 		l.cons(2);
+
 		l.insertIter(3, 0);
 		System.out.println(l);
+
 		l.insertIter(4, 2);
 		System.out.println(l);
+
+		l.cons(5);
+		System.out.println(l);
+
+		l.tail();
+		System.out.println(l);
 	}
-	
+
 }
