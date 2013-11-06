@@ -257,6 +257,7 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 	public void tail() {
 		CheckListNotEmpty();
 		this.first = first.getNext();
+		this.length-=1;
 	}
 
 	@Override
