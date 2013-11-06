@@ -11,7 +11,7 @@ import ad_utils.ITimeSpace;
 public class MLinkedList<T> implements IList<T>, ITimeSpace {
 
 	private Node<T> first = null;
-	private int length=0;
+	private int length = 0;
 
 	// counting references
 	private int accessCount = 0;
@@ -103,14 +103,13 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 	}
 
 	/**
-	 * On a list with elements from 0 to (n+1) the given element will be
-	 * inserted between the n-th and (n+1)-th element. The given element is then
-	 * accessible at the index n+1.
+	 * Insert the element at the given index. The old element at the given index
+	 * gets pushed to the back
 	 * 
 	 * @param elem
 	 *            the element to be inserted
 	 * @param n
-	 *            the index after which the element is to be included
+	 *            the index where it's to be included
 	 */
 	@Override
 	public void insertIter(T elem, int n) {
@@ -130,22 +129,20 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 	}
 
 	/**
-	 * On a list with elements from 0 to (n+1) the given element will be
-	 * inserted between the n-th and (n+1)-th element. The given element is then
-	 * accessible at the index n+1.
+	 * Insert the element at the
 	 * 
 	 * @param elem
 	 *            the element to be inserted
 	 * @param n
-	 *            the index after which the element is to be included
+	 *            the index where it's to be included
 	 */
 	@Override
 	public void insert(T elem, int n) {
 		IndexOutOfBound(n);
 		insertHelper(elem, n);
 	}
-	
-	private void insertHelper(T elem, int n){
+
+	private void insertHelper(T elem, int n) {
 		// ins(y, 0, xs) = y:xs
 		if (n == 0) {
 			cons(elem);
@@ -257,7 +254,7 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 	public void tail() {
 		CheckListNotEmpty();
 		this.first = first.getNext();
-		this.length-=1;
+		this.length -= 1;
 	}
 
 	@Override

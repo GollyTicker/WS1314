@@ -17,31 +17,39 @@ public class ListRecIter {
 		
 		// TODO: make correct accessCount in insert(rec)
 		
+		// both lists are empty
 		shouldBeSame();
 		
+		// cons 1. are both still same?
 		cons(1);
 		shouldBeSame();
 		
-
+		// repeat again
 		cons(2);
 		shouldBeSame();
 		
-		out();
+		// does the tail work?
 		tail();
-		out();
 		shouldBeSame();
 		
-		out();
+		
+		// insert 3 at index 0 and check
 		insert(3, 0);
-		out();
+		assertEquals((Integer)3,itr.get(0));
+		assertEquals((Integer)3,rec.get(0));
 		shouldBeSame();
 		
+		// repeat with 4
+		insert(4, 0);
+		assertEquals((Integer)4,itr.get(0));
+		assertEquals((Integer)4,rec.get(0));
+		shouldBeSame();
 		
-//		insert(4, 2);
-//
-//		out();
-//
-//		shouldBeSame();
+		// insert in-between (btw, inserting at the end is not allowed)
+		out();
+		insert(5, 2);
+		out();
+		shouldBeSame();
 		
 	}
 
