@@ -11,7 +11,35 @@ public class ListRecIter {
 
 	IList<Integer> itr;
 	IList<Integer> rec;
+	
+	@Test
+	public void test_experimente() { // Aufgabe 7:
+		// reset both lists
+		itr = new MLinkedList<>();
+		rec = new MLinkedList<>();
 
+//		NoOfElements = 10;
+//		mll.cons(-1);
+//		for (int n = 0; n < NoOfElements; n++) {
+//			mll.insert(n, n);
+//		}
+//		mll.printCount();
+//
+//		// now with 10x many elements
+//
+//		mll = new MLinkedList<>(); // reset
+//
+//		NoOfElements = NoOfElements * 10;
+//		mll.cons(-1);
+//		for (int n = 0; n < NoOfElements; n++) {
+//			mll.insert(n, n);
+//		}
+//		mll.printCount();
+		shouldBeSame();
+	}
+
+	
+	// test whether new functions are working
 	@Test
 	public void test_both() {
 		itr = new MLinkedList<>();
@@ -51,8 +79,6 @@ public class ListRecIter {
 		// insert in-between (btw, inserting at the end is not allowed)
 		insert(6, 2);
 		shouldBeSame();
-
-		out();
 
 	}
 

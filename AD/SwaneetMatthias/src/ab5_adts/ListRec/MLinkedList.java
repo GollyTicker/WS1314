@@ -214,10 +214,9 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 
 	private Node<T> _get(Node<T> node, int currentIndex, int givenIndex) {
 		if (currentIndex != givenIndex) {
-			currentIndex += 1;
 
 			accessCount += 1; // .getNext()
-			return _get(node.getNext(), currentIndex, givenIndex);
+			return _get(node.getNext(), currentIndex+1, givenIndex);
 		}
 		return node;
 	}
