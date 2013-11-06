@@ -157,9 +157,10 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 			
 			System.out.println("#"+n+"; make tail of "+toString());
 			// the current list(this) becomes tail
-			this.insert(elem, n - 1);
-			
+			this.tail();
 			System.out.println("#"+n+"; got tail:"+toString());
+			
+			this.insert(elem, n - 1);
 			
 			System.out.println("#"+n+"; cons "+head+" on "+toString());
 			
