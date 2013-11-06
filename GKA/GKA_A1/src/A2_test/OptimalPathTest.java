@@ -119,6 +119,8 @@ public class OptimalPathTest {
 		algoF.printCount();
 		algoF.start();
 		algoF.printCount();
+		System.out.println(yolo);
+		System.out.println(algoF.getPath(13, 17));
 
 		System.out.println("----- countBellmanFord -----");
 		IAIGraph swag = jp.createGraph();

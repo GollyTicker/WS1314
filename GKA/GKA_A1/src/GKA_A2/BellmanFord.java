@@ -2,6 +2,7 @@ package GKA_A2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,8 +15,7 @@ public class BellmanFord implements ITimeSpace {
 
 	// TODO: iterate over a List of eID/vIDs with list indices instead of
 	// the IDs themselves. The IDs themselves should not be used as indices!
-	
-	
+
 	private IAIGraph graph;
 	private String cmpByAttribute;
 	private long srcVId;
@@ -54,11 +54,11 @@ public class BellmanFord implements ITimeSpace {
 		}
 
 		// Step 2
-		// we iterate over all the edges and ask whether
-		// the path over a given vertice is shorter
-		// than the direct path. If so, then
-		// we save the vertice as predecessor and update the distance.
+		// for the # of vertices
+		// look, whether the path using a specific edge is shorter than the
+		// currently saved distance to the target
 		for (int i = 0; i < vertices.size(); i++) {
+
 			for (long eId : edges) {
 				accessCount += 5;
 				long source = graph.getSource(eId);
@@ -70,6 +70,7 @@ public class BellmanFord implements ITimeSpace {
 					predecessor.put(target, source);
 				}
 			}
+
 		}
 
 		// Step 3:
@@ -79,8 +80,9 @@ public class BellmanFord implements ITimeSpace {
 			accessCount += 5;
 			long source = graph.getSource(eId);
 			long target = graph.getTarget(eId);
-			
-			// The following statements are equal to the shorter path detection in step 2.
+
+			// The following statements are equal to the shorter path detection
+			// in step 2.
 			// But since all the shortest paths have been found in step 2,
 			// further shorter paths only can be a cause of negative cycles.
 			double weight = graph.getValE(eId, cmpByAttribute);
@@ -133,7 +135,7 @@ public class BellmanFord implements ITimeSpace {
 		// check, whether the vertice is reachable at all
 		if (this.distance.get(dest) == INF)
 			return NO_PATH;
-		
+
 		// fetch the previous vertice to
 		// be traversed to reach the sourceVertice.
 		// If there is no vertice saved as predecessor
