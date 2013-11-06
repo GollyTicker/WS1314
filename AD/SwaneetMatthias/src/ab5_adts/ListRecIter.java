@@ -9,13 +9,13 @@ import ab5_adts.ListRec.MLinkedList;
 
 public class ListRecIter {
 
-	IList<Integer> itr = new MLinkedList<>();
-	IList<Integer> rec = new MLinkedList<>();
+	IList<Integer> itr;
+	IList<Integer> rec;
 
 	@Test
 	public void test_both() {
-
-		// TODO: make correct accessCount in insert(rec)
+		itr = new MLinkedList<>();
+		rec = new MLinkedList<>();
 
 		// both lists are empty
 		shouldBeSame();
@@ -51,10 +51,25 @@ public class ListRecIter {
 		// insert in-between (btw, inserting at the end is not allowed)
 		insert(6, 2);
 		shouldBeSame();
-		
-		
+
 		out();
 
+	}
+
+	// test tail negative
+	@Test(expected = java.lang.IndexOutOfBoundsException.class)
+	public void test_no_tail_rec() {
+		itr = new MLinkedList<>();
+		rec = new MLinkedList<>();
+		tail();
+	}
+
+	// test tail negative
+	@Test(expected = java.lang.IndexOutOfBoundsException.class)
+	public void test_no_tail_itr() {
+		itr = new MLinkedList<>();
+		rec = new MLinkedList<>();
+		tail();
 	}
 
 	private void shouldBeSame() {
