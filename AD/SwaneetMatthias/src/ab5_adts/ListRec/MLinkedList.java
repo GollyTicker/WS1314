@@ -118,11 +118,11 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 			cons(elem);
 			return;
 		}
+		accessCount += 1; // first
 		Node<T> before = _get(first, 0, n - 1);
-		accessCount += 1; // first
 		Node<T> between = new Node<>(elem);
+		accessCount += 1; // getNext()
 		Node<T> after = before.getNext();
-		accessCount += 1; // first
 		before.next(between);
 		between.next(after);
 		this.length += 1;
@@ -143,13 +143,8 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 	}
 
 	private void insertHelper(T elem, int n) {
-
-		System.out.println("CallStart insertHelper(" + elem + "," + n + ") on "
-				+ toString());
-
 		// ins(y, 0, xs) = y:xs
 		if (n == 0) {
-			System.out.println("cons " + elem + " on " + toString());
 			cons(elem);
 		} else {
 			// ins(y, n , hd:tl) = hd:ins(y, n-1, tl)
@@ -233,6 +228,7 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 		int result = 1;
 		result = inter_universal_teichmueller_prime * result
 				+ ((first == null) ? 0 : first.hashCode());
+		accessCount += 1; // .first
 		return result;
 	}
 
@@ -260,18 +256,22 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 
 	@Override
 	public String toString() {
+		accessCount += 1; // .first()
 		return stringHelper(this.first, "List[") + "]";
 	}
 
 	private String stringHelper(Node<T> elem, String accu) {
-		if (elem.getNext() == null)
+		accessCount += 1; // getNext()
+		Node<T> next = elem.getNext();
+		if (next == null)
 			return accu + elem;
-		return stringHelper(elem.getNext(), accu + elem.getElem() + ", ");
+		return stringHelper(next, accu + elem.getElem() + ", ");
 	}
 
 	@Override
 	public void tail() {
 		CheckListNotEmpty();
+		accessCount += 1; // .getNext()
 		this.first = first.getNext();
 		this.length -= 1;
 	}
