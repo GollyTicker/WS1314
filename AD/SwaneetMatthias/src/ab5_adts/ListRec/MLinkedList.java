@@ -143,28 +143,34 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 	}
 
 	private void insertHelper(T elem, int n) {
-		
-		System.out.println("CallStart insertHelper("+elem+","+n+") on "+toString());
-		
+
+		System.out.println("CallStart insertHelper(" + elem + "," + n + ") on "
+				+ toString());
+
 		// ins(y, 0, xs) = y:xs
 		if (n == 0) {
-			System.out.println("cons "+elem+" on "+toString());
+			System.out.println("cons " + elem + " on " + toString());
 			cons(elem);
 		} else {
 			// ins(y, n , hd:tl) = hd:ins(y, n-1, tl)
+
+			// we need to save a reference to the currently first
+			// element, because the imperative nature of this insert(...)
+			// head <= hd
 			T head = this.first();
-			System.out.println("#"+n+"; first is "+ head.toString());
-			
-			System.out.println("#"+n+"; make tail of "+toString());
+
 			// the current list(this) becomes tail
+			// this <= tl
 			this.tail();
-			System.out.println("#"+n+"; got tail:"+toString());
 			
+			// insert recursively
+			// this <= ins(y, n-1, tl)
 			this.insert(elem, n - 1);
 			
-			System.out.println("#"+n+"; cons "+head+" on "+toString());
-			
+			// this <= hd:ins(y, n-1, tl)
 			this.cons(head);
+			
+			// now we have this == ins(y, n , hd:tl) == hd:ins(y, n-1, tl)
 		}
 	}
 
