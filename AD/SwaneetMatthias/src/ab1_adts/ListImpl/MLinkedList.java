@@ -181,8 +181,14 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 
 	@Override
 	public String toString() {
-		return "Lists HashCode: " + this.hashCode() + " with length: "
-				+ this.length;
+		return stringHelper(this.first, "List[") + "]";
+	}
+
+	private String stringHelper(Node<T> elem, String accu) {
+		if (elem.getNext() == null)
+			return accu;
+		accu += elem.getElem() + ", ";
+		return stringHelper(elem.getNext(), accu);
 	}
 
 	@Override

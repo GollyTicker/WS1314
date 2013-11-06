@@ -1,5 +1,6 @@
 package ab5_adts.ListRec;
 
+import ab1_adts.ListImpl.Node;
 import ad_utils.ITimeSpace;
 
 /**
@@ -113,15 +114,38 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 	 *            the index after which the element is to be included
 	 */
 	@Override
-	public void insert(T elem, int n) {
+	public void insertIter(T elem, int n) {
 		IndexOutOfBound(n);
-		Node<T> before = _get(first, 0, n);
+		if (n == 0) {
+			cons(elem);
+			return;
+		}
+		Node<T> before = _get(first, 0, n - 1);
 		accessCount += 1; // first
 		Node<T> between = new Node<>(elem);
 		Node<T> after = before.getNext();
 		accessCount += 1; // first
 		before.next(between);
 		between.next(after);
+		this.length += 1;
+	}
+
+	/**
+	 * On a list with elements from 0 to (n+1) the given element will be
+	 * inserted between the n-th and (n+1)-th element. The given element is then
+	 * accessible at the index n+1.
+	 * 
+	 * @param elem
+	 *            the element to be inserted
+	 * @param n
+	 *            the index after which the element is to be included
+	 */
+	@Override
+	public void insert(T elem, int n) {
+		IndexOutOfBound(n);
+		if (n == 0)
+			cons(elem);
+
 		this.length += 1;
 	}
 
@@ -133,7 +157,7 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 		return getFirst().getElem();
 	}
 
-	private Node<T> getFirst() {
+	public Node<T> getFirst() {
 		accessCount += 1; // first
 		return this.first;
 	}
@@ -181,8 +205,35 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 
 	@Override
 	public String toString() {
-		return "Lists HashCode: " + this.hashCode() + " with length: "
-				+ this.length;
+		return stringHelper(this.first, "List[") + "]";
+	}
+
+	private String stringHelper(Node<T> elem, String accu) {
+		if (elem.getNext() == null)
+			return accu + elem;
+		return stringHelper(elem.getNext(), accu + elem.getElem() + ", ");
+	}
+
+	@Override
+	public T last() {
+		return get(this.length - 1);
+	}
+
+	@Override
+	public IList<T> tail() {
+		MLinkedList<T> copy = (MLinkedList<T>) this.clone();
+		copy.changeToTail();
+		return copy;
+	}
+	
+	private void changeToTail(){
+		this.getFirst().next(this.getFirst().getNext());
+	}
+
+	@Override
+	public IList<T> init() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -209,4 +260,5 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 	public int memoryUsage() {
 		return this.length;
 	}
+
 }
