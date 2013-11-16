@@ -7,7 +7,7 @@ public class Aufgabe5_2 {
 	static int accessCount = 0;
 
 	// Aufgabe 5.2.1:
-	// f [0..9]=[1,1,1,,6,26,66,151,361,861]
+	// f [0..9]=[1,1,1,6,11,26,66,151,361,861]
 
 	public static void main(String[] args) {
 		aufgabe5_2_3();

@@ -56,8 +56,8 @@ public class ListRecIter {
 	private void outStats() {
 		System.out.println("NoOfElements: " + NoOfElements);
 		System.out.println("NoOfRepeats: " + NoOfRepeats);
-		System.out.println("ItrAvg," + itrStats.getAverage());
-		System.out.println("RecAvg," + recStats.getAverage());
+		System.out.println("ItrAvg: " + itrStats.getAverage());
+		System.out.println("RecAvg: " + recStats.getAverage());
 		System.out.println("Factor: "+recStats.getAverage()/itrStats.getAverage());
 	}
 
