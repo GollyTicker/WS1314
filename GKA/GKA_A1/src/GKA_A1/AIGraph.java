@@ -247,8 +247,10 @@ public class AIGraph implements IAIGraph {
 
 			Set<String> attrs = e.getAttrE();
 			String accuAttuibute = "[";
+			boolean first_attr = true;
 			for (String attr : attrs) {
-				accuAttuibute += attr + " => " + e.getStrE(attr);
+				accuAttuibute += ((first_attr)?"":"; ") + attr + " => " + e.getStrE(attr);
+				first_attr = false;
 			}
 
 			String edge = "Edge: " + e.ID + " - ";
