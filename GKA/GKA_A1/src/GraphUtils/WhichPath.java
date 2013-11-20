@@ -1,32 +1,12 @@
 package GraphUtils;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 public class WhichPath {
 
 	private static String OS = System.getProperty("os.name").toLowerCase();
 	private static String swaneetpath = "C:/Users/Swaneet/github/WS1314/GKA/graphs/";
 	private static String matzepath = "/Users/sacry/dev/uni/s3/WS1314/GKA/graphs/";
-	private static String klauckpath = "";
 
 	public static String getPath() {
-		String computername = "";
-		try {
-			computername = InetAddress.getLocalHost().getHostName();
-			if (computername.equals("Matthiass-MacBook-Pro.local")) {
-				return matzepath;
-			} else if (computername.equals("VAIO-2")) {
-				return swaneetpath;
-			} else {
-				return klauckpath;
-			}
-		} catch (UnknownHostException e) {
-			return getPathOS();
-		}
-	}
-
-	public static String getPathOS() {
 		return isWindows() ? swaneetpath : matzepath;
 	}
 
