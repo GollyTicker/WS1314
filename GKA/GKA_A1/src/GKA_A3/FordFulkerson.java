@@ -32,40 +32,36 @@ public class FordFulkerson {
 		algo();
 	}
 
-	private IAIGraph algo() {
+	private void algo() {
 		
 		// Step 1 - initialize
 		init();
 		
+
+		// Step 2
 		
 		// the recurring GOTO Step 2 was refactored into a for-loop
 		for(Long vi = getMarkedUninspected();vi != -1L;vi = getMarkedUninspected()){
 
-			// Step 2
 			List<Set<Long>> partition = makeInOutPartition(vi);
 			Set<Long> incoming = partition.get(0);
 			Set<Long> outgoing = partition.get(1);
 			
-			// Vorwaertskanten
+			// Forward-edges
 			for(Long eID : outgoing){
 				long vj = graph.getTarget(eID);
-				if(!marked.containsKey(vj)
-						&& f(eID) < c(eID)){
-					
-					Integer restCap_vi = marked.get(vi).getRestCap();
-					int restCap = Math.min(c(eID) - f(eID), restCap_vi);
-					marked.put(vj, new Tuple4("+", vi, restCap, false));
+				if(!marked.containsKey(vj) && f(eID) < c(eID)){
+					// update the information on this possible augmenting edge
+					step2Forward(eID, vj, vi);
 				}
 			}
 			
-			// Rueckwaertskanten
+			// Backward-edges
 			for(Long eID : incoming){
 				long vj = graph.getSource(eID);
-				if(!marked.containsKey(vj)
-						&& f(eID) > 0){
-					Integer restCap_vi = marked.get(vi).getRestCap();
-					int restCap = Math.min(f(eID), restCap_vi);
-					marked.put(vj, new Tuple4("-", vi, restCap, false));
+				if(!marked.containsKey(vj) && f(eID) > 0){
+					// update the information on this possible augmenting edge
+					step2Backward(eID, vj, vi);
 				}
 			}
 			
@@ -77,11 +73,24 @@ public class FordFulkerson {
 			}
 		}
 		
-		// Schritt 4
+		// Step 4
+		// we're finished now!
 		
-		return graph;
 	}
-	
+
+	private void step2Backward(Long eID, long vj, Long vi) {
+		Integer restCap_vi = marked.get(vi).getRestCap();
+		int restCap = Math.min(f(eID), restCap_vi);
+		marked.put(vj, new Tuple4("-", vi, restCap, false));
+	}
+
+	// update the information on this possible augmenting edge
+	private void step2Forward(Long eID, long vj, Long vi) {
+		Integer restCap_vi = marked.get(vi).getRestCap();
+		int restCap = Math.min(c(eID) - f(eID), restCap_vi);
+		marked.put(vj, new Tuple4("+", vi, restCap, false));
+	}
+
 	private void step3() {
 		List<Long> augmenting_path = getPathList(srcId, destId);
 		int restCap = minimalRestCap(augmenting_path);
