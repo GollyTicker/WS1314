@@ -41,7 +41,6 @@ public class JavaParser {
 			// Files are not encoded so you have to do it manually
 			String line1 = UTF8EncodedString(br.readLine());
 			this.direction = getDirection(line1);
-			System.out.println(direction);
 			initGraph();
 
 			String line = UTF8EncodedString(br.readLine());
