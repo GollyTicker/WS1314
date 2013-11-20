@@ -17,6 +17,8 @@ public class FlowNetworkProblemTest {
 	private IAIGraph yolo;
 	private long quelleID;
 	private long senkeID;
+	private final String capacityAttrName = "c";
+	private final String flowAttrName = "f";
 
 	public FlowNetworkProblemTest() {
 		// dont forget to change the quelleID and senkeID as well!
@@ -24,16 +26,16 @@ public class FlowNetworkProblemTest {
 		quelleID = 0;
 		senkeID = 4;
 		// dont forget to change the quelleID and senkeID as well!
-
+		
 		String path = WhichPath.getPath();
-		JavaParser jp = new JavaParser(path + graphname, "cap");
+		JavaParser jp = new JavaParser(path + graphname, capacityAttrName);
 		this.yolo = jp.createGraph();
-		System.out.println("Input Graph: " + yolo);
 	}
 
 	@Test
 	public void FordFulkersonTest() {
-		FordFulkerson results = new FordFulkerson(yolo, quelleID, senkeID);
+		new FordFulkerson(yolo, quelleID, senkeID, capacityAttrName, flowAttrName);
+		System.out.println("Graph with maximal Flow: " + yolo);
 	}
 
 	/*@Test

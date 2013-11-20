@@ -28,6 +28,8 @@ public class FordFulkerson {
 		this.graph = graph;
 		this.srcId = srcId;
 		this.destId = destId;
+		this.capAttr = capAttr;
+		this.flowAttr = flowAttr;
 		start();
 	}
 
@@ -105,9 +107,9 @@ public class FordFulkerson {
 	private void update_flow(Long eID, String direction, int restCap) {
 		int currentFlow = f(eID);
 		if (direction == "+") {
-			graph.setValE(eID, flowAttr, currentFlow + restCap);
+			f_set(eID, currentFlow + restCap);
 		} else {
-			graph.setValE(eID, flowAttr, currentFlow - restCap);
+			f_set(eID, currentFlow - restCap);
 		}
 	}
 
@@ -142,6 +144,10 @@ public class FordFulkerson {
 	private int f(Long eID) { // returns the current flow intensity of an edge
 		return graph.getValE(eID, flowAttr);
 	}
+	
+	private void f_set(Long eID, int flowValue) {	// sets the current flow on the edge
+		graph.setValE(eID, flowAttr, flowValue);
+	}
 
 	private List<Set<Long>> makeInOutPartition(Long vi) {
 		Set<Long> inci = graph.getIncident(vi);
@@ -170,7 +176,7 @@ public class FordFulkerson {
 	private void initFirstFlow(IAIGraph graph) {
 		Set<Long> edges = graph.getEdges();
 		for (Long eID : edges) {
-			graph.setValE(eID, flowAttr, 0);
+			f_set(eID, 0);
 		}
 	}
 
