@@ -1,9 +1,5 @@
 package GKA_A3;
 
-import static GKA_A2.Constants.INF;
-import static GKA_A2.Constants.NULL_DOUBLE;
-import static GKA_A2.Constants.throwIfOutOfBound;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -37,13 +33,16 @@ public class FordFulkerson {
 	}
 
 	private IAIGraph algo() {
-
-		init(graph, srcId, destId);
 		
-		Long vi = getMarkedUninspected();
-		while(vi != -1L){
-			// schritt 2
-			List<Set<Long>> partition = makePartition(vi);
+		// Step 1 - initialize
+		init();
+		
+		
+		// the recurring GOTO Step 2 was refactored into a for-loop
+		for(Long vi = getMarkedUninspected();vi != -1L;vi = getMarkedUninspected()){
+
+			// Step 2
+			List<Set<Long>> partition = makeInOutPartition(vi);
 			Set<Long> incoming = partition.get(0);
 			Set<Long> outgoing = partition.get(1);
 			
@@ -73,15 +72,9 @@ public class FordFulkerson {
 			marked.get(vi).inspect();
 			
 			if (marked.containsKey(destId)){
-				//schritt 3
-				List<Long> augmenting_path = getPathList(srcId, destId);
-				// restCap
-				for(Long eID : augmenting_path){
-					
-				}
-				
+				// step three. calculate the augmenting path and update the flow
+				step3();
 			}
-			vi = getMarkedUninspected();
 		}
 		
 		// Schritt 4
@@ -89,6 +82,33 @@ public class FordFulkerson {
 		return graph;
 	}
 	
+	private void step3() {
+		List<Long> augmenting_path = getPathList(srcId, destId);
+		int restCap = minimalRestCap(augmenting_path);
+		for(Long eID : augmenting_path){
+			Tuple4 tuple = marked.get(eID);
+			update_flow(eID, tuple.getDirection(), restCap);
+		}
+	}
+
+	private void update_flow(Long eID, String direction, int restCap) {
+		int currentFlow = flow.get(eID);
+		if(direction=="+"){
+			flow.put(eID, currentFlow + restCap);
+		}
+		else{
+			flow.put(eID, currentFlow - restCap);
+		}
+	}
+
+	private int minimalRestCap(List<Long> path) {
+		int min = marked.get((path.get(0))).getRestCap();
+		for(Long eID : path){
+			min = Math.min(marked.get(eID).getRestCap(), min);
+		}
+		return min;
+	}
+
 	// Shortest Path from -> to
 	public List<Long> getPathList(long src, long dest) {
 		return getPatListAcc(src, dest, new ArrayList<Long>());
@@ -105,15 +125,15 @@ public class FordFulkerson {
 		return getPatListAcc(src, predId, accu);
 	}
 
-	private int c(Long eID) {
+	private int c(Long eID) {	// returns the capacity of an edge
 		return graph.getValE(eID, "cap");
 	}
 
-	private int f(Long eID) {
+	private int f(Long eID) {	// returns the current flow intensity of an edge
 		return flow.get(eID);
 	}
 
-	private List<Set<Long>> makePartition(Long vi) {
+	private List<Set<Long>> makeInOutPartition(Long vi) {
 		Set<Long> inci = graph.getIncident(vi);
 		Set<Long> incoming = new HashSet<>();
 		Set<Long> outgoing = new HashSet<>();
@@ -132,7 +152,7 @@ public class FordFulkerson {
 		return -1L;
 	}
 
-	private void init(IAIGraph graph, long srcId, long destId) {
+	private void init() {
 		initFirstFlow(graph);
 		marked.put(srcId, new Tuple4("", NO_PRED, UNDEF, false));
 	}
