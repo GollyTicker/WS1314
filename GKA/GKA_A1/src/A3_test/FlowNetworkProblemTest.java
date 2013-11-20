@@ -19,23 +19,26 @@ public class FlowNetworkProblemTest {
 	private long senkeID;
 
 	public FlowNetworkProblemTest() {
-		String path = WhichPath.getPath();
+		// dont forget to change the quelleID and senkeID as well!
 		String graphname = "graph20.graph";
 		quelleID = 0;
 		senkeID = 4;
+		// dont forget to change the quelleID and senkeID as well!
+
+		String path = WhichPath.getPath();
 		JavaParser jp = new JavaParser(path + graphname, "cap");
 		this.yolo = jp.createGraph();
 		System.out.println("Input Graph: " + yolo);
 	}
-	
+
 	@Test
 	public void FordFulkersonTest() {
 		FordFulkerson results = new FordFulkerson(yolo, quelleID, senkeID);
 	}
 
-	@Test
+	/*@Test
 	public void EdmondsKarpTest() {
 		yolo = edmondsKarp(yolo);
-	}
+	}*/
 
 }
