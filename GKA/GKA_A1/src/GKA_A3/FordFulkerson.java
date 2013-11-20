@@ -17,11 +17,14 @@ public class FordFulkerson {
 
 	private IAIGraph graph;
 	private long srcId, destId;
+	private String capAttr, flowAttr;
 
-	private static Map<Long, Integer> flow = new HashMap<>();
+	// moves flow information from Map<Long, Integer> to Attributes in the graph. it'll be written into the graph
+	// the user has easier access with this solution
+	//private static Map<Long, Integer> flow = new HashMap<>();
 	private static Map<Long, Tuple4> marked = new HashMap<>();
 
-	public FordFulkerson(IAIGraph graph, long srcId, long destId) {
+	public FordFulkerson(IAIGraph graph, long srcId, long destId, String capAttr, String flowAttr) {
 		this.graph = graph;
 		this.srcId = srcId;
 		this.destId = destId;
@@ -100,11 +103,11 @@ public class FordFulkerson {
 	}
 
 	private void update_flow(Long eID, String direction, int restCap) {
-		int currentFlow = flow.get(eID);
+		int currentFlow = f(eID);
 		if (direction == "+") {
-			flow.put(eID, currentFlow + restCap);
+			graph.setValE(eID, flowAttr, currentFlow + restCap);
 		} else {
-			flow.put(eID, currentFlow - restCap);
+			graph.setValE(eID, flowAttr, currentFlow - restCap);
 		}
 	}
 
@@ -133,11 +136,11 @@ public class FordFulkerson {
 	}
 
 	private int c(Long eID) { // returns the capacity of an edge
-		return graph.getValE(eID, "cap");
+		return graph.getValE(eID, capAttr);
 	}
 
 	private int f(Long eID) { // returns the current flow intensity of an edge
-		return flow.get(eID);
+		return graph.getValE(eID, flowAttr);
 	}
 
 	private List<Set<Long>> makeInOutPartition(Long vi) {
@@ -166,8 +169,8 @@ public class FordFulkerson {
 
 	private void initFirstFlow(IAIGraph graph) {
 		Set<Long> edges = graph.getEdges();
-		for (Long eid : edges) {
-			flow.put(eid, 0);
+		for (Long eID : edges) {
+			graph.setValE(eID, flowAttr, 0);
 		}
 	}
 
