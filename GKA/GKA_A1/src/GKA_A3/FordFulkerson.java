@@ -19,7 +19,7 @@ public class FordFulkerson {
 	private long srcId, destId;
 	private String capAttr, flowAttr;
 
-	private static Map<Long, Tuple4> marked = new HashMap<>();
+	private Map<Long, Tuple4> marked = new HashMap<>();
 
 	// TODO: Export utilities out
 	// only components of the algorithms soulh be in this class
@@ -53,6 +53,7 @@ public class FordFulkerson {
 			Set<Long> outgoing = partition.get(1);
 
 			// Forward-edges
+//			System.out.println("vi:"+vi+ "; marked: " + marked);
 			for (Long eID : outgoing) {
 				long vj = graph.getTarget(eID);
 				if (!marked.containsKey(vj) && f(eID) < c(eID)) {
@@ -62,8 +63,10 @@ public class FordFulkerson {
 			}
 
 			// Backward-edges
+//			System.out.println("vi:"+vi+ "; marked: " + marked);
 			for (Long eID : incoming) {
 				long vj = graph.getSource(eID);
+				System.out.println(vj+"," + eID + ", " + vi);
 				if (!marked.containsKey(vj) && f(eID) > 0) {
 					// update the information on this possible augmenting edge
 					step2Backward(eID, vj, vi);
@@ -71,7 +74,7 @@ public class FordFulkerson {
 			}
 
 			marked.get(vi).inspect();
-
+			
 			if (marked.containsKey(destId)) {
 				// step three. calculate the augmenting path and update the flow
 				step3();
@@ -82,15 +85,12 @@ public class FordFulkerson {
 		// we're finished now!
 
 	}
-
+	
+	// Problem: Algorithm doesn't land here on graph21.graph
 	private void step2Backward(Long eID, long vj, long vi) {
+//		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-");
 		Integer restCap_vi = marked.get(vi).getRestCap();
-
-		// don't use math.min here
-		// because IFNINITY is encoded as-1
-		// In this context, INFINIITY must not be positive
-		// int restCap = minimumOf(f(eID), restCap_vi);
-
+//		System.out.println(restCap_vi + " <->" + f(eID));
 		int restCap = Math.min(f(eID), restCap_vi);
 		marked.put(vj, new Tuple4("-", vi, restCap, false));
 	}
@@ -108,16 +108,30 @@ public class FordFulkerson {
 		// System.out.println("Marks: " + marked);
 		List<Long> augPathVertices = getPathList(srcId, destId);
 		List<Long> augPathEdges = getPathListAsEdges(augPathVertices);
-		int restCap = minimalRestCap(augPathVertices);
-		// System.out.println("AugPathV: " + augPathVertices);
+		int flowUpdateRestCap = minimalRestCap(augPathVertices);
+//		 System.out.println("AugPathV: " + augPathVertices);
 		// System.out.println("AugPathE: " + augPathEdges);
 		// System.out.println("FlowAddition: " + restCap);
-		// IMPORTANT. augmenting path contains vertices. we have top calculate
-		// the edges first!
-		for (Long eID : augPathEdges) {
-			// System.out.println("AugmentedVertices:" + graph.getTarget(eID));
-			Tuple4 tuple = marked.get(graph.getTarget(eID));
-			update_flow(eID, tuple.getDirection(), restCap);
+		
+//		for (Long eID : augPathEdges) {
+//			// System.out.println("AugmentedVertices:" + graph.getTarget(eID));
+//			Tuple4 tuple = marked.get(graph.getTarget(eID));
+//			update_flow(eID, tuple.getDirection(), flowUpdateRestCap);
+//		}
+		
+		// using indices instead of for-each because
+		// it'd be hard to get the vIDs and corresponding eIDs
+		// in a proper manner
+		for(int i=0; i < augPathEdges.size(); i++){
+			long eid = augPathEdges.get(i);
+			// destVid points to the vertice of
+			// eid which is closer to the destination(destID)
+			// desVid does NOT refer to the Target Vertice of eid
+			long destVid = augPathVertices.get(i + 1);
+			String direction = marked.get(destVid).getDirection();
+			update_flow(eid, direction, flowUpdateRestCap);
+			
+			
 		}
 
 		resetMarked();
@@ -137,12 +151,14 @@ public class FordFulkerson {
 		}
 		return pathE;
 	}
-
+	
+	
 	private void update_flow(Long eID, String direction, int restCap) {
 		int currentFlow = f(eID);
 		if (direction == "+") {
 			f_set(eID, currentFlow + restCap);
 		} else if (direction == "-") {
+			System.out.println("##############################################-");
 			f_set(eID, currentFlow - restCap);
 		} else {
 			System.err.println("ALERT! NULL_DIRECTION in AugPath");
@@ -165,7 +181,6 @@ public class FordFulkerson {
 	private List<Long> getPatListAcc(long src, long dest, List<Long> accu) {
 		long predId = marked.get(dest).getPredID();
 		if (predId == NO_PRED) {
-			// accu.add(0, dest);
 			accu.add(0, src);
 			return accu;
 		}
