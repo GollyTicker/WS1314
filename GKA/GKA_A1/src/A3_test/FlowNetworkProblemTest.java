@@ -23,9 +23,9 @@ public class FlowNetworkProblemTest {
 
 	public FlowNetworkProblemTest() {
 		// dont forget to change the quelleID and senkeID as well!
-		graphname = "graph20.graph";
 		quelleID = 0;
 		senkeID = 4;
+		graphname = "graph20.graph";
 		// dont forget to change the quelleID and senkeID as well!
 
 		String path = WhichPath.getPath();
@@ -43,18 +43,16 @@ public class FlowNetworkProblemTest {
 
 	@Test
 	public void FordFulkersonBackwardTest() {
-		if (graphname == "graph20.graph") {
-			// ONLY WORKS FOR --- graph20.graph --- !!!1
-			// add a bad Flow before giving it over to FordFulkerson
-			f_set(0L, 4);
-			f_set(1L, 5);
-			f_set(2L, 3);
-			f_set(3L, 8);
-			f_set(4L, 5);
-			f_set(5L, 6);
-			f_set(6L, 4);
-			f_set(7L, 3);
+		
+		// test only for graph21 because,
+		// the test adds graph-specific flow
+		if (graphname == "graph21.graph") {
 			
+			// add a bad Flow before giving it over to FordFulkerson
+			f_set(0L, 1);
+			f_set(1L, 9);
+			f_set(2L, 8);
+			f_set(3L, 1);
 			System.out.println("Bad Flow Graph: " + yolo);
 			new FordFulkerson(yolo, quelleID, senkeID, capacityAttrName,
 					flowAttrName);

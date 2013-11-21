@@ -22,7 +22,7 @@ public class FordFulkerson {
 	private Map<Long, Tuple4> marked = new HashMap<>();
 
 	// TODO: Export utilities out
-	// only components of the algorithms soulh be in this class
+	// only components of the algorithms should be in this class
 
 	public FordFulkerson(IAIGraph graph, long srcId, long destId,
 			String capAttr, String flowAttr) {
@@ -53,7 +53,6 @@ public class FordFulkerson {
 			Set<Long> outgoing = partition.get(1);
 
 			// Forward-edges
-//			System.out.println("vi:"+vi+ "; marked: " + marked);
 			for (Long eID : outgoing) {
 				long vj = graph.getTarget(eID);
 				if (!marked.containsKey(vj) && f(eID) < c(eID)) {
@@ -63,10 +62,8 @@ public class FordFulkerson {
 			}
 
 			// Backward-edges
-//			System.out.println("vi:"+vi+ "; marked: " + marked);
 			for (Long eID : incoming) {
 				long vj = graph.getSource(eID);
-				System.out.println(vj+"," + eID + ", " + vi);
 				if (!marked.containsKey(vj) && f(eID) > 0) {
 					// update the information on this possible augmenting edge
 					step2Backward(eID, vj, vi);
@@ -88,9 +85,7 @@ public class FordFulkerson {
 	
 	// Problem: Algorithm doesn't land here on graph21.graph
 	private void step2Backward(Long eID, long vj, long vi) {
-//		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-");
 		Integer restCap_vi = marked.get(vi).getRestCap();
-//		System.out.println(restCap_vi + " <->" + f(eID));
 		int restCap = Math.min(f(eID), restCap_vi);
 		marked.put(vj, new Tuple4("-", vi, restCap, false));
 	}
@@ -103,21 +98,10 @@ public class FordFulkerson {
 	}
 
 	private void step3() {
-		// System.out.println("----------------------------------");
-		// System.out.println("Before flow update: " + graph);
-		// System.out.println("Marks: " + marked);
 		List<Long> augPathVertices = getPathList(srcId, destId);
 		List<Long> augPathEdges = getPathListAsEdges(augPathVertices);
 		int flowUpdateRestCap = minimalRestCap(augPathVertices);
-//		 System.out.println("AugPathV: " + augPathVertices);
-		// System.out.println("AugPathE: " + augPathEdges);
-		// System.out.println("FlowAddition: " + restCap);
 		
-//		for (Long eID : augPathEdges) {
-//			// System.out.println("AugmentedVertices:" + graph.getTarget(eID));
-//			Tuple4 tuple = marked.get(graph.getTarget(eID));
-//			update_flow(eID, tuple.getDirection(), flowUpdateRestCap);
-//		}
 		
 		// using indices instead of for-each because
 		// it'd be hard to get the vIDs and corresponding eIDs
@@ -158,7 +142,6 @@ public class FordFulkerson {
 		if (direction == "+") {
 			f_set(eID, currentFlow + restCap);
 		} else if (direction == "-") {
-			System.out.println("##############################################-");
 			f_set(eID, currentFlow - restCap);
 		} else {
 			System.err.println("ALERT! NULL_DIRECTION in AugPath");
