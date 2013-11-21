@@ -33,4 +33,9 @@ public class Tuple4 {
 	public void inspect() {
 		this.inspected = true;
 	}
+	
+	@Override
+	public String toString(){
+		return "("+this.direction+", "+predID+", "+ restCap + ", " + inspected+")";
+	}
 }
