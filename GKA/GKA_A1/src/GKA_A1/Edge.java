@@ -34,7 +34,7 @@ public class Edge implements IEdge {
 		if (attrs.containsKey(attr)) {
 			return Integer.parseInt(attrs.get(attr));
 		}
-		return Integer.MAX_VALUE;
+		return -1;
 	}
 
 	@Override
