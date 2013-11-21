@@ -13,18 +13,20 @@ import GKA_A1.IAIGraph;
 public class FordFulkerson {
 
 	private static final long NO_PRED = -1;
-	private static final int UNDEF = -1;
+	private static final String NULL_DIRECTION = "X";
 
 	private IAIGraph graph;
 	private long srcId, destId;
 	private String capAttr, flowAttr;
 
-	// moves flow information from Map<Long, Integer> to Attributes in the graph. it'll be written into the graph
+	// moves flow information from Map<Long, Integer> to Attributes in the
+	// graph. it'll be written into the graph
 	// the user has easier access with this solution
-	//private static Map<Long, Integer> flow = new HashMap<>();
+	// private static Map<Long, Integer> flow = new HashMap<>();
 	private static Map<Long, Tuple4> marked = new HashMap<>();
 
-	public FordFulkerson(IAIGraph graph, long srcId, long destId, String capAttr, String flowAttr) {
+	public FordFulkerson(IAIGraph graph, long srcId, long destId,
+			String capAttr, String flowAttr) {
 		this.graph = graph;
 		this.srcId = srcId;
 		this.destId = destId;
@@ -82,34 +84,69 @@ public class FordFulkerson {
 
 	}
 
-	private void step2Backward(Long eID, long vj, Long vi) {
+	private void step2Backward(Long eID, long vj, long vi) {
 		Integer restCap_vi = marked.get(vi).getRestCap();
+
+		// don't use math.min here
+		// because IFNINITY is encoded as-1
+		// In this context, INFINIITY must not be positive
+		// int restCap = minimumOf(f(eID), restCap_vi);
+
 		int restCap = Math.min(f(eID), restCap_vi);
 		marked.put(vj, new Tuple4("-", vi, restCap, false));
 	}
 
 	// update the information on this possible augmenting edge
-	private void step2Forward(Long eID, long vj, Long vi) {
+	private void step2Forward(Long eID, long vj, long vi) {
 		Integer restCap_vi = marked.get(vi).getRestCap();
 		int restCap = Math.min(c(eID) - f(eID), restCap_vi);
 		marked.put(vj, new Tuple4("+", vi, restCap, false));
 	}
 
 	private void step3() {
-		List<Long> augmenting_path = getPathList(srcId, destId);
-		int restCap = minimalRestCap(augmenting_path);
-		for (Long eID : augmenting_path) {
-			Tuple4 tuple = marked.get(eID);
+		// System.out.println("----------------------------------");
+		// System.out.println("Before flow update: " + graph);
+		// System.out.println("Marks: " + marked);
+		List<Long> augPathVertices = getPathList(srcId, destId);
+		List<Long> augPathEdges = getPathListAsEdges(augPathVertices);
+		int restCap = minimalRestCap(augPathVertices);
+		// System.out.println("AugPathV: " + augPathVertices);
+		// System.out.println("AugPathE: " + augPathEdges);
+		// System.out.println("FlowAddition: " + restCap);
+		// IMPORTANT. augmenting path contains vertices. we have top calculate
+		// the edges first!
+		for (Long eID : augPathEdges) {
+			// System.out.println("AugmentedVertices:" + graph.getTarget(eID));
+			Tuple4 tuple = marked.get(graph.getTarget(eID));
 			update_flow(eID, tuple.getDirection(), restCap);
 		}
+		
+		resetMarked();
+		
+	}
+
+	public List<Long> getPathListAsEdges(List<Long> pathV) {
+		List<Long> pathE = new ArrayList<>(pathV.size());
+		for (Long eid : graph.getEdges()) {
+			for (int i = 0; i < pathV.size() - 1; i++) {
+				if (graph.getSource(eid) == pathV.get(i)
+						&& graph.getTarget(eid) == pathV.get(i + 1)) {
+					pathE.add(eid);
+					break;
+				}
+			}
+		}
+		return pathE;
 	}
 
 	private void update_flow(Long eID, String direction, int restCap) {
 		int currentFlow = f(eID);
 		if (direction == "+") {
 			f_set(eID, currentFlow + restCap);
-		} else {
+		} else if (direction == "-") {
 			f_set(eID, currentFlow - restCap);
+		} else {
+			// System.out.println("ALERT! NULL_DIRECTION in AugPath");
 		}
 	}
 
@@ -144,8 +181,9 @@ public class FordFulkerson {
 	private int f(Long eID) { // returns the current flow intensity of an edge
 		return graph.getValE(eID, flowAttr);
 	}
-	
-	private void f_set(Long eID, int flowValue) {	// sets the current flow on the edge
+
+	private void f_set(Long eID, int flowValue) { // sets the current flow on
+													// the edge
 		graph.setValE(eID, flowAttr, flowValue);
 	}
 
@@ -170,7 +208,27 @@ public class FordFulkerson {
 
 	private void init() {
 		initFirstFlow(graph);
-		marked.put(srcId, new Tuple4("", NO_PRED, UNDEF, false));
+		initQMark();
+	}
+
+	private void initQMark() {
+		// infinity is set to over the maximum capacity,
+		// because Integer doesn't support INFINITY
+		int infinity = getMaxCapPlus1();
+		marked.put(srcId, new Tuple4(NULL_DIRECTION, NO_PRED, infinity, false));
+	}
+	
+	private void resetMarked() {
+		marked = new HashMap<>();
+		initQMark();
+	}
+
+	private int getMaxCapPlus1() {
+		int maxCap = graph.getValE(0, capAttr);
+		for (Long eid : graph.getEdges()) {
+			maxCap = Math.max(maxCap, graph.getValE(eid, capAttr));
+		}
+		return maxCap + 1;
 	}
 
 	private void initFirstFlow(IAIGraph graph) {
