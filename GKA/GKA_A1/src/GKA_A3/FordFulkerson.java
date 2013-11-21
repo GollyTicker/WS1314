@@ -19,11 +19,10 @@ public class FordFulkerson {
 	private long srcId, destId;
 	private String capAttr, flowAttr;
 
-	// moves flow information from Map<Long, Integer> to Attributes in the
-	// graph. it'll be written into the graph
-	// the user has easier access with this solution
-	// private static Map<Long, Integer> flow = new HashMap<>();
 	private static Map<Long, Tuple4> marked = new HashMap<>();
+
+	// TODO: Export utilities out
+	// only components of the algorithms soulh be in this class
 
 	public FordFulkerson(IAIGraph graph, long srcId, long destId,
 			String capAttr, String flowAttr) {
@@ -120,9 +119,9 @@ public class FordFulkerson {
 			Tuple4 tuple = marked.get(graph.getTarget(eID));
 			update_flow(eID, tuple.getDirection(), restCap);
 		}
-		
+
 		resetMarked();
-		
+
 	}
 
 	public List<Long> getPathListAsEdges(List<Long> pathV) {
@@ -146,7 +145,7 @@ public class FordFulkerson {
 		} else if (direction == "-") {
 			f_set(eID, currentFlow - restCap);
 		} else {
-			// System.out.println("ALERT! NULL_DIRECTION in AugPath");
+			System.err.println("ALERT! NULL_DIRECTION in AugPath");
 		}
 	}
 
@@ -207,7 +206,9 @@ public class FordFulkerson {
 	}
 
 	private void init() {
-		initFirstFlow(graph);
+		// initialize the zero flow
+		// dont do anything, if a flow is already given
+		initFirstFlow();
 		initQMark();
 	}
 
@@ -217,7 +218,7 @@ public class FordFulkerson {
 		int infinity = getMaxCapPlus1();
 		marked.put(srcId, new Tuple4(NULL_DIRECTION, NO_PRED, infinity, false));
 	}
-	
+
 	private void resetMarked() {
 		marked = new HashMap<>();
 		initQMark();
@@ -231,10 +232,15 @@ public class FordFulkerson {
 		return maxCap + 1;
 	}
 
-	private void initFirstFlow(IAIGraph graph) {
+	// initialize the zero flow
+	// dont do anything, if a flow is already given
+	private void initFirstFlow() {
 		Set<Long> edges = graph.getEdges();
+		int null_representation = f(0L);
 		for (Long eID : edges) {
-			f_set(eID, 0);
+			if (f(eID) == null_representation) {
+				f_set(eID, 0);
+			}
 		}
 	}
 

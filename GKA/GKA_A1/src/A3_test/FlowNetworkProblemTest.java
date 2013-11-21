@@ -30,10 +30,19 @@ public class FlowNetworkProblemTest {
 		String path = WhichPath.getPath();
 		JavaParser jp = new JavaParser(path + graphname, capacityAttrName);
 		this.yolo = jp.createGraph();
+		System.out.println("Input Graph: " + yolo);
 	}
+	
+	
 
 	@Test
 	public void FordFulkersonTest() {
+		new FordFulkerson(yolo, quelleID, senkeID, capacityAttrName, flowAttrName);
+		System.out.println("Graph with maximal Flow: " + yolo);
+	}
+
+	@Test
+	public void FordFulkersonBackwardTest() {
 		new FordFulkerson(yolo, quelleID, senkeID, capacityAttrName, flowAttrName);
 		System.out.println("Graph with maximal Flow: " + yolo);
 	}
