@@ -233,11 +233,14 @@ public class FordFulkerson {
 	}
 
 	// initialize the zero flow
-	// dont do anything, if a flow is already given
+	// don't do anything, if a flow is already given
 	private void initFirstFlow() {
 		Set<Long> edges = graph.getEdges();
-		int null_representation = f(0L);
+		// in the AIGraph implementation. the integer value
+		// for unassigned attributes is -1
+		int null_representation = -1;
 		for (Long eID : edges) {
+			// only if the edge has no flow, then set it
 			if (f(eID) == null_representation) {
 				f_set(eID, 0);
 			}
