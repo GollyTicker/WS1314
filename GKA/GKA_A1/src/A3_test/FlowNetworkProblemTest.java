@@ -23,9 +23,20 @@ public class FlowNetworkProblemTest {
 
 	public FlowNetworkProblemTest() {
 		// dont forget to change the quelleID and senkeID as well!
+		
+		// there two graphs are built in such a wa
+		// that the maximal flow is can be recognized
+		// easily by checking whether the source/dest has
+		// it's edges fully filled
+		
 		quelleID = 0;
 		senkeID = 4;
 		graphname = "graph20.graph";
+		
+//		quelleID = 0;
+//		senkeID = 3;
+//		graphname = "graph21.graph";
+		
 		// dont forget to change the quelleID and senkeID as well!
 
 		String path = WhichPath.getPath();
@@ -54,6 +65,7 @@ public class FlowNetworkProblemTest {
 			f_set(2L, 8);
 			f_set(3L, 1);
 			System.out.println("Bad Flow Graph: " + yolo);
+			
 			new FordFulkerson(yolo, quelleID, senkeID, capacityAttrName,
 					flowAttrName);
 			System.out.println("Graph with maximal Flow: " + yolo);

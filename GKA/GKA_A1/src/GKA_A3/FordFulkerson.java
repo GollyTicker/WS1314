@@ -20,10 +20,8 @@ public class FordFulkerson {
 	private String capAttr, flowAttr;
 
 	private Map<Long, Tuple4> marked = new HashMap<>();
-
-	// TODO: Export utilities out
-	// only components of the algorithms should be in this class
-
+	
+	
 	public FordFulkerson(IAIGraph graph, long srcId, long destId,
 			String capAttr, String flowAttr) {
 		this.graph = graph;
@@ -31,32 +29,33 @@ public class FordFulkerson {
 		this.destId = destId;
 		this.capAttr = capAttr;
 		this.flowAttr = flowAttr;
-		start();
-	}
-
-	private void start() {
 		algo();
 	}
-
+	
 	private void algo() {
 
 		// Step 1 - initialize
 		init();
 
 		// Step 2
-
 		// the recurring GOTO Step 2 was refactored into a for-loop
+		
+		// save the current to be inspected Vertice into as vi. end loop, if
+		// there are no more.
 		for (Long vi = getMarkedUninspected(); vi != -1L; vi = getMarkedUninspected()) {
 
-			List<Set<Long>> partition = makeInOutPartition(vi);
+			// filter all edges by O(vi) and I(vi).
+			List<Set<Long>> partition = makeInOutPartitionOf(vi);
 			Set<Long> incoming = partition.get(0);
 			Set<Long> outgoing = partition.get(1);
 
 			// Forward-edges
 			for (Long eID : outgoing) {
 				long vj = graph.getTarget(eID);
+
+				// make the forward-mark of for every edge that goes from vi to
+				// an yet unmarked vj
 				if (!marked.containsKey(vj) && f(eID) < c(eID)) {
-					// update the information on this possible augmenting edge
 					step2Forward(eID, vj, vi);
 				}
 			}
@@ -64,14 +63,18 @@ public class FordFulkerson {
 			// Backward-edges
 			for (Long eID : incoming) {
 				long vj = graph.getSource(eID);
+
+				// make the backward-mark of for every edge that goes from vi to
+				// an yet unmarked vj
 				if (!marked.containsKey(vj) && f(eID) > 0) {
-					// update the information on this possible augmenting edge
 					step2Backward(eID, vj, vi);
 				}
 			}
-
+			
+			// mark vi as inspected
 			marked.get(vi).inspect();
 			
+			// if the senke/destination was reached(marek) then augment the flow
 			if (marked.containsKey(destId)) {
 				// step three. calculate the augmenting path and update the flow
 				step3();
@@ -83,7 +86,8 @@ public class FordFulkerson {
 
 	}
 	
-	// Problem: Algorithm doesn't land here on graph21.graph
+
+	// update the information on this possible augmenting edge
 	private void step2Backward(Long eID, long vj, long vi) {
 		Integer restCap_vi = marked.get(vi).getRestCap();
 		int restCap = Math.min(f(eID), restCap_vi);
@@ -98,24 +102,23 @@ public class FordFulkerson {
 	}
 
 	private void step3() {
-		List<Long> augPathVertices = getPathList(srcId, destId);
+		List<Long> augPathVertices = getAugmentingPathV();
 		List<Long> augPathEdges = getPathListAsEdges(augPathVertices);
 		int flowUpdateRestCap = minimalRestCap(augPathVertices);
-		
-		
+
 		// using indices instead of for-each because
 		// it'd be hard to get the vIDs and corresponding eIDs
 		// in a proper manner
-		for(int i=0; i < augPathEdges.size(); i++){
+		for (int i = 0; i < augPathEdges.size(); i++) {
 			long eid = augPathEdges.get(i);
 			// destVid points to the vertice of
 			// eid which is closer to the destination(destID)
-			// desVid does NOT refer to the Target Vertice of eid
+			// destVid does NOT refer to the Target Vertice of eid
 			long destVid = augPathVertices.get(i + 1);
 			String direction = marked.get(destVid).getDirection();
+			
+			// update the flow on each edge of the augmenting path
 			update_flow(eid, direction, flowUpdateRestCap);
-			
-			
 		}
 
 		resetMarked();
@@ -136,7 +139,7 @@ public class FordFulkerson {
 		return pathE;
 	}
 	
-	
+	// increase/decrease flow on the given edge by restCap
 	private void update_flow(Long eID, String direction, int restCap) {
 		int currentFlow = f(eID);
 		if (direction == "+") {
@@ -157,8 +160,8 @@ public class FordFulkerson {
 	}
 
 	// Shortest Path from -> to
-	public List<Long> getPathList(long src, long dest) {
-		return getPatListAcc(src, dest, new ArrayList<Long>());
+	public List<Long> getAugmentingPathV() {
+		return getPatListAcc(srcId, destId, new ArrayList<Long>());
 	}
 
 	private List<Long> getPatListAcc(long src, long dest, List<Long> accu) {
@@ -175,7 +178,7 @@ public class FordFulkerson {
 		return graph.getValE(eID, capAttr);
 	}
 
-	private int f(Long eID) { // returns the current flow intensity of an edge
+	private int f(Long eID) { // returns the flow intensity of an edge
 		return graph.getValE(eID, flowAttr);
 	}
 
@@ -184,7 +187,7 @@ public class FordFulkerson {
 		graph.setValE(eID, flowAttr, flowValue);
 	}
 
-	private List<Set<Long>> makeInOutPartition(Long vi) {
+	private List<Set<Long>> makeInOutPartitionOf(Long vi) {
 		Set<Long> inci = graph.getIncident(vi);
 		Set<Long> incoming = new HashSet<>();
 		Set<Long> outgoing = new HashSet<>();
@@ -212,7 +215,7 @@ public class FordFulkerson {
 
 	private void initQMark() {
 		// infinity is set to over the maximum capacity,
-		// because Integer doesn't support INFINITY
+		// because Integer doesn't have any built-in INFINITY
 		int infinity = getMaxCapPlus1();
 		marked.put(srcId, new Tuple4(NULL_DIRECTION, NO_PRED, infinity, false));
 	}
@@ -238,7 +241,8 @@ public class FordFulkerson {
 		// for unassigned attributes is -1
 		int null_representation = -1;
 		for (Long eID : edges) {
-			// only if the edge has no flow, then set it
+			// only if the edge has no flow, then set it to zero
+			// else let it be it's given value
 			if (f(eID) == null_representation) {
 				f_set(eID, 0);
 			}
