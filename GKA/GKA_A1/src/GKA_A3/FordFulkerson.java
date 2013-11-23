@@ -15,6 +15,7 @@ public class FordFulkerson implements ITimeSpace {
 
 	private static final long NO_PRED = -1;
 	private static final String NULL_DIRECTION = "X";
+	private static final boolean DEBUGMODE = true;
 
 	private IAIGraph graph;
 	private long srcId, destId;
@@ -57,9 +58,11 @@ public class FordFulkerson implements ITimeSpace {
 			Set<Long> outgoing = partition.get(1);
 
 			// Forward-edges
+	     	debug("vi:"+vi+ "; marked: " + marked);
 			for (Long eID : outgoing) {
 				increaseAccess(); // Zugriff auf ein Edge
 				long vj = graph.getTarget(eID);
+				debug(vj+"," + eID + ", " + vi);
 
 				// make the forward-mark of for every edge that goes from vi to
 				// an yet unmarked vj
@@ -99,6 +102,10 @@ public class FordFulkerson implements ITimeSpace {
 
 	}
 
+	private void debug(String string) {
+		if(DEBUGMODE) System.out.println(string);
+	}
+
 	// update the information on this possible augmenting edge
 	private void step2Backward(Long eID, long vj, long vi) {
 		increaseAccess(); // Zugriff auf die markierten Vertices
@@ -116,10 +123,16 @@ public class FordFulkerson implements ITimeSpace {
 	}
 
 	private void step3() {
+		debug("----------------------------------");
+		debug("Before flow update: " + graph);
+		debug("Marks: " + marked);
+		
 		List<Long> augPathVertices = getAugmentingPathV();
 		List<Long> augPathEdges = getPathListAsEdges(augPathVertices);
 		int flowUpdateRestCap = minimalRestCap(augPathVertices);
-
+		debug("AugPathV: " + augPathVertices);
+		debug("AugPathE: " + augPathEdges);
+		debug("FlowAddition: " + flowUpdateRestCap);
 		// using indices instead of for-each because
 		// it'd be hard to get the vIDs and corresponding eIDs
 		// in a proper manner
