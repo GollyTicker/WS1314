@@ -24,6 +24,20 @@ public abstract class FlowAlgorithms implements ITimeSpace  {
 	
 	protected Map<Long, Tuple4> marked = new HashMap<>();
 	
+	protected boolean verticeIsMarked(long vID){
+		increaseAccess(); // Zugriff auf die markierten Vertices
+		return marked.containsKey(vID);
+	}
+	
+	protected void markVertice(long vID, Tuple4 info){
+		increaseAccess(); // Zugriff auf die Datenstruktur
+		marked.put(vID, info);
+	}
+	
+	protected Tuple4 getMarkedTuple(long vID){
+		increaseAccess(); // Zugriff auf die markierten Vertices
+		return marked.get(vID);
+	}
 
 	protected FlowAlgorithms(IAIGraph graph, long srcId, long destId,
 			String capAttr, String flowAttr) {
@@ -54,8 +68,7 @@ public abstract class FlowAlgorithms implements ITimeSpace  {
 			// eid which is closer to the destination(destID)
 			// destVid does NOT refer to the Target Vertice of eid
 			long destVid = augPathVertices.get(i + 1);
-			increaseAccess(); // Zugriff auf die markierten Vertices
-			String direction = marked.get(destVid).getDirection();
+			String direction = getMarkedTuple(destVid).getDirection();
 
 			// update the flow on each edge of the augmenting path
 			update_flow(eid, direction, flowUpdateRestCap);
@@ -69,18 +82,16 @@ public abstract class FlowAlgorithms implements ITimeSpace  {
 
 	// update the information on this possible augmenting edge
 	protected void step2Backward(Long eID, long vj, long vi) {
-		increaseAccess(); // Zugriff auf die markierten Vertices
-		Integer restCap_vi = marked.get(vi).getRestCap();
+		Integer restCap_vi = getMarkedTuple(vi).getRestCap();
 		int restCap = Math.min(f(eID), restCap_vi);
-		marked.put(vj, new Tuple4("-", vi, restCap, false));
+		markVertice(vj, new Tuple4("-", vi, restCap, false));
 	}
 
 	// update the information on this possible augmenting edge
 	protected void step2Forward(Long eID, long vj, long vi) {
-		increaseAccess(); // Zugriff auf die markierten Vertices
-		Integer restCap_vi = marked.get(vi).getRestCap();
+		Integer restCap_vi = getMarkedTuple(vi).getRestCap();
 		int restCap = Math.min(c(eID) - f(eID), restCap_vi);
-		marked.put(vj, new Tuple4("+", vi, restCap, false));
+		markVertice(vj, new Tuple4("+", vi, restCap, false));
 	}
 
 
@@ -96,8 +107,7 @@ public abstract class FlowAlgorithms implements ITimeSpace  {
 				// in this if/elseif we ask the next vertice in the augmenting path
 				// how we can reach it. depending on the direction (+ or -)
 				
-				increaseAccess(); // Zugriff auf ein marked Vertice
-				if (marked.get(nextVertice).getDirection() == "+") {
+				if (getMarkedTuple(nextVertice).getDirection() == "+") {
 
 					// if the next vertice goes on a normal way, then
 					// pick the edge which goes from the current vertice
@@ -107,14 +117,14 @@ public abstract class FlowAlgorithms implements ITimeSpace  {
 							&& graph.getTarget(eid) == nextVertice) {
 						
 						debug("forward: " + currVertice + " "
-								+ marked.get(nextVertice).getDirection() + " "
+								+ getMarkedTuple(nextVertice).getDirection() + " "
 								+ nextVertice + " Edge: " + eid);
 						
 						pathE.add(eid);
 						break;
 					}
 				} // case backward
-				else if (marked.get(nextVertice).getDirection() == "-") {
+				else if (getMarkedTuple(nextVertice).getDirection() == "-") {
 
 					// if the vertice points over a backward edge to the next
 					// vertice
@@ -125,7 +135,7 @@ public abstract class FlowAlgorithms implements ITimeSpace  {
 							&& graph.getTarget(eid) == currVertice) {
 						
 						debug("backward: " + currVertice + " "
-								+ marked.get(nextVertice).getDirection() + " "
+								+ getMarkedTuple(nextVertice).getDirection() + " "
 								+ nextVertice + " Edge: " + eid);
 						
 						pathE.add(eid);
@@ -156,11 +166,9 @@ public abstract class FlowAlgorithms implements ITimeSpace  {
 	}
 
 	protected int minimalRestCap(List<Long> path) {
-		increaseAccess(); // Zugriff auf die markierten Vertices
-		int min = marked.get((path.get(0))).getRestCap();
+		int min = getMarkedTuple((path.get(0))).getRestCap();
 		for (Long eID : path) {
-			increaseAccess(); // Zugriff auf die markierten Vertices
-			min = Math.min(marked.get(eID).getRestCap(), min);
+			min = Math.min(getMarkedTuple(eID).getRestCap(), min);
 		}
 		return min;
 	}
@@ -171,8 +179,7 @@ public abstract class FlowAlgorithms implements ITimeSpace  {
 	}
 
 	protected List<Long> getPatListAcc(long src, long dest, List<Long> accu) {
-		increaseAccess(); // Zugriff auf die markierten Vertices
-		long predId = marked.get(dest).getPredID();
+		long predId = getMarkedTuple(dest).getPredID();
 		if (predId == NO_PRED) {
 			accu.add(0, src);
 			return accu;
@@ -202,15 +209,6 @@ public abstract class FlowAlgorithms implements ITimeSpace  {
 		return new ArrayList<Set<Long>>(Arrays.asList(incoming, outgoing));
 	}
 
-	protected Long getMarkedUninspected() {
-		for (Long vID : marked.keySet()) {
-			increaseAccess(); // Zugriff auf marked
-			if (!marked.get(vID).wasInspected())
-				return vID;
-		}
-		return -1L;
-	}
-
 	protected void init() {
 		// initialize the zero flow
 		// dont do anything, if a flow is already given
@@ -222,8 +220,7 @@ public abstract class FlowAlgorithms implements ITimeSpace  {
 		// infinity is set to over the maximum capacity,
 		// because Integer doesn't have any built-in INFINITY
 		INF = calcMaxCapPlus1();
-		increaseAccess(); // Setzten in "marked"
-		marked.put(srcId, new Tuple4(NULL_DIRECTION, NO_PRED, INF, false));
+		markVertice(srcId, new Tuple4(NULL_DIRECTION, NO_PRED, INF, false));
 	}
 	
 	protected int c(Long eID) { // returns the capacity of an edge

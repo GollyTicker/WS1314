@@ -45,8 +45,7 @@ public class FordFulkerson extends FlowAlgorithms {
 
 				// make the forward-mark of for every edge that goes from vi to
 				// an yet unmarked vj
-				increaseAccess(); // Zugriff auf die markierten Vertices
-				if (!marked.containsKey(vj) && f(eID) < c(eID)) {
+				if (!verticeIsMarked(vj) && f(eID) < c(eID)) {
 					step2Forward(eID, vj, vi);
 				}
 			}
@@ -58,20 +57,17 @@ public class FordFulkerson extends FlowAlgorithms {
 
 				// make the backward-mark of for every edge that goes from vi to
 				// an yet unmarked vj
-				increaseAccess(); // Zugriff auf die markierten Vertices
-				if (!marked.containsKey(vj) && f(eID) > 0) {
+				if (!verticeIsMarked(vj) && f(eID) > 0) {
 					step2Backward(eID, vj, vi);
 				}
 			}
 
 			// mark vi as inspected
-			increaseAccess(); // Zugriff auf den zu markierenden Vertice
-			marked.get(vi).inspect();
+			getMarkedTuple(vi).inspect();
 			
 			// Step 3
 			// if the senke/destination was reached(marek) then augment the flow
-			increaseAccess(); // Zugriff auf die markierten Vertices
-			if (marked.containsKey(destId)) {
+			if (verticeIsMarked(destId)) {
 				// step three. calculate the augmenting path and update the flow
 				updateByAugmentingPath();
 			}
@@ -80,6 +76,14 @@ public class FordFulkerson extends FlowAlgorithms {
 		// Step 4
 		// we're finished now!
 
+	}
+	
+	private Long getMarkedUninspected() {
+		for (Long vID : marked.keySet()) {
+			if (!getMarkedTuple(vID).wasInspected())
+				return vID;
+		}
+		return -1L;
 	}
 
 	

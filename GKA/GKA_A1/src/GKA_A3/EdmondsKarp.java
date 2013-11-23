@@ -32,7 +32,7 @@ public class EdmondsKarp extends FlowAlgorithms {
 		// Step 2
 		// save the current to be inspected Vertice into vi.
 		// end loop, if there are no more.
-		for (Long vi = getMarkedUninspected(); vi != -1L; vi = getMarkedUninspected()) {
+		for (Long vi = popFromStack(); vi != -1L; vi = popFromStack()) {
 
 			// filter all edges by O(vi) and I(vi).
 			List<Set<Long>> partition = makeInOutPartitionOf(vi);
@@ -45,9 +45,8 @@ public class EdmondsKarp extends FlowAlgorithms {
 				long vj = graph.getTarget(eID);
 
 				// make the forward-mark of for every edge that goes from vi to
-				// an yet unmarked vj
-				increaseAccess(); // Zugriff auf die markierten Vertices
-				if (!marked.containsKey(vj) && f(eID) < c(eID)) {
+				// an yet unmarked 
+				if (!verticeIsMarked(vj) && f(eID) < c(eID)) {
 					step2Forward(eID, vj, vi);
 				}
 			}
@@ -59,20 +58,17 @@ public class EdmondsKarp extends FlowAlgorithms {
 
 				// make the backward-mark of for every edge that goes from vi to
 				// an yet unmarked vj
-				increaseAccess(); // Zugriff auf die markierten Vertices
 				if (!marked.containsKey(vj) && f(eID) > 0) {
 					step2Backward(eID, vj, vi);
 				}
 			}
 
 			// mark vi as inspected
-			increaseAccess(); // Zugriff auf den zu markierenden Vertice
-			marked.get(vi).inspect();
+			getMarkedTuple(vi).inspect();
 
 			// Step 3
 			// if the senke/destination was reached(marek) then augment the flow
-			increaseAccess(); // Zugriff auf die markierten Vertices
-			if (marked.containsKey(destId)) {
+			if (verticeIsMarked(destId)) {
 				// step three. calculate the augmenting path and update the flow
 				updateByAugmentingPath();
 			}
@@ -81,6 +77,14 @@ public class EdmondsKarp extends FlowAlgorithms {
 		// Step 4
 		// we're finished now!
 
+	}
+
+	private Long popFromStack() {
+		for (Long vID : marked.keySet()) {
+			if (!getMarkedTuple(vID).wasInspected())
+				return vID;
+		}
+		return -1L;
 	}
 
 }
