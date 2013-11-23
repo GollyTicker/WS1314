@@ -47,6 +47,11 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 	public Tuple4 getMarkedTuple(long vID){
 		throw new UnsupportedOperationException(".");
 	}
+	
+	@Override
+	public void inspectVertice(long vID){
+		throw new UnsupportedOperationException(".");
+	}
 
 	protected void updateByAugmentingPath() {
 		debug("----------------------------------");
@@ -78,22 +83,20 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 
 	}
 
-
-
 	// update the information on this possible augmenting edge
-	protected void step2Backward(Long eID, long vj, long vi) {
-		Integer restCap_vi = getMarkedTuple(vi).getRestCap();
-		int restCap = Math.min(f(eID), restCap_vi);
-		markVertice(vj, new Tuple4("-", vi, restCap, false));
-	}
-
-	// update the information on this possible augmenting edge
-	protected void step2Forward(Long eID, long vj, long vi) {
+	protected void saveForwardEdge(Long eID, long vj, long vi) {
 		Integer restCap_vi = getMarkedTuple(vi).getRestCap();
 		int restCap = Math.min(c(eID) - f(eID), restCap_vi);
 		markVertice(vj, new Tuple4("+", vi, restCap, false));
 	}
 
+
+	// update the information on this possible augmenting edge
+	protected void saveBackwardEdge(Long eID, long vj, long vi) {
+		Integer restCap_vi = getMarkedTuple(vi).getRestCap();
+		int restCap = Math.min(f(eID), restCap_vi);
+		markVertice(vj, new Tuple4("-", vi, restCap, false));
+	}
 
 	public List<Long> getPathListAsEdges(List<Long> pathV) {
 		List<Long> pathE = new ArrayList<>(pathV.size());

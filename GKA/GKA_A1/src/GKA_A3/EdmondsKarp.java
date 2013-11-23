@@ -17,12 +17,14 @@ public class EdmondsKarp extends FlowAlgorithms {
 
 	// Kommantare stehe daher nur im Breath First Algorithmus
 	// da der Rest identisch zum Ford-Fulkerson ist.
+	
+	Deque<Long> stack;
 
 	public EdmondsKarp(IAIGraph graph, long srcId, long destId, String capAttr,
 			String flowAttr) {
 		super(graph, srcId, destId, capAttr, flowAttr);
 		algo();
-		Deque<Long> stack = new ArrayDeque<Long>();
+		stack = new ArrayDeque<Long>();
 	}
 
 	private void algo() {
@@ -50,7 +52,7 @@ public class EdmondsKarp extends FlowAlgorithms {
 				// make the forward-mark of for every edge that goes from vi to
 				// an yet unmarked 
 				if (!verticeIsMarked(vj) && f(eID) < c(eID)) {
-					step2Forward(eID, vj, vi);
+					saveForwardEdge(eID, vj, vi);
 				}
 			}
 
@@ -62,7 +64,7 @@ public class EdmondsKarp extends FlowAlgorithms {
 				// make the backward-mark of for every edge that goes from vi to
 				// an yet unmarked vj
 				if (!marked.containsKey(vj) && f(eID) > 0) {
-					step2Backward(eID, vj, vi);
+					saveBackwardEdge(eID, vj, vi);
 				}
 			}
 
@@ -82,6 +84,7 @@ public class EdmondsKarp extends FlowAlgorithms {
 
 	}
 
+	// TODO: change this four methods to use the stack
 	private Long popFromStack() {
 		for (Long vID : marked.keySet()) {
 			if (!getMarkedTuple(vID).wasInspected())
@@ -91,6 +94,8 @@ public class EdmondsKarp extends FlowAlgorithms {
 	}
 	
 	public boolean verticeIsMarked(long vID){
+		
+		
 		increaseAccess(); // Zugriff auf die markierten Vertices
 		return marked.containsKey(vID);
 	}
@@ -101,8 +106,13 @@ public class EdmondsKarp extends FlowAlgorithms {
 	}
 	
 	public Tuple4 getMarkedTuple(long vID){
+		// stack.pop();
 		increaseAccess(); // Zugriff auf die markierten Vertices
 		return marked.get(vID);
 	}
 
+	public void inspectVertice(long vID){
+		getMarkedTuple(vID).inspect();
+	}
+	
 }

@@ -46,7 +46,7 @@ public class FordFulkerson extends FlowAlgorithms {
 				// make the forward-mark of for every edge that goes from vi to
 				// an yet unmarked vj
 				if (!verticeIsMarked(vj) && f(eID) < c(eID)) {
-					step2Forward(eID, vj, vi);
+					saveForwardEdge(eID, vj, vi);
 				}
 			}
 
@@ -58,12 +58,12 @@ public class FordFulkerson extends FlowAlgorithms {
 				// make the backward-mark of for every edge that goes from vi to
 				// an yet unmarked vj
 				if (!verticeIsMarked(vj) && f(eID) > 0) {
-					step2Backward(eID, vj, vi);
+					saveBackwardEdge(eID, vj, vi);
 				}
 			}
 
 			// mark vi as inspected
-			getMarkedTuple(vi).inspect();
+			inspectVertice(vi);
 			
 			// Step 3
 			// if the senke/destination was reached(marek) then augment the flow
@@ -101,6 +101,7 @@ public class FordFulkerson extends FlowAlgorithms {
 		return marked.get(vID);
 	}
 
-	
-
+	public void inspectVertice(long vID){
+		getMarkedTuple(vID).inspect();
+	}
 }
