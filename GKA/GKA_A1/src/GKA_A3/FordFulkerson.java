@@ -58,11 +58,11 @@ public class FordFulkerson implements ITimeSpace {
 			Set<Long> outgoing = partition.get(1);
 
 			// Forward-edges
-	     	debug("vi:"+vi+ "; marked: " + marked);
+			// debug("vi:" + vi + "; marked: " + marked);
 			for (Long eID : outgoing) {
 				increaseAccess(); // Zugriff auf ein Edge
 				long vj = graph.getTarget(eID);
-				debug(vj+"," + eID + ", " + vi);
+//				debug(vj + "," + eID + ", " + vi);
 
 				// make the forward-mark of for every edge that goes from vi to
 				// an yet unmarked vj
@@ -103,7 +103,8 @@ public class FordFulkerson implements ITimeSpace {
 	}
 
 	private void debug(String string) {
-		if(DEBUGMODE) System.out.println(string);
+		if (DEBUGMODE)
+			System.out.println(string);
 	}
 
 	// update the information on this possible augmenting edge
@@ -126,7 +127,7 @@ public class FordFulkerson implements ITimeSpace {
 		debug("----------------------------------");
 		debug("Before flow update: " + graph);
 		debug("Marks: " + marked);
-		
+
 		List<Long> augPathVertices = getAugmentingPathV();
 		List<Long> augPathEdges = getPathListAsEdges(augPathVertices);
 		int flowUpdateRestCap = minimalRestCap(augPathVertices);
@@ -155,14 +156,56 @@ public class FordFulkerson implements ITimeSpace {
 
 	public List<Long> getPathListAsEdges(List<Long> pathV) {
 		List<Long> pathE = new ArrayList<>(pathV.size());
-		for (Long eid : graph.getEdges()) {
-			for (int i = 0; i < pathV.size() - 1; i++) {
+		for (int i = 0; i < pathV.size() - 1; i++) {
+
+			// we skip the first vertice,
+			// because it is the source vertice
+			for (Long eid : graph.getEdges()) {
 				increaseAccess(2);
-				if (graph.getSource(eid) == pathV.get(i)
-						&& graph.getTarget(eid) == pathV.get(i + 1)) {
-					pathE.add(eid);
-					break;
+
+				long currVertice = pathV.get(i);
+				long nextVertice = pathV.get(i + 1);
+
+				// case forward
+				if (marked.get(nextVertice).getDirection() == "+") {
+
+					// if the next vertice goes on a normal way, then
+					// pick the edge which goes from the current vertice
+					// to the next vertice
+					if (graph.getSource(eid) == currVertice
+							&& graph.getTarget(eid) == nextVertice) {
+						
+						debug("forward: " + currVertice + " "
+								+ marked.get(nextVertice).getDirection() + " "
+								+ nextVertice + " Edge: " + eid);
+						
+						pathE.add(eid);
+						break;
+					}
+				} // case backward
+				else if (marked.get(nextVertice).getDirection() == "-") {
+
+					// if the vertice points over a backward edge to the next
+					// vertice
+					// pick the edge which goes form the nextVertice to the
+					// currentVertice
+					if (graph.getSource(eid) == nextVertice
+							&& graph.getTarget(eid) == currVertice) {
+						
+						debug("backward: " + currVertice + " "
+								+ marked.get(nextVertice).getDirection() + " "
+								+ nextVertice + " Edge: " + eid);
+						
+						pathE.add(eid);
+						break;
+					}
+
+				} else {
+					System.err
+							.println("Shouldn't have any undirectional veritces!"
+									+ nextVertice);
 				}
+
 			}
 		}
 		return pathE;
@@ -238,7 +281,7 @@ public class FordFulkerson implements ITimeSpace {
 
 	private Long getMarkedUninspected() {
 		for (Long vID : marked.keySet()) {
-			increaseAccess();		// Zugriff auf marked
+			increaseAccess(); // Zugriff auf marked
 			if (!marked.get(vID).wasInspected())
 				return vID;
 		}
@@ -256,7 +299,7 @@ public class FordFulkerson implements ITimeSpace {
 		// infinity is set to over the maximum capacity,
 		// because Integer doesn't have any built-in INFINITY
 		int infinity = getMaxCapPlus1();
-		increaseAccess();		// Setzten in "marked"
+		increaseAccess(); // Setzten in "marked"
 		marked.put(srcId, new Tuple4(NULL_DIRECTION, NO_PRED, infinity, false));
 	}
 
@@ -266,10 +309,10 @@ public class FordFulkerson implements ITimeSpace {
 	}
 
 	private int getMaxCapPlus1() {
-		increaseAccess();		// Zugriff auf Attribut
+		increaseAccess(); // Zugriff auf Attribut
 		int maxCap = graph.getValE(0, capAttr);
 		for (Long eid : graph.getEdges()) {
-			increaseAccess();		// Zugriff auf Attribut
+			increaseAccess(); // Zugriff auf Attribut
 			maxCap = Math.max(maxCap, graph.getValE(eid, capAttr));
 		}
 		return maxCap + 1;

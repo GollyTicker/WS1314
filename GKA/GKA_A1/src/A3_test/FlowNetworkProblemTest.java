@@ -22,26 +22,31 @@ public class FlowNetworkProblemTest {
 	private final String flowAttrName = "f";
 
 	public FlowNetworkProblemTest() {
-		// dont forget to change the quelleID and senkeID as well!
+		// don't forget to change the quelleID and senkeID as well!
 		
-		// there two graphs are built in such a wa
+		// there two graphs are built in such a way
 		// that the maximal flow is can be recognized
 		// easily by checking whether the source/dest has
 		// it's edges fully filled
 		
-//		quelleID = 0;
-//		senkeID = 4;
-//		graphname = "graph20.graph";
+		quelleID = 0;
+		senkeID = 4;
+		graphname = "graph20.graph";
 		
 //		quelleID = 0;
 //		senkeID = 3;
 //		graphname = "graph21.graph";
 		
-		quelleID = 0;
-		senkeID = 9;
-		graphname = "graph9.graph";
+//		quelleID = 0;
+//		senkeID = 9;
+//		graphname = "graph9.graph";
 		
-		// dont forget to change the quelleID and senkeID as well!
+		// TODO: Problem detected:
+		// calculating the augmenting path Edges/Vertices
+		// isn't functioning
+		// backward edges aren't correctly inserted into the augmenting path Edges
+		
+		// don't forget to change the quelleID and senkeID as well!
 
 		String path = WhichPath.getPath();
 		JavaParser jp = new JavaParser(path + graphname, capacityAttrName);
