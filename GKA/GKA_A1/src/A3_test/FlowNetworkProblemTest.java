@@ -41,11 +41,6 @@ public class FlowNetworkProblemTest {
 //		senkeID = 9;
 //		graphname = "graph9.graph";
 		
-		// TODO: Problem detected:
-		// calculating the augmenting path Edges/Vertices
-		// isn't functioning
-		// backward edges aren't correctly inserted into the augmenting path Edges
-		
 		// don't forget to change the quelleID and senkeID as well!
 
 		String path = WhichPath.getPath();
