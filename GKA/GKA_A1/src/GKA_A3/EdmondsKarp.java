@@ -1,5 +1,7 @@
 package GKA_A3;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 import java.util.Set;
 
@@ -20,6 +22,7 @@ public class EdmondsKarp extends FlowAlgorithms {
 			String flowAttr) {
 		super(graph, srcId, destId, capAttr, flowAttr);
 		algo();
+		Deque<Long> stack = new ArrayDeque<Long>();
 	}
 
 	private void algo() {
@@ -85,6 +88,21 @@ public class EdmondsKarp extends FlowAlgorithms {
 				return vID;
 		}
 		return -1L;
+	}
+	
+	public boolean verticeIsMarked(long vID){
+		increaseAccess(); // Zugriff auf die markierten Vertices
+		return marked.containsKey(vID);
+	}
+	
+	public void markVertice(long vID, Tuple4 info){
+		increaseAccess(); // Zugriff auf die Datenstruktur
+		marked.put(vID, info);
+	}
+	
+	public Tuple4 getMarkedTuple(long vID){
+		increaseAccess(); // Zugriff auf die markierten Vertices
+		return marked.get(vID);
 	}
 
 }

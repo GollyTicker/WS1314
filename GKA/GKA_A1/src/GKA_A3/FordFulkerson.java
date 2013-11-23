@@ -85,6 +85,21 @@ public class FordFulkerson extends FlowAlgorithms {
 		}
 		return -1L;
 	}
+	
+	public boolean verticeIsMarked(long vID){
+		increaseAccess(); // Zugriff auf die markierten Vertices
+		return marked.containsKey(vID);
+	}
+	
+	public void markVertice(long vID, Tuple4 info){
+		increaseAccess(); // Zugriff auf die Datenstruktur
+		marked.put(vID, info);
+	}
+	
+	public Tuple4 getMarkedTuple(long vID){
+		increaseAccess(); // Zugriff auf die markierten Vertices
+		return marked.get(vID);
+	}
 
 	
 

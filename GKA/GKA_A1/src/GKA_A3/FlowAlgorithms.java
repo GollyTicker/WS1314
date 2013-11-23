@@ -11,7 +11,7 @@ import java.util.Set;
 import GKA_A1.IAIGraph;
 import GraphUtils.ITimeSpace;
 
-public abstract class FlowAlgorithms implements ITimeSpace  {
+public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStackQueue {
 
 	protected static final long NO_PRED = -1;
 	protected static final String NULL_DIRECTION = "X";
@@ -23,21 +23,6 @@ public abstract class FlowAlgorithms implements ITimeSpace  {
 	protected int access = 0;
 	
 	protected Map<Long, Tuple4> marked = new HashMap<>();
-	
-	protected boolean verticeIsMarked(long vID){
-		increaseAccess(); // Zugriff auf die markierten Vertices
-		return marked.containsKey(vID);
-	}
-	
-	protected void markVertice(long vID, Tuple4 info){
-		increaseAccess(); // Zugriff auf die Datenstruktur
-		marked.put(vID, info);
-	}
-	
-	protected Tuple4 getMarkedTuple(long vID){
-		increaseAccess(); // Zugriff auf die markierten Vertices
-		return marked.get(vID);
-	}
 
 	protected FlowAlgorithms(IAIGraph graph, long srcId, long destId,
 			String capAttr, String flowAttr) {
@@ -46,6 +31,21 @@ public abstract class FlowAlgorithms implements ITimeSpace  {
 		this.destId = destId;
 		this.capAttr = capAttr;
 		this.flowAttr = flowAttr;
+	}
+
+	@Override
+	public boolean verticeIsMarked(long vID){
+		throw new UnsupportedOperationException(".");
+	}
+
+	@Override
+	public void markVertice(long vID, Tuple4 info){
+		throw new UnsupportedOperationException(".");
+	}
+
+	@Override
+	public Tuple4 getMarkedTuple(long vID){
+		throw new UnsupportedOperationException(".");
 	}
 
 	protected void updateByAugmentingPath() {
@@ -282,7 +282,7 @@ public abstract class FlowAlgorithms implements ITimeSpace  {
 		return access;
 	}
 
-	@Override
+	@Override 
 	public void setAccessCount(int ac) {
 		access = ac;
 	}
