@@ -9,8 +9,9 @@ import java.util.Map;
 import java.util.Set;
 
 import GKA_A1.IAIGraph;
+import GraphUtils.ITimeSpace;
 
-public class FordFulkerson {
+public class FordFulkerson implements ITimeSpace {
 
 	private static final long NO_PRED = -1;
 	private static final String NULL_DIRECTION = "X";
@@ -19,9 +20,15 @@ public class FordFulkerson {
 	private long srcId, destId;
 	private String capAttr, flowAttr;
 
+	// accessCount
+	// Als AccessCounts zaehlen die Zeilen Code,
+	// indenen auf ein Attribut des Graphen zugegriffen/gesetzt wird
+	// oder ein Edge/Vertice des Graphen angefragt wird.
+	// Der Umgang mit dem "marked" zaehlt auch mit.
+	private int access = 0;
+
 	private Map<Long, Tuple4> marked = new HashMap<>();
-	
-	
+
 	public FordFulkerson(IAIGraph graph, long srcId, long destId,
 			String capAttr, String flowAttr) {
 		this.graph = graph;
@@ -31,7 +38,7 @@ public class FordFulkerson {
 		this.flowAttr = flowAttr;
 		algo();
 	}
-	
+
 	private void algo() {
 
 		// Step 1 - initialize
@@ -39,7 +46,7 @@ public class FordFulkerson {
 
 		// Step 2
 		// the recurring GOTO Step 2 was refactored into a for-loop
-		
+
 		// save the current to be inspected Vertice into as vi. end loop, if
 		// there are no more.
 		for (Long vi = getMarkedUninspected(); vi != -1L; vi = getMarkedUninspected()) {
@@ -51,10 +58,12 @@ public class FordFulkerson {
 
 			// Forward-edges
 			for (Long eID : outgoing) {
+				increaseAccess(); // Zugriff auf ein Edge
 				long vj = graph.getTarget(eID);
 
 				// make the forward-mark of for every edge that goes from vi to
 				// an yet unmarked vj
+				increaseAccess(); // Zugriff auf die markierten Vertices
 				if (!marked.containsKey(vj) && f(eID) < c(eID)) {
 					step2Forward(eID, vj, vi);
 				}
@@ -62,19 +71,23 @@ public class FordFulkerson {
 
 			// Backward-edges
 			for (Long eID : incoming) {
+				increaseAccess(); // Zugriff auf ein Edge
 				long vj = graph.getSource(eID);
 
 				// make the backward-mark of for every edge that goes from vi to
 				// an yet unmarked vj
+				increaseAccess(); // Zugriff auf die markierten Vertices
 				if (!marked.containsKey(vj) && f(eID) > 0) {
 					step2Backward(eID, vj, vi);
 				}
 			}
-			
+
 			// mark vi as inspected
+			increaseAccess(); // Zugriff auf den zu markierenden Vertice
 			marked.get(vi).inspect();
-			
+
 			// if the senke/destination was reached(marek) then augment the flow
+			increaseAccess(); // Zugriff auf die markierten Vertices
 			if (marked.containsKey(destId)) {
 				// step three. calculate the augmenting path and update the flow
 				step3();
@@ -85,10 +98,10 @@ public class FordFulkerson {
 		// we're finished now!
 
 	}
-	
 
 	// update the information on this possible augmenting edge
 	private void step2Backward(Long eID, long vj, long vi) {
+		increaseAccess(); // Zugriff auf die markierten Vertices
 		Integer restCap_vi = marked.get(vi).getRestCap();
 		int restCap = Math.min(f(eID), restCap_vi);
 		marked.put(vj, new Tuple4("-", vi, restCap, false));
@@ -96,6 +109,7 @@ public class FordFulkerson {
 
 	// update the information on this possible augmenting edge
 	private void step2Forward(Long eID, long vj, long vi) {
+		increaseAccess(); // Zugriff auf die markierten Vertices
 		Integer restCap_vi = marked.get(vi).getRestCap();
 		int restCap = Math.min(c(eID) - f(eID), restCap_vi);
 		marked.put(vj, new Tuple4("+", vi, restCap, false));
@@ -115,8 +129,9 @@ public class FordFulkerson {
 			// eid which is closer to the destination(destID)
 			// destVid does NOT refer to the Target Vertice of eid
 			long destVid = augPathVertices.get(i + 1);
+			increaseAccess(); // Zugriff auf die markierten Vertices
 			String direction = marked.get(destVid).getDirection();
-			
+
 			// update the flow on each edge of the augmenting path
 			update_flow(eid, direction, flowUpdateRestCap);
 		}
@@ -129,6 +144,7 @@ public class FordFulkerson {
 		List<Long> pathE = new ArrayList<>(pathV.size());
 		for (Long eid : graph.getEdges()) {
 			for (int i = 0; i < pathV.size() - 1; i++) {
+				increaseAccess(2);
 				if (graph.getSource(eid) == pathV.get(i)
 						&& graph.getTarget(eid) == pathV.get(i + 1)) {
 					pathE.add(eid);
@@ -138,7 +154,7 @@ public class FordFulkerson {
 		}
 		return pathE;
 	}
-	
+
 	// increase/decrease flow on the given edge by restCap
 	private void update_flow(Long eID, String direction, int restCap) {
 		int currentFlow = f(eID);
@@ -152,8 +168,10 @@ public class FordFulkerson {
 	}
 
 	private int minimalRestCap(List<Long> path) {
+		increaseAccess(); // Zugriff auf die markierten Vertices
 		int min = marked.get((path.get(0))).getRestCap();
 		for (Long eID : path) {
+			increaseAccess(); // Zugriff auf die markierten Vertices
 			min = Math.min(marked.get(eID).getRestCap(), min);
 		}
 		return min;
@@ -165,6 +183,7 @@ public class FordFulkerson {
 	}
 
 	private List<Long> getPatListAcc(long src, long dest, List<Long> accu) {
+		increaseAccess(); // Zugriff auf die markierten Vertices
 		long predId = marked.get(dest).getPredID();
 		if (predId == NO_PRED) {
 			accu.add(0, src);
@@ -175,15 +194,18 @@ public class FordFulkerson {
 	}
 
 	private int c(Long eID) { // returns the capacity of an edge
+		increaseAccess();
 		return graph.getValE(eID, capAttr);
 	}
 
 	private int f(Long eID) { // returns the flow intensity of an edge
+		increaseAccess();
 		return graph.getValE(eID, flowAttr);
 	}
 
 	private void f_set(Long eID, int flowValue) { // sets the current flow on
 													// the edge
+		increaseAccess(); // Zugriff auf den Graphen
 		graph.setValE(eID, flowAttr, flowValue);
 	}
 
@@ -191,18 +213,22 @@ public class FordFulkerson {
 		Set<Long> inci = graph.getIncident(vi);
 		Set<Long> incoming = new HashSet<>();
 		Set<Long> outgoing = new HashSet<>();
-		for (Long eID : inci)
+		for (Long eID : inci) {
+			increaseAccess(); // Zugriff auf einem Edge
 			if (graph.getSource(eID) == vi)
 				outgoing.add(eID);
 			else
 				incoming.add(eID);
+		}
 		return new ArrayList<Set<Long>>(Arrays.asList(incoming, outgoing));
 	}
 
 	private Long getMarkedUninspected() {
-		for (Long vID : marked.keySet())
+		for (Long vID : marked.keySet()) {
+			increaseAccess();		// Zugriff auf marked
 			if (!marked.get(vID).wasInspected())
 				return vID;
+		}
 		return -1L;
 	}
 
@@ -217,6 +243,7 @@ public class FordFulkerson {
 		// infinity is set to over the maximum capacity,
 		// because Integer doesn't have any built-in INFINITY
 		int infinity = getMaxCapPlus1();
+		increaseAccess();		// Setzten in "marked"
 		marked.put(srcId, new Tuple4(NULL_DIRECTION, NO_PRED, infinity, false));
 	}
 
@@ -226,8 +253,10 @@ public class FordFulkerson {
 	}
 
 	private int getMaxCapPlus1() {
+		increaseAccess();		// Zugriff auf Attribut
 		int maxCap = graph.getValE(0, capAttr);
 		for (Long eid : graph.getEdges()) {
+			increaseAccess();		// Zugriff auf Attribut
 			maxCap = Math.max(maxCap, graph.getValE(eid, capAttr));
 		}
 		return maxCap + 1;
@@ -247,6 +276,34 @@ public class FordFulkerson {
 				f_set(eID, 0);
 			}
 		}
+	}
+
+	private void increaseAccess() {
+		setAccessCount(accessCount() + 1);
+	}
+
+	private void increaseAccess(int amount) {
+		setAccessCount(accessCount() + amount);
+	}
+
+	@Override
+	public int accessCount() {
+		return access;
+	}
+
+	@Override
+	public void setAccessCount(int ac) {
+		access = ac;
+	}
+
+	@Override
+	public void resetAccessCount() {
+		setAccessCount(0);
+	}
+
+	@Override
+	public void printCount() {
+		System.out.println("AccessCount: " + access);
 	}
 
 }

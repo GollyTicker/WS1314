@@ -29,27 +29,32 @@ public class FlowNetworkProblemTest {
 		// easily by checking whether the source/dest has
 		// it's edges fully filled
 		
-		quelleID = 0;
-		senkeID = 4;
-		graphname = "graph20.graph";
+//		quelleID = 0;
+//		senkeID = 4;
+//		graphname = "graph20.graph";
 		
 //		quelleID = 0;
 //		senkeID = 3;
 //		graphname = "graph21.graph";
+		
+		quelleID = 0;
+		senkeID = 9;
+		graphname = "graph9.graph";
 		
 		// dont forget to change the quelleID and senkeID as well!
 
 		String path = WhichPath.getPath();
 		JavaParser jp = new JavaParser(path + graphname, capacityAttrName);
 		this.yolo = jp.createGraph();
-		System.out.println("Input Graph: " + yolo);
+		System.out.println("<======= New Test =======>\n Input Graph: " + yolo);
 	}
 
 	@Test
 	public void FordFulkersonTest() {
-		new FordFulkerson(yolo, quelleID, senkeID, capacityAttrName,
+		FordFulkerson swag = new FordFulkerson(yolo, quelleID, senkeID, capacityAttrName,
 				flowAttrName);
 		System.out.println("Graph with maximal Flow: " + yolo);
+		swag.printCount();
 	}
 
 	@Test
