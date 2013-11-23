@@ -20,26 +20,29 @@ public class FlowNetworkProblemTest {
 	private String graphname;
 	private final String capacityAttrName = "c";
 	private final String flowAttrName = "f";
+	FordFulkerson swag;
+	EdmondsKarp die_kleine_maus;
 
 	public FlowNetworkProblemTest() {
 		// don't forget to change the quelleID and senkeID as well!
 		
-		// there two graphs are built in such a way
+		// these two graphs are built in such a way
 		// that the maximal flow is can be recognized
 		// easily by checking whether the source/dest has
 		// it's edges fully filled
 		
-		quelleID = 0;
-		senkeID = 4;
-		graphname = "graph20.graph";
+//		quelleID = 0;
+//		senkeID = 4;
+//		graphname = "graph20.graph";
 		
 //		quelleID = 0;
 //		senkeID = 3;
 //		graphname = "graph21.graph";
 		
-//		quelleID = 0;
-//		senkeID = 9;
-//		graphname = "graph9.graph";
+		// this is the given graph form klauck
+		quelleID = 0;
+		senkeID = 9;
+		graphname = "graph9.graph";
 		
 		// don't forget to change the quelleID and senkeID as well!
 
@@ -50,40 +53,64 @@ public class FlowNetworkProblemTest {
 	}
 
 	@Test
-	public void FordFulkersonTest() {
+	public void FordFulkersonNormalTest() {
+		System.out.println("<==FordFulkerson Algorithm==>");
 		FordFulkerson swag = new FordFulkerson(yolo, quelleID, senkeID, capacityAttrName,
 				flowAttrName);
 		System.out.println("Graph with maximal Flow: " + yolo);
 		swag.printCount();
 	}
+	
+	@Test
+	public void EdmondsKarpNormalTest() {
+		System.out.println("<==EdmondsKarp Algorithm==>");
+		die_kleine_maus = new EdmondsKarp(yolo, quelleID, senkeID, capacityAttrName,
+				flowAttrName);
+		System.out.println("Graph with maximal Flow: " + yolo);
+		die_kleine_maus.printCount();
+	}
 
 	@Test
 	public void FordFulkersonBackwardTest() {
-		
+		System.out.println("Backward Test will only be executed for graph21.graph.");
 		// test only for graph21 because,
 		// the test adds graph-specific flow
 		if (graphname == "graph21.graph") {
-			
 			// add a bad Flow before giving it over to FordFulkerson
 			f_set(0L, 1);
 			f_set(1L, 9);
 			f_set(2L, 8);
 			f_set(3L, 1);
 			System.out.println("Bad Flow Graph: " + yolo);
-			
-			new FordFulkerson(yolo, quelleID, senkeID, capacityAttrName,
+
+			System.out.println("<==FordFulkerson Algorithm==>");
+			swag = new FordFulkerson(yolo, quelleID, senkeID, capacityAttrName,
 					flowAttrName);
 			System.out.println("Graph with maximal Flow: " + yolo);
+			swag.printCount();
+			
 		}
 	}
+	
+	@Test
+	public void EdmondsKarpBackwardTest() {
+		// add a bad Flow before giving it over to EdmondsKarp
+		f_set(0L, 1);
+		f_set(1L, 9);
+		f_set(2L, 8);
+		f_set(3L, 1);
+		System.out.println("Bad Flow Graph: " + yolo);
 
-	private void f_set(Long eID, int flowValue) { // sets the current flow on
-		// the edge
-		yolo.setValE(eID, flowAttrName, flowValue);
+		System.out.println("<==EdmondsKarp Algorithm==>");
+		die_kleine_maus = new EdmondsKarp(yolo, quelleID, senkeID, capacityAttrName,
+				flowAttrName);
+		System.out.println("Graph with maximal Flow: " + yolo);
+		die_kleine_maus.printCount(); 
 	}
 
-	/*
-	 * @Test public void EdmondsKarpTest() { yolo = edmondsKarp(yolo); }
-	 */
+	private void f_set(Long eID, int flowValue) {
+		// sets the current flow on the edge
+		yolo.setValE(eID, flowAttrName, flowValue);
+	}
 
 }

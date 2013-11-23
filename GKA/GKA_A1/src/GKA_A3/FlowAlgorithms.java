@@ -15,7 +15,7 @@ public abstract class FlowAlgorithms implements ITimeSpace  {
 
 	protected static final long NO_PRED = -1;
 	protected static final String NULL_DIRECTION = "X";
-	protected static final boolean DEBUGMODE = true;
+	protected static final boolean DEBUGMODE = false;
 	protected int INF;
 	protected IAIGraph graph;
 	protected long srcId, destId;
@@ -23,6 +23,16 @@ public abstract class FlowAlgorithms implements ITimeSpace  {
 	protected int access = 0;
 	
 	protected Map<Long, Tuple4> marked = new HashMap<>();
+	
+
+	protected FlowAlgorithms(IAIGraph graph, long srcId, long destId,
+			String capAttr, String flowAttr) {
+		this.graph = graph;
+		this.srcId = srcId;
+		this.destId = destId;
+		this.capAttr = capAttr;
+		this.flowAttr = flowAttr;
+	}
 
 	protected void updateByAugmentingPath() {
 		debug("----------------------------------");

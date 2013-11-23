@@ -23,21 +23,19 @@ public class FordFulkerson extends FlowAlgorithms {
 
 	public FordFulkerson(IAIGraph graph, long srcId, long destId,
 			String capAttr, String flowAttr) {
-		this.graph = graph;
-		this.srcId = srcId;
-		this.destId = destId;
-		this.capAttr = capAttr;
-		this.flowAttr = flowAttr;
+		super(graph, srcId, destId,	capAttr, flowAttr);
 		algo();
 	}
 
 	private void algo() {
 
-		// Step 1 - initialize
+		// Step 1 - 
+		// initialize the zero flow (if none is given)
+		// mark Quelle
 		init();
 
 		// Step 2
-		// save the current to be inspected Vertice into as vi. 
+		// save the current to be inspected Vertice into vi. 
 		// end loop, if there are no more.
 		for (Long vi = getMarkedUninspected(); vi != -1L; vi = getMarkedUninspected()) {
 
@@ -75,7 +73,8 @@ public class FordFulkerson extends FlowAlgorithms {
 			// mark vi as inspected
 			increaseAccess(); // Zugriff auf den zu markierenden Vertice
 			marked.get(vi).inspect();
-
+			
+			// Step 3
 			// if the senke/destination was reached(marek) then augment the flow
 			increaseAccess(); // Zugriff auf die markierten Vertices
 			if (marked.containsKey(destId)) {
