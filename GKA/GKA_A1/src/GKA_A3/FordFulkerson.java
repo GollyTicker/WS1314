@@ -16,7 +16,7 @@ public class FordFulkerson implements ITimeSpace {
 	private static final long NO_PRED = -1;
 	private static final String NULL_DIRECTION = "X";
 	private static final boolean DEBUGMODE = true;
-
+	private int INF;
 	private IAIGraph graph;
 	private long srcId, destId;
 	private String capAttr, flowAttr;
@@ -46,10 +46,8 @@ public class FordFulkerson implements ITimeSpace {
 		init();
 
 		// Step 2
-		// the recurring GOTO Step 2 was refactored into a for-loop
-
-		// save the current to be inspected Vertice into as vi. end loop, if
-		// there are no more.
+		// save the current to be inspected Vertice into as vi. 
+		// end loop, if there are no more.
 		for (Long vi = getMarkedUninspected(); vi != -1L; vi = getMarkedUninspected()) {
 
 			// filter all edges by O(vi) and I(vi).
@@ -58,11 +56,9 @@ public class FordFulkerson implements ITimeSpace {
 			Set<Long> outgoing = partition.get(1);
 
 			// Forward-edges
-			// debug("vi:" + vi + "; marked: " + marked);
 			for (Long eID : outgoing) {
 				increaseAccess(); // Zugriff auf ein Edge
 				long vj = graph.getTarget(eID);
-//				debug(vj + "," + eID + ", " + vi);
 
 				// make the forward-mark of for every edge that goes from vi to
 				// an yet unmarked vj
@@ -161,17 +157,19 @@ public class FordFulkerson implements ITimeSpace {
 			// we skip the first vertice,
 			// because it is the source vertice
 			for (Long eid : graph.getEdges()) {
-				increaseAccess(2);
 
 				long currVertice = pathV.get(i);
 				long nextVertice = pathV.get(i + 1);
 
 				// case forward
+				increaseAccess(); // Zugriff auf ein marked Vertice
+				
 				if (marked.get(nextVertice).getDirection() == "+") {
 
 					// if the next vertice goes on a normal way, then
 					// pick the edge which goes from the current vertice
 					// to the next vertice
+					increaseAccess(2); // Zugriff auf zwei Edges
 					if (graph.getSource(eid) == currVertice
 							&& graph.getTarget(eid) == nextVertice) {
 						
@@ -189,6 +187,7 @@ public class FordFulkerson implements ITimeSpace {
 					// vertice
 					// pick the edge which goes form the nextVertice to the
 					// currentVertice
+					increaseAccess(2); // Zugriff auf zwei Edges
 					if (graph.getSource(eid) == nextVertice
 							&& graph.getTarget(eid) == currVertice) {
 						
@@ -298,9 +297,9 @@ public class FordFulkerson implements ITimeSpace {
 	private void initQMark() {
 		// infinity is set to over the maximum capacity,
 		// because Integer doesn't have any built-in INFINITY
-		int infinity = getMaxCapPlus1();
+		INF = calcMaxCapPlus1();
 		increaseAccess(); // Setzten in "marked"
-		marked.put(srcId, new Tuple4(NULL_DIRECTION, NO_PRED, infinity, false));
+		marked.put(srcId, new Tuple4(NULL_DIRECTION, NO_PRED, INF, false));
 	}
 
 	private void resetMarked() {
@@ -308,7 +307,7 @@ public class FordFulkerson implements ITimeSpace {
 		initQMark();
 	}
 
-	private int getMaxCapPlus1() {
+	private int calcMaxCapPlus1() {
 		increaseAccess(); // Zugriff auf Attribut
 		int maxCap = graph.getValE(0, capAttr);
 		for (Long eid : graph.getEdges()) {
