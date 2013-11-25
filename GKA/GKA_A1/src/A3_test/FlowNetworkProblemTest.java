@@ -84,7 +84,7 @@ public class FlowNetworkProblemTest {
 			f_set(2L, 8);
 			f_set(3L, 1);
 			System.out.println("Bad Flow Graph: " + yolo);
-			
+
 			System.out.println("<==FordFulkerson Algorithm==>");
 			swag = new FordFulkerson(yolo, quelleID, senkeID, capacityAttrName,
 					flowAttrName);

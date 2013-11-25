@@ -8,29 +8,27 @@ import GKA_A1.IAIGraph;
 
 public class FordFulkerson extends FlowAlgorithms {
 
-
 	// accessCount
 	// Als AccessCounts zaehlen die Zeilen Code,
 	// indenen auf ein Attribut des Graphen zugegriffen/gesetzt wird
 	// oder ein Edge/Vertice des Graphen angefragt wird.
 	// Der Umgang mit dem "marked" zaehlt auch mit.
 
-
 	public FordFulkerson(IAIGraph graph, long srcId, long destId,
 			String capAttr, String flowAttr) {
-		super(graph, srcId, destId,	capAttr, flowAttr);
+		super(graph, srcId, destId, capAttr, flowAttr);
 		algo();
 	}
 
 	private void algo() {
 
-		// Step 1 - 
+		// Step 1 -
 		// initialize the zero flow (if none is given)
 		// mark Quelle
 		init();
 
 		// Step 2
-		// save the current to be inspected Vertice into vi. 
+		// save the current to be inspected Vertice into vi.
 		// end loop, if there are no more.
 		for (Long vi = getMarkedUninspected(); vi != -1L; vi = getMarkedUninspected()) {
 
@@ -65,7 +63,7 @@ public class FordFulkerson extends FlowAlgorithms {
 
 			// mark vi as inspected
 			inspectVertice(vi);
-			
+
 			// Step 3
 			// if the senke/destination was reached(marek) then augment the flow
 			if (verticeIsMarked(destId)) {
@@ -78,7 +76,7 @@ public class FordFulkerson extends FlowAlgorithms {
 		// we're finished now!
 
 	}
-	
+
 	private Long getMarkedUninspected() {
 		for (Long vID : marked.keySet()) {
 			if (!getMarkedTuple(vID).wasInspected())
@@ -86,23 +84,23 @@ public class FordFulkerson extends FlowAlgorithms {
 		}
 		return -1L;
 	}
-	
-	public boolean verticeIsMarked(long vID){
+
+	public boolean verticeIsMarked(long vID) {
 		increaseAccess(); // Zugriff auf die markierten Vertices
 		return marked.containsKey(vID);
 	}
-	
-	public void markVertice(long vID, Tuple4 info){
+
+	public void markVertice(long vID, Tuple4 info) {
 		increaseAccess(); // Zugriff auf die Datenstruktur
 		marked.put(vID, info);
 	}
-	
-	public Tuple4 getMarkedTuple(long vID){
+
+	public Tuple4 getMarkedTuple(long vID) {
 		increaseAccess(); // Zugriff auf die markierten Vertices
 		return marked.get(vID);
 	}
 
-	public void inspectVertice(long vID){
+	public void inspectVertice(long vID) {
 		getMarkedTuple(vID).inspect();
 	}
 
