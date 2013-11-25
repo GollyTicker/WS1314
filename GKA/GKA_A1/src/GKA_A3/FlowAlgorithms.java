@@ -52,6 +52,12 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 	public void inspectVertice(long vID){
 		throw new UnsupportedOperationException(".");
 	}
+	
+	@Override
+	public void resetMarks() {
+		marked = new HashMap<>();
+		initQMark();
+	}
 
 	protected void updateByAugmentingPath() {
 		debug("----------------------------------");
@@ -79,7 +85,7 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 			update_flow(eid, direction, flowUpdateRestCap);
 		}
 
-		resetMarked();
+		resetMarks();
 
 	}
 
@@ -239,11 +245,6 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 	protected void debug(String string) {
 		if (DEBUGMODE)
 			System.out.println(string);
-	}
-
-	protected void resetMarked() {
-		marked = new HashMap<>();
-		initQMark();
 	}
 
 	protected int calcMaxCapPlus1() {

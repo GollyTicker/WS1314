@@ -1,8 +1,9 @@
 package GKA_A3;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 import GKA_A1.IAIGraph;
@@ -18,13 +19,19 @@ public class EdmondsKarp extends FlowAlgorithms {
 	// Kommantare stehe daher nur im Breath First Algorithmus
 	// da der Rest identisch zum Ford-Fulkerson ist.
 	
-	Deque<Long> stack;
+	// Die markierten aber uninspizierten Knoten werden in
+	// der Queue gespeichert. Sobald sie inspiziert werden,
+	// werden sie aus der Queue entfernt
+	// Aus der Verwendung der Queue resultiert dann die
+	// Breitensuche.
+	
+	Queue<Long> inspectable;
 
 	public EdmondsKarp(IAIGraph graph, long srcId, long destId, String capAttr,
 			String flowAttr) {
 		super(graph, srcId, destId, capAttr, flowAttr);
+		inspectable = new LinkedList<>();
 		algo();
-		stack = new ArrayDeque<Long>();
 	}
 
 	private void algo() {
@@ -83,8 +90,9 @@ public class EdmondsKarp extends FlowAlgorithms {
 		// we're finished now!
 
 	}
-
-	// TODO: change this four methods to use the stack
+	
+	
+	// TODO: change this four methods to use the queue
 	private Long popFromStack() {
 		for (Long vID : marked.keySet()) {
 			if (!getMarkedTuple(vID).wasInspected())
@@ -94,14 +102,13 @@ public class EdmondsKarp extends FlowAlgorithms {
 	}
 	
 	public boolean verticeIsMarked(long vID){
-		
-		
 		increaseAccess(); // Zugriff auf die markierten Vertices
 		return marked.containsKey(vID);
 	}
 	
 	public void markVertice(long vID, Tuple4 info){
 		increaseAccess(); // Zugriff auf die Datenstruktur
+		inspectable.offer(vID);
 		marked.put(vID, info);
 	}
 	
@@ -115,4 +122,8 @@ public class EdmondsKarp extends FlowAlgorithms {
 		getMarkedTuple(vID).inspect();
 	}
 	
+	public void resetMarks() {
+		marked = new HashMap<>();
+		initQMark();
+	}
 }

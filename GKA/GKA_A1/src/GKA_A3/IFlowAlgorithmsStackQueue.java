@@ -17,4 +17,6 @@ public interface IFlowAlgorithmsStackQueue {
 	public Tuple4 getMarkedTuple(long vID);
 	
 	public void inspectVertice(long vID);
+	
+	public void resetMarks();
 }

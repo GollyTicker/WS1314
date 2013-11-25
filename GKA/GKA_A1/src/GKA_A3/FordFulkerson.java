@@ -1,5 +1,6 @@
 package GKA_A3;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -103,5 +104,10 @@ public class FordFulkerson extends FlowAlgorithms {
 
 	public void inspectVertice(long vID){
 		getMarkedTuple(vID).inspect();
+	}
+
+	public void resetMarks() {
+		marked = new HashMap<>();
+		initQMark();
 	}
 }
