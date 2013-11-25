@@ -32,13 +32,13 @@ public class FlowNetworkProblemTest {
 		// easily by checking whether the source/dest has
 		// it's edges fully filled
 
-		// quelleID = 0;
-		// senkeID = 4;
-		// graphname = "graph20.graph";
+//		 quelleID = 0;
+//		 senkeID = 4;
+//		 graphname = "graph20.graph";
 
-		// quelleID = 0;
-		// senkeID = 3;
-		// graphname = "graph21.graph";
+//		 quelleID = 0;
+//		 senkeID = 3;
+//		 graphname = "graph21.graph";
 
 		// this is the given graph form klauck
 		quelleID = 0;
