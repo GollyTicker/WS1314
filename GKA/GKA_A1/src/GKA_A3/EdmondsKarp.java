@@ -44,7 +44,7 @@ public class EdmondsKarp extends FlowAlgorithms {
 		// Step 2
 		// save the current to be inspected Vertice into vi.
 		// end loop, if there are no more.
-		for (Long vi = popFromStack(); vi != -1L; vi = popFromStack()) {
+		for (Long vi = popFromQueue(); vi != -1L; vi = popFromQueue()) {
 
 			// filter all edges by O(vi) and I(vi).
 			List<Set<Long>> partition = makeInOutPartitionOf(vi);
@@ -74,10 +74,10 @@ public class EdmondsKarp extends FlowAlgorithms {
 					saveBackwardEdge(eID, vj, vi);
 				}
 			}
-
-			// mark vi as inspected
-			getMarkedTuple(vi).inspect();
-
+			
+			// an dieser Stelle im Code wurde frueher der Vertice als inspected
+			// gesetzt. In EdmondsKarp passiert dies schon beim Entnehmen aus der Queue.
+			
 			// Step 3
 			// if the senke/destination was reached(marek) then augment the flow
 			if (verticeIsMarked(destId)) {
@@ -92,12 +92,16 @@ public class EdmondsKarp extends FlowAlgorithms {
 	}
 
 	// TODO: change this four methods to use the queue
-	private Long popFromStack() {
-		for (Long vID : marked.keySet()) {
-			if (!getMarkedTuple(vID).wasInspected())
-				return vID;
+	private Long popFromQueue() {
+		Long maybeVertice = inspectable.poll();
+		if (maybeVertice  != null) {
+			getMarkedTuple(maybeVertice).inspect();
+			return maybeVertice;
 		}
-		return -1L;
+		else {
+			return -1L;
+			
+		}
 	}
 
 	public boolean verticeIsMarked(long vID) {
