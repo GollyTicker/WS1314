@@ -191,14 +191,14 @@ public class MLinkedList<T extends Comparable<T>> implements IList<T>,
 	@Override
 	public String toString() {
 		if (first == null)
-			return "List[null]";
-		return stringHelper(this.first, "List[") + ", null]";
+			return "List[]";
+		return stringHelper(this.first, "List[") + "]";
 	}
 
 	private String stringHelper(Node<T> elem, String accu) {
+		accu += ((elem==first)?"":", ") + elem.getElem();
 		if (elem.getNext() == null)
 			return accu;
-		accu += elem.getElem() + ", ";
 		return stringHelper(elem.getNext(), accu);
 	}
 

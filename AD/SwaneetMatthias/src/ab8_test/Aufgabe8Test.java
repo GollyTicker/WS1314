@@ -11,10 +11,10 @@ public class Aufgabe8Test {
 
 	@Test
 	public void testRandomListOfLengthN() {
-		for(int n = 0; n < 15; n++) {
-			IList<Integer> randList = randomListOfLength(n,-100,200);
-			assertEquals(randList.length(),n);
-			System.out.println(randList);
+		for (int n = 0; n < 15; n++) {
+			IList<Integer> randList = randomListOfLength(n, -100, 200);
+			assertEquals(randList.length(), n);
+			System.out.println("n:" + n + "; " + randList);
 		}
 	}
 
