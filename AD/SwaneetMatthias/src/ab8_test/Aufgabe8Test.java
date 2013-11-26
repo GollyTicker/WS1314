@@ -52,5 +52,17 @@ public class Aufgabe8Test {
 			assertTrue(randSortedList.isSorted());
 		}
 	}
+	
+	// Aufgabe 8.3 Tests
+	@Test
+	public void testMerge() {
+		for (int n = 0; n < 30; n++) {
+			IList<Integer> rSortedLs1 = randomSortedListOfLength(n, STARTLIM, RANDOM_MAXSTEP);
+			IList<Integer> rSortedLs2 = randomSortedListOfLength(n, STARTLIM, RANDOM_MAXSTEP);
+			IList<Integer> mergedSorted = merge(rSortedLs1, rSortedLs2);
+			assertTrue(mergedSorted.isSorted());
+			
+		}
+	}
 
 }
