@@ -79,7 +79,7 @@ public class EdmondsKarp extends FlowAlgorithms {
 			// gesetzt. In EdmondsKarp passiert dies schon beim Entnehmen aus der Queue.
 			
 			// Step 3
-			// if the senke/destination was reached(marek) then augment the flow
+			// if the senke/destination was reached(marked) then augment the flow
 			if (verticeIsMarked(destId)) {
 				// step three. calculate the augmenting path and update the flow
 				updateByAugmentingPath();

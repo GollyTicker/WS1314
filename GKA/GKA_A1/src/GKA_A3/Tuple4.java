@@ -7,7 +7,8 @@ public class Tuple4 {
 	private Integer restCap;
 	private boolean inspected;
 
-	public Tuple4(String direction, Long predID, Integer restCap, boolean inspected) {
+	public Tuple4(String direction, Long predID, Integer restCap,
+			boolean inspected) {
 		this.direction = direction;
 		this.predID = predID;
 		this.restCap = restCap;
@@ -33,9 +34,10 @@ public class Tuple4 {
 	public void inspect() {
 		this.inspected = true;
 	}
-	
+
 	@Override
-	public String toString(){
-		return "("+this.direction+", "+predID+", "+ restCap + ", " + inspected+")";
+	public String toString() {
+		return "(" + this.direction + ", " + this.predID + ", " + this.restCap
+				+ ", " + this.inspected + ")";
 	}
 }

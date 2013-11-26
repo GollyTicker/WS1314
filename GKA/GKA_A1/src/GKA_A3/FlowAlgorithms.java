@@ -15,7 +15,7 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 
 	protected static final long NO_PRED = -1;
 	protected static final String NULL_DIRECTION = "X";
-	protected static final boolean DEBUGMODE = false;
+	protected static final boolean DEBUGMODE = true;
 	protected int INF;
 	protected IAIGraph graph;
 	protected long srcId, destId;
@@ -31,26 +31,6 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 		this.destId = destId;
 		this.capAttr = capAttr;
 		this.flowAttr = flowAttr;
-	}
-
-	@Override
-	public boolean verticeIsMarked(long vID){
-		throw new UnsupportedOperationException(".");
-	}
-
-	@Override
-	public void markVertice(long vID, Tuple4 info){
-		throw new UnsupportedOperationException(".");
-	}
-
-	@Override
-	public Tuple4 getMarkedTuple(long vID){
-		throw new UnsupportedOperationException(".");
-	}
-	
-	@Override
-	public void inspectVertice(long vID){
-		throw new UnsupportedOperationException(".");
 	}
 	
 	@Override
@@ -187,7 +167,7 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 		return getPatListAcc(srcId, destId, new ArrayList<Long>());
 	}
 
-	protected List<Long> getPatListAcc(long src, long dest, List<Long> accu) {
+	private List<Long> getPatListAcc(long src, long dest, List<Long> accu) {
 		long predId = getMarkedTuple(dest).getPredID();
 		if (predId == NO_PRED) {
 			accu.add(0, src);
@@ -217,7 +197,29 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 		}
 		return new ArrayList<Set<Long>>(Arrays.asList(incoming, outgoing));
 	}
+	
+	protected int c(Long eID) { // returns the capacity of an edge
+		increaseAccess();
+		return graph.getValE(eID, capAttr);
+	}
 
+	protected int f(Long eID) { // returns the flow intensity of an edge
+		increaseAccess();
+		return graph.getValE(eID, flowAttr);
+	}
+
+	protected int calcMaxCapPlus1() {
+		increaseAccess(); // Zugriff auf Attribut
+		int maxCap = graph.getValE(0, capAttr);
+		for (Long eid : graph.getEdges()) {
+			increaseAccess(); // Zugriff auf Attribut
+			maxCap = Math.max(maxCap, graph.getValE(eid, capAttr));
+		}
+		return maxCap + 1;
+	}
+
+	
+	// INITIALIZATION
 	protected void init() {
 		// initialize the zero flow
 		// dont do anything, if a flow is already given
@@ -232,31 +234,6 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 		markVertice(srcId, new Tuple4(NULL_DIRECTION, NO_PRED, INF, false));
 	}
 	
-	protected int c(Long eID) { // returns the capacity of an edge
-		increaseAccess();
-		return graph.getValE(eID, capAttr);
-	}
-
-	protected int f(Long eID) { // returns the flow intensity of an edge
-		increaseAccess();
-		return graph.getValE(eID, flowAttr);
-	}
-	
-	protected void debug(String string) {
-		if (DEBUGMODE)
-			System.out.println(string);
-	}
-
-	protected int calcMaxCapPlus1() {
-		increaseAccess(); // Zugriff auf Attribut
-		int maxCap = graph.getValE(0, capAttr);
-		for (Long eid : graph.getEdges()) {
-			increaseAccess(); // Zugriff auf Attribut
-			maxCap = Math.max(maxCap, graph.getValE(eid, capAttr));
-		}
-		return maxCap + 1;
-	}
-
 	// initialize the zero flow
 	// don't do anything, if a flow is already given
 	protected void initFirstFlow() {
@@ -273,6 +250,8 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 		}
 	}
 
+	
+	// ACCESS COUNT
 	protected void increaseAccess() {
 		setAccessCount(accessCount() + 1);
 	}
@@ -299,6 +278,33 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 	@Override
 	public void printCount() {
 		System.out.println("AccessCount: " + access);
+	}
+	
+	
+	// EXCEPTION HANDLING + DEBUGGING
+	protected void debug(String string) {
+		if (DEBUGMODE)
+			System.out.println(string);
+	}
+
+	@Override
+	public boolean verticeIsMarked(long vID){
+		throw new UnsupportedOperationException(".");
+	}
+
+	@Override
+	public void markVertice(long vID, Tuple4 info){
+		throw new UnsupportedOperationException(".");
+	}
+
+	@Override
+	public Tuple4 getMarkedTuple(long vID){
+		throw new UnsupportedOperationException(".");
+	}
+	
+	@Override
+	public void inspectVertice(long vID){
+		throw new UnsupportedOperationException(".");
 	}
 
 }

@@ -1,15 +1,12 @@
 package A3_test;
 
 import static org.junit.Assert.*;
-import static GKA_A3.EdmondsKarp.*;
-import static GKA_A3.FordFulkerson.*;
 
 import org.junit.Test;
 
 import GKA_A1.IAIGraph;
 import GKA_A3.EdmondsKarp;
 import GKA_A3.FordFulkerson;
-import GKA_A3.Tuple4;
 import GraphUtils.JavaParser;
 import GraphUtils.WhichPath;
 
@@ -36,39 +33,42 @@ public class FlowNetworkProblemTest {
 //		 senkeID = 4;
 //		 graphname = "graph20.graph";
 
-//		 quelleID = 0;
-//		 senkeID = 3;
-//		 graphname = "graph21.graph";
+//		quelleID = 0;
+//		senkeID = 3;
+//		graphname = "graph21.graph";
 
 		// this is the given graph form klauck
-		quelleID = 0;
-		senkeID = 9;
-		graphname = "graph9.graph";
+		 quelleID = 0;
+		 senkeID = 9;
+		 graphname = "graph9.graph";
 
 		// don't forget to change the quelleID and senkeID as well!
 
 		String path = WhichPath.getPath();
 		JavaParser jp = new JavaParser(path + graphname, capacityAttrName);
 		this.yolo = jp.createGraph();
-		System.out.println("<======= New Test =======>\n Input Graph: " + yolo);
+		System.out.println("\n<======= New Test =======>\n Input Graph: "
+				+ yolo);
 	}
 
 	@Test
 	public void FordFulkersonNormalTest() {
-		System.out.println("<==FordFulkerson Algorithm==>");
+		System.out.println("\n<==FordFulkerson Algorithm==>");
 		FordFulkerson swag = new FordFulkerson(yolo, quelleID, senkeID,
 				capacityAttrName, flowAttrName);
 		System.out.println("Graph with maximal Flow: " + yolo);
 		swag.printCount();
+		checkMaxFlow(quelleID, yolo);
 	}
 
 	@Test
 	public void EdmondsKarpNormalTest() {
-		System.out.println("<==EdmondsKarp Algorithm==>");
+		System.out.println("\n<==EdmondsKarp Algorithm==>");
 		die_kleine_maus = new EdmondsKarp(yolo, quelleID, senkeID,
 				capacityAttrName, flowAttrName);
 		System.out.println("Graph with maximal Flow: " + yolo);
 		die_kleine_maus.printCount();
+		checkMaxFlow(quelleID, yolo);
 	}
 
 	@Test
@@ -85,12 +85,12 @@ public class FlowNetworkProblemTest {
 			f_set(3L, 1);
 			System.out.println("Bad Flow Graph: " + yolo);
 
-			System.out.println("<==FordFulkerson Algorithm==>");
+			System.out.println("\n<==FordFulkerson Algorithm==>");
 			swag = new FordFulkerson(yolo, quelleID, senkeID, capacityAttrName,
 					flowAttrName);
 			System.out.println("Graph with maximal Flow: " + yolo);
 			swag.printCount();
-
+			checkMaxFlow(quelleID, yolo);
 		}
 	}
 
@@ -108,11 +108,12 @@ public class FlowNetworkProblemTest {
 			f_set(3L, 1);
 			System.out.println("Bad Flow Graph: " + yolo);
 
-			System.out.println("<==EdmondsKarp Algorithm==>");
+			System.out.println("\n<==EdmondsKarp Algorithm==>");
 			die_kleine_maus = new EdmondsKarp(yolo, quelleID, senkeID,
 					capacityAttrName, flowAttrName);
 			System.out.println("Graph with maximal Flow: " + yolo);
 			die_kleine_maus.printCount();
+			checkMaxFlow(quelleID, yolo);
 		}
 	}
 
@@ -121,4 +122,34 @@ public class FlowNetworkProblemTest {
 		yolo.setValE(eID, flowAttrName, flowValue);
 	}
 
+	private void checkMaxFlow(long vID, IAIGraph yolo) {
+		
+		// die drei beispielgraphen sind so gebaut, dass
+		// der maximale flow bei graph 9 und graph 20
+		// daran ueberprueft werden kann, ob alle von der Quelle
+		// ausgehende Kanten voll ausgeschoepft sind
+		
+		// unser graph 21 wurde so gebaut, dass er mit eiem schlechten
+		// fluss initialisiert uebergeben wird und
+		// wir dann pruefen, dass am Ende der Fluss zum destination maximal ist.
+		
+		if (graphname == "graph21.graph") {
+			for (long eID : yolo.getIncident(senkeID)) {
+				assertEquals(c(eID, yolo), f(eID, yolo));
+			}
+		} else {
+			for (long eID : yolo.getIncident(quelleID)) {
+				assertEquals(c(eID, yolo), f(eID, yolo));
+			}
+		}
+		
+	}
+
+	private int c(Long eID, IAIGraph graph) {
+		return graph.getValE(eID, capacityAttrName);
+	}
+
+	private int f(Long eID, IAIGraph graph) {
+		return graph.getValE(eID, flowAttrName);
+	}
 }
