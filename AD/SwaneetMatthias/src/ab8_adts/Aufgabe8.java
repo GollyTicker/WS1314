@@ -15,8 +15,8 @@ public class Aufgabe8 {
 	}
 
 	// Aufgabe 8.3
-	public static IList<Integer> randomSortedListOfLength(int n,int startLim, int maxStep) {
-		IList<Integer> ls = new MLinkedList<>();
+	public static MLinkedList<Integer> randomSortedListOfLength(int n,int startLim, int maxStep) {
+		MLinkedList<Integer> ls = new MLinkedList<>();
 		int myRand = (int) (startLim*Math.random());
 		for (int i = 0; i < n; i++) {
 			ls.cons(myRand);
@@ -26,8 +26,8 @@ public class Aufgabe8 {
 	}
 	
 	// Aufgabe 8.4
-	public static IList<Integer> merge(MLinkedList<Integer> l1, MLinkedList<Integer> l2) {
-		IList<Integer> merged = new MLinkedList<Integer>();
+	public static MLinkedList<Integer> merge(MLinkedList<Integer> l1, MLinkedList<Integer> l2) {
+		MLinkedList<Integer> merged = new MLinkedList<Integer>();
 		MListIterator<Integer> miter1 = new MListIterator<Integer>(l1);
 		MListIterator<Integer> miter2 = new MListIterator<Integer>(l2);
 		while(miter1.hasNext() || miter2.hasNext()){

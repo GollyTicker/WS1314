@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import ab1_adts.ListImpl.IList;
 import ab1_adts.ListImpl.MLinkedList;
+import ab1_adts.ListImpl.MListIterator;
 
 public class Aufgabe8Test {
 
@@ -52,8 +53,21 @@ public class Aufgabe8Test {
 			assertTrue(randSortedList.isSorted());
 		}
 	}
-	
-	// Aufgabe 8.3 Tests
+
+	// Iterator Test
+	@Test
+	public void tesIterator() {
+		for (int n = 0; n < 15; n++) {
+			MLinkedList<Integer> ls = randomSortedListOfLength(n, STARTLIM, RANDOM_MAXSTEP);
+			MListIterator<Integer> it = new MListIterator<Integer>(ls);
+			int i = 0;
+			while(it.hasNext()){
+				assertEquals(ls.get(i), it.next());
+				i+=1;
+			}
+		}
+	}	
+	/*// Aufgabe 8.4 und Aufgabe 8.5 Tests
 	@Test
 	public void testMerge() {
 		for (int n = 0; n < 30; n++) {
@@ -63,6 +77,6 @@ public class Aufgabe8Test {
 			assertTrue(mergedSorted.isSorted());
 			
 		}
-	}
+	}*/
 
 }
