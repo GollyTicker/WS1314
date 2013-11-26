@@ -49,7 +49,6 @@ public class Aufgabe8Test {
 	public void testRandomSortedListOfLengthN() {
 		for (int n = 0; n < 30; n++) {
 			IList<Integer> randSortedList = randomSortedListOfLength(n, STARTLIM, RANDOM_MAXSTEP);
-			System.out.println(randSortedList);
 			assertTrue(randSortedList.isSorted());
 		}
 	}
