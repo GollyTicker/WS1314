@@ -134,7 +134,7 @@ public class MLinkedList<T extends Comparable<T>> implements IList<T>,
 		return getFirst().getElem();
 	}
 
-	private Node<T> getFirst() {
+	public Node<T> getFirst() {
 		accessCount += 1; // first
 		return this.first;
 	}

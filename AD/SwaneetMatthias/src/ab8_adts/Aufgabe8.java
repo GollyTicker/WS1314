@@ -24,5 +24,16 @@ public class Aufgabe8 {
 		}
 		return ls;
 	}
+	
+	// Aufgabe 8.4
+	public static IList<Integer> merge(MLinkedList<Integer> l1, MLinkedList<Integer> l2) {
+		IList<Integer> merged = new MLinkedList<Integer>();
+		MListIterator<Integer> miter1 = new MListIterator<Integer>(l1);
+		MListIterator<Integer> miter2 = new MListIterator<Integer>(l2);
+		while(miter1.hasNext() || miter2.hasNext()){
+			
+		}
+		return merged;
+	}
 
 }
