@@ -173,7 +173,7 @@ public class MLinkedList<T extends Comparable<T>> implements IList<T>,
 
 	@Override
 	public boolean isSorted() {
-		for (int i = 0; i < length-1; i++)
+		for (int i = 0; i < length - 1; i++)
 			if (get(i).compareTo(get(i + 1)) == 1)
 				return false;
 		return true;
@@ -190,6 +190,8 @@ public class MLinkedList<T extends Comparable<T>> implements IList<T>,
 
 	@Override
 	public String toString() {
+		if (first == null)
+			return "List[Nothing]";
 		return stringHelper(this.first, "List[") + "]";
 	}
 
