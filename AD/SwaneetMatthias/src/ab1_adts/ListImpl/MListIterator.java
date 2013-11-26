@@ -10,11 +10,13 @@ public class MListIterator<T extends Comparable<T>> {
 	}
 
 	public boolean hasNext() {
-		return !(node.getNext() == null);
+		return node.getNext() != null;
 	}
 
 	public T next() {
 		node = node.getNext();
+		if(node == null)
+			return null;
 		return node.getElem();
 	}
 
