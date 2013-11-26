@@ -24,6 +24,9 @@ public interface IList<T extends Comparable<T>> extends ITimeSpace {
 	// get first element
 	T first();
 
+	// get first element
+	Node<T> getFirst();
+
 	// how many elements has a list?
 	int length();
 

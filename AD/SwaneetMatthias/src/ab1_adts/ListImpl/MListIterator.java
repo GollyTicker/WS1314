@@ -4,7 +4,7 @@ public class MListIterator<T extends Comparable<T>> {
 
 	private INode<T> node;
 
-	public MListIterator(MLinkedList<T> l) {
+	public MListIterator(IList<T> l) {
 		node = new Node<T>(null);
 		node.next(l.getFirst());
 	}
@@ -18,6 +18,10 @@ public class MListIterator<T extends Comparable<T>> {
 		if(node == null)
 			return null;
 		return node.getElem();
+	}
+	
+	public boolean currentNotNull() {
+		return node.getElem() != null;
 	}
 
 }

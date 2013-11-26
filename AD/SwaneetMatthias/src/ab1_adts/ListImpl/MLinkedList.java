@@ -125,6 +125,8 @@ public class MLinkedList<T extends Comparable<T>> implements IList<T>,
 		between.next(after);
 		this.length += 1;
 	}
+	
+	
 
 	/**
 	 * Returns the first element of the list
@@ -134,6 +136,7 @@ public class MLinkedList<T extends Comparable<T>> implements IList<T>,
 		return getFirst().getElem();
 	}
 
+	@Override
 	public Node<T> getFirst() {
 		accessCount += 1; // first
 		return this.first;
@@ -196,7 +199,7 @@ public class MLinkedList<T extends Comparable<T>> implements IList<T>,
 	}
 
 	private String stringHelper(Node<T> elem, String accu) {
-		accu += ((elem==first)?"":", ") + elem.getElem();
+		accu += ((elem == first) ? "" : ", ") + elem.getElem();
 		if (elem.getNext() == null)
 			return accu;
 		return stringHelper(elem.getNext(), accu);

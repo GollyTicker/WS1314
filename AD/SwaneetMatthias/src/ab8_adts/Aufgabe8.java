@@ -1,5 +1,7 @@
 package ab8_adts;
 
+import java.util.Arrays;
+
 import ab1_adts.ListImpl.*;
 
 public class Aufgabe8 {
@@ -15,7 +17,6 @@ public class Aufgabe8 {
 	}
 
 	// Aufgabe 8.3
-
 	public static MLinkedList<Integer> randomSortedListOfLength(int n,
 			int startLim, int maxStep) {
 		MLinkedList<Integer> ls = new MLinkedList<>();
@@ -28,15 +29,13 @@ public class Aufgabe8 {
 	}
 
 	// Aufgabe 8.4
-	// Aufgabe 8.4
-	public static MLinkedList<Integer> merge(MLinkedList<Integer> l1,
-			MLinkedList<Integer> l2) {
+	public static IList<Integer> merge(IList<Integer> l1, IList<Integer> l2) {
 		if (l1.isempty())
 			return l2;
 		if (l2.isempty())
 			return l1;
 
-		MLinkedList<Integer> merged = new MLinkedList<Integer>();
+		IList<Integer> merged = new MLinkedList<Integer>();
 
 		MListIterator<Integer> miter1 = new MListIterator<Integer>(l1);
 		MListIterator<Integer> miter2 = new MListIterator<Integer>(l2);
@@ -71,4 +70,33 @@ public class Aufgabe8 {
 		return merged;
 	}
 
+	public static IList<Integer> divide(IList<Integer> ls) {
+
+		if (ls.length() <= 1) {
+			return ls;
+		}
+
+		IList<Integer> ll = new MLinkedList<>();
+		IList<Integer> lr = new MLinkedList<>();
+		ll.cons(-1);
+		lr.cons(-1);
+		int len = ls.length();
+		int pivotinex = len / 2;
+		MListIterator<Integer> iter = new MListIterator<>(ls);
+		while (iter.hasNext()) {
+			if (ll.length() <= pivotinex) {
+				ll.insert(iter.next(), ll.length() - 1);
+			} else {
+				lr.insert(iter.next(), lr.length() - 1);
+			}
+		}
+		ll.head();
+		lr.head();
+
+		return merge(divide(ll), divide(lr));
+	}
+
+	public static IList<Integer> MergeSort(IList<Integer> ls) {
+		return divide(ls);
+	}
 }
