@@ -15,6 +15,7 @@ public class Aufgabe8 {
 	}
 
 	// Aufgabe 8.3
+
 	public static MLinkedList<Integer> randomSortedListOfLength(int n,
 			int startLim, int maxStep) {
 		MLinkedList<Integer> ls = new MLinkedList<>();
@@ -27,6 +28,7 @@ public class Aufgabe8 {
 	}
 
 	// Aufgabe 8.4
+	// Aufgabe 8.4
 	public static MLinkedList<Integer> merge(MLinkedList<Integer> l1,
 			MLinkedList<Integer> l2) {
 		if (l1.isempty())
@@ -38,9 +40,9 @@ public class Aufgabe8 {
 
 		MListIterator<Integer> miter1 = new MListIterator<Integer>(l1);
 		MListIterator<Integer> miter2 = new MListIterator<Integer>(l2);
-		
+
 		merged.cons(-1);
-		
+
 		Integer mint1 = miter1.next();
 		Integer mint2 = miter2.next();
 
@@ -63,9 +65,9 @@ public class Aufgabe8 {
 			merged.insert(mint2, merged.length() - 1);
 			mint2 = miter2.next();
 		}
-		
+
 		merged.head();
-		
+
 		return merged;
 	}
 
