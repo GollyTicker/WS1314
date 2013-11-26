@@ -41,6 +41,11 @@ public class FlowNetworkProblemTest {
 		 quelleID = 0;
 		 senkeID = 9;
 		 graphname = "graph9.graph";
+		 
+
+//		 quelleID = 22;
+//		 senkeID = 1;
+//		 graphname = "graph8.graph"; 		// TESTs sind nicht fuer graph8 geschrieben
 
 		// don't forget to change the quelleID and senkeID as well!
 
