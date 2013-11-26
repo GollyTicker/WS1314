@@ -52,5 +52,19 @@ public class Aufgabe8Test {
 			assertTrue(randSortedList.isSorted());
 		}
 	}
+	
+	// Aufgabe 8.3 Tests
+		@Test
+		public void test() {
+			for (int n = 0; n < 5; n++) {
+				MLinkedList<Integer> randSortedList1 = randomSortedListOfLength(n, STARTLIM, RANDOM_MAXSTEP);
+				MLinkedList<Integer> randSortedList2 = randomSortedListOfLength(n, STARTLIM, RANDOM_MAXSTEP);
+				MLinkedList<Integer> randSortedList3 = merge(randSortedList1, randSortedList2);
+				System.out.println(n+" RAND1 " + randSortedList1);
+				System.out.println(n+" RAND2 " + randSortedList2);
+				System.out.println(n+" MERGE " + randSortedList3);
+				assertTrue(randSortedList3.isSorted());
+			}
+		}
 
 }
