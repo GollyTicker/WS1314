@@ -7,7 +7,9 @@ import ad_utils.ITimeSpace;
  * @author Swaneet Sahoo, Matthias Nitsche
  */
 
-public interface IList<T> extends ITimeSpace {
+public interface IList<T extends Comparable<T>> extends ITimeSpace {
+
+	boolean isSorted();
 
 	// add elem to the front
 	void cons(T elem);

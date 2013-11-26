@@ -11,7 +11,8 @@ import java.util.Set;
 import GKA_A1.IAIGraph;
 import GraphUtils.ITimeSpace;
 
-public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStackQueue {
+public abstract class FlowAlgorithms implements ITimeSpace,
+		IFlowAlgorithmsStackQueue {
 
 	protected static final long NO_PRED = -1;
 	protected static final String NULL_DIRECTION = "X";
@@ -21,7 +22,7 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 	protected long srcId, destId;
 	protected String capAttr, flowAttr;
 	protected int access = 0;
-	
+
 	protected Map<Long, Tuple4> marked = new HashMap<>();
 
 	protected FlowAlgorithms(IAIGraph graph, long srcId, long destId,
@@ -31,12 +32,6 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 		this.destId = destId;
 		this.capAttr = capAttr;
 		this.flowAttr = flowAttr;
-	}
-	
-	@Override
-	public void resetMarks() {
-		marked = new HashMap<>();
-		initQMark();
 	}
 
 	protected void updateByAugmentingPath() {
@@ -76,7 +71,6 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 		markVertice(vj, new Tuple4("+", vi, restCap, false));
 	}
 
-
 	// update the information on this possible augmenting edge
 	protected void saveBackwardEdge(Long eID, long vj, long vi) {
 		Integer restCap_vi = getMarkedTuple(vi).getRestCap();
@@ -93,9 +87,10 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 				long nextVertice = pathV.get(i + 1);
 
 				// case forward
-				// in this if/elseif we ask the next vertice in the augmenting path
+				// in this if/elseif we ask the next vertice in the augmenting
+				// path
 				// how we can reach it. depending on the direction (+ or -)
-				
+
 				if (getMarkedTuple(nextVertice).getDirection() == "+") {
 
 					// if the next vertice goes on a normal way, then
@@ -104,11 +99,11 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 					increaseAccess(2); // Zugriff auf zwei Edges
 					if (graph.getSource(eid) == currVertice
 							&& graph.getTarget(eid) == nextVertice) {
-						
+
 						debug("forward: " + currVertice + " "
-								+ getMarkedTuple(nextVertice).getDirection() + " "
-								+ nextVertice + " Edge: " + eid);
-						
+								+ getMarkedTuple(nextVertice).getDirection()
+								+ " " + nextVertice + " Edge: " + eid);
+
 						pathE.add(eid);
 						break;
 					}
@@ -122,11 +117,11 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 					increaseAccess(2); // Zugriff auf zwei Edges
 					if (graph.getSource(eid) == nextVertice
 							&& graph.getTarget(eid) == currVertice) {
-						
+
 						debug("backward: " + currVertice + " "
-								+ getMarkedTuple(nextVertice).getDirection() + " "
-								+ nextVertice + " Edge: " + eid);
-						
+								+ getMarkedTuple(nextVertice).getDirection()
+								+ " " + nextVertice + " Edge: " + eid);
+
 						pathE.add(eid);
 						break;
 					}
@@ -177,7 +172,6 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 		return getPatListAcc(src, predId, accu);
 	}
 
-
 	protected void f_set(Long eID, int flowValue) { // sets the current flow on
 													// the edge
 		increaseAccess(); // Zugriff auf den Graphen
@@ -197,7 +191,7 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 		}
 		return new ArrayList<Set<Long>>(Arrays.asList(incoming, outgoing));
 	}
-	
+
 	protected int c(Long eID) { // returns the capacity of an edge
 		increaseAccess();
 		return graph.getValE(eID, capAttr);
@@ -218,7 +212,6 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 		return maxCap + 1;
 	}
 
-	
 	// INITIALIZATION
 	protected void init() {
 		// initialize the zero flow
@@ -233,7 +226,7 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 		INF = calcMaxCapPlus1();
 		markVertice(srcId, new Tuple4(NULL_DIRECTION, NO_PRED, INF, false));
 	}
-	
+
 	// initialize the zero flow
 	// don't do anything, if a flow is already given
 	protected void initFirstFlow() {
@@ -250,7 +243,6 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 		}
 	}
 
-	
 	// ACCESS COUNT
 	protected void increaseAccess() {
 		setAccessCount(accessCount() + 1);
@@ -259,13 +251,13 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 	protected void increaseAccess(int amount) {
 		setAccessCount(accessCount() + amount);
 	}
-	
+
 	@Override
 	public int accessCount() {
 		return access;
 	}
 
-	@Override 
+	@Override
 	public void setAccessCount(int ac) {
 		access = ac;
 	}
@@ -279,8 +271,7 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 	public void printCount() {
 		System.out.println("AccessCount: " + access);
 	}
-	
-	
+
 	// EXCEPTION HANDLING + DEBUGGING
 	protected void debug(String string) {
 		if (DEBUGMODE)
@@ -288,22 +279,27 @@ public abstract class FlowAlgorithms implements ITimeSpace, IFlowAlgorithmsStack
 	}
 
 	@Override
-	public boolean verticeIsMarked(long vID){
+	public boolean verticeIsMarked(long vID) {
 		throw new UnsupportedOperationException(".");
 	}
 
 	@Override
-	public void markVertice(long vID, Tuple4 info){
+	public void markVertice(long vID, Tuple4 info) {
 		throw new UnsupportedOperationException(".");
 	}
 
 	@Override
-	public Tuple4 getMarkedTuple(long vID){
+	public Tuple4 getMarkedTuple(long vID) {
 		throw new UnsupportedOperationException(".");
 	}
-	
+
 	@Override
-	public void inspectVertice(long vID){
+	public void inspectVertice(long vID) {
+		throw new UnsupportedOperationException(".");
+	}
+
+	@Override
+	public void resetMarks() {
 		throw new UnsupportedOperationException(".");
 	}
 

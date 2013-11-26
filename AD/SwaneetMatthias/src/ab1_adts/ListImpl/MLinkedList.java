@@ -7,7 +7,8 @@ import ad_utils.ITimeSpace;
  * @author Swaneet Sahoo, Matthias Nitsche
  */
 
-public class MLinkedList<T> implements IList<T>, ITimeSpace {
+public class MLinkedList<T extends Comparable<T>> implements IList<T>,
+		ITimeSpace {
 
 	private Node<T> first = null;
 	private int length;
@@ -168,6 +169,14 @@ public class MLinkedList<T> implements IList<T>, ITimeSpace {
 			return _get(node.getNext(), currentIndex, givenIndex);
 		}
 		return node;
+	}
+
+	@Override
+	public boolean isSorted() {
+		for (int i = 0; i < length-1; i++)
+			if (get(i).compareTo(get(i + 1)) == 1)
+				return false;
+		return true;
 	}
 
 	@Override
