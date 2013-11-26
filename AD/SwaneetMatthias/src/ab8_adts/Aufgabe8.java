@@ -15,13 +15,12 @@ public class Aufgabe8 {
 	}
 
 	// Aufgabe 8.3
-	public static IList<Integer> randomSortedListOfLength(int n, int min,
-			int max) {
+	public static IList<Integer> randomSortedListOfLength(int n,int startLim, int maxStep) {
 		IList<Integer> ls = new MLinkedList<>();
-		int myRand = (int) Math.round((min + (max - min) * Math.random()));
+		int myRand = (int) (startLim*Math.random());
 		for (int i = 0; i < n; i++) {
 			ls.cons(myRand);
-			myRand += (int) Math.round((min + (max - min) * Math.random()));
+			myRand -= (int) (maxStep*Math.random());
 		}
 		return ls;
 	}
