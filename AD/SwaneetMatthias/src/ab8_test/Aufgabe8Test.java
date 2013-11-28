@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import ab1_adts.ListImpl.IList;
 import ab1_adts.ListImpl.MLinkedList;
-import ab1_adts.ListImpl.MListIterator;
 
 public class Aufgabe8Test {
 
@@ -113,8 +112,6 @@ public class Aufgabe8Test {
 					RANDOM_MAXSTEP);
 			IList<Integer> sorted = MergeSort(rSortedLs);
 			assertTrue(sorted.isSorted());
-			System.out.println(sorted);
-			
 		}
 		IList<Integer> rSortedLs = randomListOfLength(10000, STARTLIM,
 				RANDOM_MAXSTEP);
