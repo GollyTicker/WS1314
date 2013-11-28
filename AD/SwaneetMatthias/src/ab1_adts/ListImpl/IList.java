@@ -9,10 +9,18 @@ import ad_utils.ITimeSpace;
 
 public interface IList<T extends Comparable<T>> extends ITimeSpace {
 
+	// add elem to the end in O(1)
+	// last element is saved from now on...
+	void append(T elem);
+
+	// Check if a given List is Sorted
 	boolean isSorted();
 
 	// add elem to the front
 	void cons(T elem);
+
+	// get Last Element without removing it
+	T last();
 
 	// removes first element and return first
 	T head();

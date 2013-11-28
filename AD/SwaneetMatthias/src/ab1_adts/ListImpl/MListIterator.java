@@ -13,15 +13,9 @@ public class MListIterator<T extends Comparable<T>> {
 		return node.getNext() != null;
 	}
 
-	public T next() {
+	public INode<T> next() {
 		node = node.getNext();
-		if(node == null)
-			return null;
-		return node.getElem();
-	}
-	
-	public boolean currentNotNull() {
-		return node.getElem() != null;
+		return node;
 	}
 
 }

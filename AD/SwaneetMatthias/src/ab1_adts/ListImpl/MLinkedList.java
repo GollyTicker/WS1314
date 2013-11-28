@@ -11,7 +11,8 @@ public class MLinkedList<T extends Comparable<T>> implements IList<T>,
 		ITimeSpace {
 
 	private Node<T> first = null;
-	private int length;
+	private Node<T> _last = null;
+	private int length = 0;
 
 	// counting references
 	private int accessCount = 0;
@@ -54,6 +55,7 @@ public class MLinkedList<T extends Comparable<T>> implements IList<T>,
 		Node<T> node = new Node<>(elem);
 		if (this.isempty()) {
 			this.first = node;
+			this._last = node;
 		} else {
 			Node<T> tmpFirst = first;
 			accessCount += 1; // Access: first
@@ -123,10 +125,10 @@ public class MLinkedList<T extends Comparable<T>> implements IList<T>,
 		accessCount += 1; // first
 		before.next(between);
 		between.next(after);
+		if (n == this.length)
+			this._last = between;
 		this.length += 1;
 	}
-	
-	
 
 	/**
 	 * Returns the first element of the list
@@ -228,5 +230,23 @@ public class MLinkedList<T extends Comparable<T>> implements IList<T>,
 	@Override
 	public int memoryUsage() {
 		return this.length;
+	}
+
+	@Override
+	public void append(T elem) {
+		if(this.isempty()){
+			this.cons(elem);
+			return ;
+		}
+		Node<T> elemN = new Node<T>(elem);
+		Node<T> tmp = this._last;
+		tmp.next(elemN);
+		this._last = elemN;
+		this.length += 1;
+	}
+
+	@Override
+	public T last() {
+		return this._last.getElem();
 	}
 }

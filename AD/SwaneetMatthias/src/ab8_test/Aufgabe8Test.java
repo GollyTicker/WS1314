@@ -56,21 +56,6 @@ public class Aufgabe8Test {
 		}
 	}
 
-	// Iterator Test
-	@Test
-	public void tesIterator() {
-		for (int n = 0; n < 15; n++) {
-			IList<Integer> ls = randomSortedListOfLength(n, STARTLIM,
-					RANDOM_MAXSTEP);
-			MListIterator<Integer> it = new MListIterator<Integer>(ls);
-			int i = 0;
-			while (it.hasNext()) {
-				assertEquals(ls.get(i), it.next());
-				i += 1;
-			}
-		}
-	}
-
 	// Aufgabe 8.4 und Aufgabe 8.5 Tests
 	@Test
 	public void testMerge() {
@@ -100,6 +85,7 @@ public class Aufgabe8Test {
 					RANDOM_MAXSTEP);
 			IList<Integer> mergedSorted = divide(rSortedLs);
 			assertTrue(mergedSorted.isSorted());
+
 		}
 	}
 
@@ -111,7 +97,28 @@ public class Aufgabe8Test {
 					RANDOM_MAXSTEP);
 			IList<Integer> sorted = MergeSort(rSortedLs);
 			assertTrue(sorted.isSorted());
+			
 		}
+		IList<Integer> rSortedLs = randomListOfLength(10000, STARTLIM,
+				RANDOM_MAXSTEP);
+		IList<Integer> sorted = MergeSort(rSortedLs);
+		assertTrue(sorted.isSorted());
 	}
 
+	// Aufgabe 8.6 Mergesort
+	@Test
+	public void test() {
+		for (int n = 0; n < 30; n++) {
+			IList<Integer> rSortedLs = randomListOfLength(n, STARTLIM,
+					RANDOM_MAXSTEP);
+			IList<Integer> sorted = MergeSort(rSortedLs);
+			assertTrue(sorted.isSorted());
+			System.out.println(sorted);
+			
+		}
+		IList<Integer> rSortedLs = randomListOfLength(10000, STARTLIM,
+				RANDOM_MAXSTEP);
+		IList<Integer> sorted = MergeSort(rSortedLs);
+		assertTrue(sorted.isSorted());
+	}
 }
