@@ -69,7 +69,7 @@ public class Hierholzer {
 
 	private void integrateLeftCycleIntoRightCycle(List<Long> newK, List<Long> k) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private Long getEdgeInKWithPositiveDegree() {
@@ -77,13 +77,10 @@ public class Hierholzer {
 		return null;
 	}
 
-	private void resetVariables() {
-		this.allEdges = this.graph.getEdges();
-	}
-
 	private List<Long> makeCycleBeginningAtUsingEdges(Long v, Set<Long> edges) {
 		// TODO Auto-generated method stub
 		List<Long> cycleEdges = new ArrayList<>();
+		while(currEdge)
 		return cycleEdges;
 	}
 
@@ -93,11 +90,20 @@ public class Hierholzer {
 	}
 
 	private void checkEdgesHaveEvenDegree() {
-		// TODO: check that all vertices have an even number of edges
+		// check that all vertices have an even number of edges
 		// and that the graph is directed
-		if (false) {
-			throw new IllegalArgumentException();
+		if (graph.isDirected()) {
+			throw new IllegalArgumentException("Graph may not be undirected");
 		}
+		for (Long v : graph.getVertexes()) {
+			if (graph.getIncident(v).size() % 2 != 0) {
+				throw new IllegalArgumentException("Graph has Edges with odd degree!");
+			}
+		}
+	}
+
+	private void resetVariables() {
+		this.allEdges = this.graph.getEdges();
 	}
 
 }
