@@ -60,9 +60,14 @@ public class TrailProblemTest {
 	@Test
 	public void TestIsEulerianPath() {
 		loadGraph("graph35.graph");
+		
 		List<Long> eulerpath = new ArrayList<>(Arrays.asList(0L, 1L, 2L, 3L));
 		assertTrue(isEulerianPath(eulerpath));
+		
 		eulerpath = new ArrayList<>(Arrays.asList(0L, 1L, 2L, 1L, 3L));
+		assertTrue(!isEulerianPath(eulerpath));
+		
+		eulerpath = new ArrayList<>(Arrays.asList(2L, 0L, 2L, 3L));
 		assertTrue(!isEulerianPath(eulerpath));
 	}
 
@@ -99,11 +104,8 @@ public class TrailProblemTest {
 	}
 
 	private boolean isEulerianPath(List<Long> edges) {
-
-		// TODO: insert again
-		/*
-		 * if (new HashSet<Long>(edges).size() != edges.size()) return false;
-		 */
+		if (new HashSet<Long>(edges).size() != edges.size())
+			return false;
 
 		for (int i = 0; i < edges.size() - 1; i++) {
 			Long currE = edges.get(i);
@@ -115,19 +117,7 @@ public class TrailProblemTest {
 			if (shouldBeThreeOrLess.size() > 3) {
 				return false;
 			}
-
 		}
-
-		// Set<Long> vertices = new HashSet<>();
-		/*
-		 * for (Long eid : edges) { Long source = yolo.getSource(eid); if
-		 * (yolo.getIncident(source).size() % 2 != 0) { return false; } }
-		 */
-
-		/*
-		 * for (Long v : yolo.getVertexes()) { if (yolo.getIncident(v).size() %
-		 * 2 != 0) { return false; } }
-		 */
 		return true;
 	}
 
