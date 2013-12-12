@@ -14,6 +14,7 @@ public class NearestInsertion {
 	private List<Long> vertices;
 	private Long startvertice = NULL_LONG;
 	private String cmp;
+	private int minimum = INIT_MINIMUM;
 
 	public NearestInsertion(IAIGraph graph, String cmp) {
 		this.graph = graph;
@@ -29,10 +30,8 @@ public class NearestInsertion {
 		w.add(startvertice);
 
 		while (!vertices.isEmpty()) {
-
 			Long currentNode = findNearestVertice();
 			optimalInsert(currentNode);
-
 		}
 
 		return w;
@@ -48,21 +47,29 @@ public class NearestInsertion {
 			if (sum < minimum) {
 				bestCycle = possibleNextCycles;
 				minimum = sum;
+				this.minimum = minimum;
 			}
 		}
+		w = bestCycle;
 	}
 
 	private int sumCircle(List<Long> nextCycle) {
 		int acc = 0;
 		for (int i = 0; i < nextCycle.size() - 1; i++) {
-			Long eId = getEdgeBetween(nextCycle.get(i), nextCycle.get(i + 1));
-			acc += graph.getValE(eId, cmp);
+			Long source = nextCycle.get(i);
+			Long target = nextCycle.get(i + 1);
+			// Exception case for W= [A,A]
+			if (source != target) {
+				Long eId = getEdgeBetween(nextCycle.get(i),
+						nextCycle.get(i + 1));
+				acc += graph.getValE(eId, cmp);
+			}
 		}
 		return acc;
 	}
 
 	private Long findNearestVertice() {
-		// TODO: Better naming + maximum calculation
+		// TODO: Better naming + init_minimum calculation
 		Long minimumVertice = NULL_LONG;
 		int minimumD = INIT_MINIMUM;
 		for (Long vId : vertices) {
@@ -85,7 +92,7 @@ public class NearestInsertion {
 		return minimum;
 	}
 
-	private Long getEdgeBetween(Long wId, Long vId) {
+	public Long getEdgeBetween(Long wId, Long vId) {
 		for (Long eId : graph.getIncident(vId)) {
 			if (graph.edgeIsBetween(eId, vId, wId)) {
 				return eId;
@@ -104,5 +111,9 @@ public class NearestInsertion {
 		Long head = vertices.get(0);
 		vertices.remove(0);
 		return head;
+	}
+
+	public int getMinimum() {
+		return minimum;
 	}
 }
