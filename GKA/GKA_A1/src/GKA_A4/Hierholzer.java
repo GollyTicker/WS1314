@@ -9,7 +9,8 @@ import java.util.Set;
 import GKA_A1.IAIGraph;
 
 public class Hierholzer {
-
+	
+	private final Long NULL_LONG = -1L;
 	private IAIGraph graph;
 	private String cmp;
 
@@ -39,7 +40,7 @@ public class Hierholzer {
 			edgesWithoutK.removeAll(allEdges);
 
 			// Step 4
-			Long newV = getEdgeInKWithPositiveDegree();
+			Long newV = getEdgeInKWithPositiveDegree(k);
 			List<Long> newK = makeCycleBeginningAtUsingEdges(newV,
 					edgesWithoutK);
 
@@ -66,14 +67,24 @@ public class Hierholzer {
 	// in der richtigen Reihenfolge ersetzt wird.
 	// 6. Nenne jetzt den so erhaltenen Kreis K und fahre bei Schritt 2 fort.
 
+	// Aus Wikipedia: https://de.wikipedia.org/wiki/Algorithmus_von_Hierholzer
+	// (12.12.13)
+
 	private void integrateLeftCycleIntoRightCycle(List<Long> newK, List<Long> k) {
 		// TODO Auto-generated method stub
 
 	}
 
-	private Long getEdgeInKWithPositiveDegree() {
-		// TODO Auto-generated method stub
-		return null;
+	private Long getEdgeInKWithPositiveDegree(List<Long> k) {
+		for (Long e : k) {
+			for (Long v : graph.getSourceTarget(e)) {
+				if(degree(v) > 0){
+					return v;
+				}
+			}
+
+		}
+		return NULL_LONG;
 	}
 
 	private List<Long> makeCycleBeginningAtUsingEdges(Long v, Set<Long> edges) {
@@ -108,11 +119,15 @@ public class Hierholzer {
 			throw new IllegalArgumentException("Graph may not be undirected");
 		}
 		for (Long v : graph.getVertexes()) {
-			if (graph.getIncident(v).size() % 2 != 0) {
+			if (degree(v) % 2 != 0) {
 				throw new IllegalArgumentException(
 						"Graph has Edges with odd degree!");
 			}
 		}
+	}
+
+	private int degree(Long v) {
+		return graph.getIncident(v).size();
 	}
 
 	private void resetVariables() {
