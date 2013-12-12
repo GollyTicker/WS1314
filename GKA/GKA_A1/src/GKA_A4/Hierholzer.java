@@ -79,7 +79,7 @@ public class Hierholzer {
 	private List<Long> makeCycleBeginningAtUsingEdges(Long v, Set<Long> edges) {
 		// TODO Auto-generated method stub
 		List<Long> cycleEdges = new ArrayList<>();
-		//while(currEdge)
+		// while(currEdge)
 		return cycleEdges;
 	}
 
@@ -96,7 +96,8 @@ public class Hierholzer {
 		}
 		for (Long v : graph.getVertexes()) {
 			if (graph.getIncident(v).size() % 2 != 0) {
-				throw new IllegalArgumentException("Graph has Edges with odd degree!");
+				throw new IllegalArgumentException(
+						"Graph has Edges with odd degree!");
 			}
 		}
 	}
