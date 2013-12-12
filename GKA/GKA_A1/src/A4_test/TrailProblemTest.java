@@ -73,7 +73,7 @@ public class TrailProblemTest {
 	// @Test
 	public void TestHierholzerPositive1() {
 		loadGraph("graph35.graph");
-		Hierholzer algo = new Hierholzer(yolo, cmp);
+		Hierholzer algo = new Hierholzer(yolo);
 		List<Long> result = algo.hierholzeEs();
 		assertTrue(isEulerianPath(yolo, result));
 	}
@@ -81,7 +81,7 @@ public class TrailProblemTest {
 	// @Test
 	public void TestHierholzerNegative1() {
 		loadGraph("graph36.graph");
-		Hierholzer algo = new Hierholzer(yolo, cmp);
+		Hierholzer algo = new Hierholzer(yolo);
 		List<Long> result = algo.hierholzeEs();
 		assertTrue(!isEulerianPath(yolo, result));
 	}
@@ -89,7 +89,7 @@ public class TrailProblemTest {
 	// @Test
 	public void TestHierholzerPositive2() {
 		loadGraph("graph37.graph");
-		Hierholzer algo = new Hierholzer(yolo, cmp);
+		Hierholzer algo = new Hierholzer(yolo);
 		List<Long> result = algo.hierholzeEs();
 		assertTrue(isEulerianPath(yolo, result));
 	}
@@ -97,7 +97,7 @@ public class TrailProblemTest {
 	// @Test
 	public void TestHierholzerNegative2() {
 		loadGraph("graph38.graph");
-		Hierholzer algo = new Hierholzer(yolo, cmp);
+		Hierholzer algo = new Hierholzer(yolo);
 		List<Long> result = algo.hierholzeEs();
 		assertTrue(!isEulerianPath(yolo, result));
 	}

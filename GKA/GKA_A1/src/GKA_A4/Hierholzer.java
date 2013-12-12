@@ -9,18 +9,17 @@ import java.util.Set;
 import GKA_A1.IAIGraph;
 
 public class Hierholzer {
-	
+
 	private final Long NULL_LONG = -1L;
 	private IAIGraph graph;
-	private String cmp;
 
 	private Set<Long> allEdges;
 
-	public Hierholzer(IAIGraph graph, String cmp) {
+	public Hierholzer(IAIGraph graph) {
 		this.graph = graph;
-		this.cmp = cmp;
 	}
 
+	// Main algorithm
 	public List<Long> hierholzeEs() {
 		resetVariables();
 
@@ -45,8 +44,8 @@ public class Hierholzer {
 					edgesWithoutK);
 
 			// Step 5 and 6
+			// K is updated here
 			integrateLeftCycleIntoRightCycle(newK, k);
-			// K is being updated here
 		}
 		return k;
 	}
@@ -78,7 +77,7 @@ public class Hierholzer {
 	private Long getEdgeInKWithPositiveDegree(List<Long> k) {
 		for (Long e : k) {
 			for (Long v : graph.getSourceTarget(e)) {
-				if(degree(v) > 0){
+				if (degree(v) > 0) {
 					return v;
 				}
 			}
@@ -87,11 +86,19 @@ public class Hierholzer {
 		return NULL_LONG;
 	}
 
-	private List<Long> makeCycleBeginningAtUsingEdges(Long v, Set<Long> edges) {
+	private List<Long> makeCycleBeginningAtUsingEdges(Long startVertice,
+			Set<Long> edges) {
 		// TODO Auto-generated method stub
 		List<Long> cycleEdges = new ArrayList<>();
-		// while(currEdge)
+		while (!lastEdgeReachedVertice(cycleEdges, startVertice)) {
+
+		}
 		return cycleEdges;
+	}
+
+	private boolean lastEdgeReachedVertice(List<Long> cycleEdges, Long v) {
+		Long lastEdge = cycleEdges.get(cycleEdges.size() - 1);
+		return graph.getSourceTarget(lastEdge).contains(v);
 	}
 
 	public static boolean isEulerianPath(IAIGraph graph, List<Long> edges) {
