@@ -31,7 +31,7 @@ public class Hierholzer {
 		List<Long> k = makeCycleBeginningAtUsingEdges(v, allEdges);
 
 		// Step 2
-		while (!isEulerianPath(k)) {
+		while (!isEulerianPath(graph, k)) {
 
 			// Step 3
 			// vernachlaessige Kanten von K
@@ -83,9 +83,22 @@ public class Hierholzer {
 		return cycleEdges;
 	}
 
-	private boolean isEulerianPath(List<Long> k) {
-		// TODO: with von matthias erstellt
-		return false;
+	public static boolean isEulerianPath(IAIGraph graph, List<Long> edges) {
+		if (new HashSet<Long>(edges).size() != edges.size())
+			return false;
+
+		for (int i = 0; i < edges.size() - 1; i++) {
+			Long currE = edges.get(i);
+			Long nextE = edges.get(i + 1);
+
+			// check, that there is a vertice between two consecutive edges
+			Set<Long> shouldBeThreeOrLess = graph.getSourceTarget(currE);
+			shouldBeThreeOrLess.addAll(graph.getSourceTarget(nextE));
+			if (shouldBeThreeOrLess.size() > 3) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private void checkEdgesHaveEvenDegree() {
