@@ -4,6 +4,7 @@
  */
 package GKA_A1;
 
+import java.util.List;
 /**
  *
  * @author Swaneet Sahoo, Matthias Nitsche
@@ -60,6 +61,8 @@ public interface IAIGraph {
 	boolean isDirected();
 	
 	boolean edgeIsBetween(Long eId, Long v1Id, Long v2Id);
+	
+	public List<Long> getEdgesBetween(Long v1, Long v2);
 
 	// Mutators
 	void setValE(long eId, String attr, int val);

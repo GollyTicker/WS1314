@@ -1,7 +1,9 @@
 package GKA_A1;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -170,6 +172,17 @@ public class AIGraph implements IAIGraph {
 			}
 		}
 		return vIds;
+	}
+	
+	@Override
+	public List<Long> getEdgesBetween(Long v1, Long v2) {
+		List<Long> ls = new ArrayList<>();
+		for (Long eId : this.getIncident(v1)) {
+			if (this.edgeIsBetween(eId, v1, v2)) {
+				ls.add(eId);
+			}
+		}
+		return ls;
 	}
 
 	@Override
