@@ -1,6 +1,7 @@
 package GKA_A1;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -173,7 +174,7 @@ public class AIGraph implements IAIGraph {
 		}
 		return vIds;
 	}
-	
+
 	@Override
 	public List<Long> getEdgesBetween(Long v1, Long v2) {
 		List<Long> ls = new ArrayList<>();
@@ -183,6 +184,11 @@ public class AIGraph implements IAIGraph {
 			}
 		}
 		return ls;
+	}
+
+	@Override
+	public Set<Long> getSourceTarget(Long e) {
+		return new HashSet<>(Arrays.asList(getSource(e),getTarget(e)));
 	}
 
 	@Override

@@ -63,6 +63,8 @@ public interface IAIGraph {
 	boolean edgeIsBetween(Long eId, Long v1Id, Long v2Id);
 	
 	public List<Long> getEdgesBetween(Long v1, Long v2);
+	
+	public Set<Long> getSourceTarget(Long e);
 
 	// Mutators
 	void setValE(long eId, String attr, int val);
