@@ -21,7 +21,6 @@ public class Hierholzer {
 	}
 
 	public List<Long> hierholzeEs() {
-
 		resetVariables();
 
 		checkEdgesHaveEvenDegree();
@@ -80,7 +79,7 @@ public class Hierholzer {
 	private List<Long> makeCycleBeginningAtUsingEdges(Long v, Set<Long> edges) {
 		// TODO Auto-generated method stub
 		List<Long> cycleEdges = new ArrayList<>();
-		while(currEdge)
+		//while(currEdge)
 		return cycleEdges;
 	}
 
