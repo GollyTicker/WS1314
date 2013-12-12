@@ -86,10 +86,9 @@ public class Hierholzer {
 	}
 
 	private List<Long> makeCycleBeginningAtUsingEdges(Long startVertice,
-			Set<Long> edges) {
+			Set<Long> usableEdges) {
+		
 		List<Long> cycleEdges = new ArrayList<>();
-		Set<Long> usedEdges = new HashSet<>();
-
 		Long currHeadVertice = startVertice;
 
 		do {
@@ -111,14 +110,15 @@ public class Hierholzer {
 			// second element id the vId of the corresponging parter vertice
 			// of the given currHeadVertice
 			// the method name is to be read as:
-			// pick next edge from "currHEadVertice" without "usedEdges"
-			List<Long> container = pickNextEdgeFrom_Without_(currHeadVertice,
-					usedEdges);
+			// pick next edge from "currHEadVertice" using "usableEdges"
+			List<Long> container = pickNextEdgeFrom_Using_(currHeadVertice,
+					usableEdges);
 
 			Long usedEdge = container.get(0);
 			Long nextVertice = container.get(1);
 
-			usedEdges.add(usedEdge);
+			usableEdges.remove(usedEdge);
+			cycleEdges.add(usedEdge);
 
 			// begin form the next Vertice in the next iteration
 			currHeadVertice = nextVertice;
@@ -128,8 +128,8 @@ public class Hierholzer {
 		return cycleEdges;
 	}
 
-	private List<Long> pickNextEdgeFrom_Without_(Long currHeadVertice,
-			Set<Long> usedEdges) {
+	private List<Long> pickNextEdgeFrom_Using_(Long currHeadVertice,
+			Set<Long> usableEdges) {
 		List<Long> container = new ArrayList<>();
 		// TODO: this function
 
