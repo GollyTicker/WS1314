@@ -27,7 +27,7 @@ public class Hierholzer {
 
 		// Step 1
 		Long v = -1L;
-		// K ist eine Liste der Kanten
+		// K is a List of Edges
 		List<Long> k = makeCycleBeginningAtUsingEdges(v, allEdges);
 
 		// Step 2
@@ -53,8 +53,8 @@ public class Hierholzer {
 	// Voraussetzung: Sei G=(V,E) ein zusammenhaengender Graph, der nur Knoten
 	// mit geradem Grad aufweist.
 	// 1. Waehle einen beliebigen Knoten v_0 des Graphen und konstruiere von v_0
-	// ausgehend einen
-	// Unterkreis K in G, der keine Kante in G zweimal durchlaeuft.
+	// ausgehend einen Unterkreis K in G, der keine Kante in G zweimal
+	// durchlaeuft.
 	// 2. Wenn K ein Eulerkreis ist, breche ab. Andernfalls:
 	// 3. Vernachlaessige nun alle Kanten des Unterkreises K.
 	// 4. Am ersten Eckpunkt von K, dessen Grad groesser 0 ist, laesst man nun
@@ -70,8 +70,7 @@ public class Hierholzer {
 	// (12.12.13)
 
 	private void integrateLeftCycleIntoRightCycle(List<Long> newK, List<Long> k) {
-		// TODO Auto-generated method stub
-
+		// TODO: this function
 	}
 
 	private Long getEdgeInKWithPositiveDegree(List<Long> k) {
@@ -88,12 +87,53 @@ public class Hierholzer {
 
 	private List<Long> makeCycleBeginningAtUsingEdges(Long startVertice,
 			Set<Long> edges) {
-		// TODO Auto-generated method stub
 		List<Long> cycleEdges = new ArrayList<>();
-		while (!lastEdgeReachedVertice(cycleEdges, startVertice)) {
+		Set<Long> usedEdges = new HashSet<>();
 
-		}
+		Long currHeadVertice = startVertice;
+
+		do {
+
+			// LOOOOL <<<------ first time I really had a good
+			// usage for the do while syntax, lel xD
+			// I have to go through this loop atleast once, because after adding
+			// the first
+			// incident edge, v will ofcource be a source/Target of this edge.
+			// this edge is going to be the last edge in the list at that time
+			// and
+			// the loop-condition would evaluate to true and it'd exit with only
+			// one edge.
+			// (with the loop unevaluated)
+			// thats why need to use do while instead of a normal while.
+
+			// this method returns a list with two elements.
+			// the first element is the eID of the chosen edge and the
+			// second element id the vId of the corresponging parter vertice
+			// of the given currHeadVertice
+			// the method name is to be read as:
+			// pick next edge from "currHEadVertice" without "usedEdges"
+			List<Long> container = pickNextEdgeFrom_Without_(currHeadVertice,
+					usedEdges);
+
+			Long usedEdge = container.get(0);
+			Long nextVertice = container.get(1);
+
+			usedEdges.add(usedEdge);
+
+			// begin form the next Vertice in the next iteration
+			currHeadVertice = nextVertice;
+
+		} while (!lastEdgeReachedVertice(cycleEdges, startVertice));
+
 		return cycleEdges;
+	}
+
+	private List<Long> pickNextEdgeFrom_Without_(Long currHeadVertice,
+			Set<Long> usedEdges) {
+		List<Long> container = new ArrayList<>();
+		// TODO: this function
+
+		return container;
 	}
 
 	private boolean lastEdgeReachedVertice(List<Long> cycleEdges, Long v) {
