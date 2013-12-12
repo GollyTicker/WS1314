@@ -9,11 +9,12 @@ public class NearestInsertion {
 
 	private final Long NULL_LONG = -1L;
 	private final int INIT_MINIMUM = Integer.MAX_VALUE;
+	
 	private IAIGraph graph;
+	private String cmp;
 	private List<Long> w;
 	private List<Long> vertices;
 	private Long startvertice = NULL_LONG;
-	private String cmp;
 	private int minimum = INIT_MINIMUM;
 
 	public NearestInsertion(IAIGraph graph, String cmp) {

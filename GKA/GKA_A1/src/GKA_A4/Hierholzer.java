@@ -12,6 +12,10 @@ public class Hierholzer {
 		this.cmp = cmp;
 	}
 	
+	
+	public void hierholzeEs(){
+		
+	}
 //	Voraussetzung: Sei G=(V,E) ein zusammenhängender Graph, der nur Knoten mit geradem Grad aufweist.
 //		1. Wähle einen beliebigen Knoten v_0 des Graphen und konstruiere von v_0 ausgehend einen 
 //		Unterkreis K in G, der keine Kante in G zweimal durchläuft.
