@@ -249,7 +249,8 @@ public class AIGraph implements IAIGraph {
 			String accuAttuibute = "[";
 			boolean first_attr = true;
 			for (String attr : attrs) {
-				accuAttuibute += ((first_attr)?"":"; ") + attr + " => " + e.getStrE(attr);
+				accuAttuibute += ((first_attr) ? "" : "; ") + attr + " => "
+						+ e.getStrE(attr);
 				first_attr = false;
 			}
 
@@ -307,5 +308,10 @@ public class AIGraph implements IAIGraph {
 	@Override
 	public boolean isDirected() {
 		return isDirected;
+	}
+
+	public boolean edgeIsBetween(Long eId, Long v1Id, Long v2Id) {
+		return (this.getSource(eId) == v1Id && this.getTarget(eId) == v2Id)
+				|| (this.getSource(eId) == v2Id && this.getTarget(eId) == v1Id);
 	}
 }

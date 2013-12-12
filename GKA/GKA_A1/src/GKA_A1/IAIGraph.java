@@ -58,6 +58,8 @@ public interface IAIGraph {
 	Set<String> getAttrE(long eId);
 	
 	boolean isDirected();
+	
+	boolean edgeIsBetween(Long eId, Long v1Id, Long v2Id);
 
 	// Mutators
 	void setValE(long eId, String attr, int val);
