@@ -65,11 +65,11 @@ public class TrailProblemTest {
 
 		eulerpath = new ArrayList<>(Arrays.asList(0L, 1L, 2L, 1L, 3L));
 		assertTrue(!isEulerianPath(yolo, eulerpath));
-		
+
 		eulerpath = new ArrayList<>(Arrays.asList(0L));
 		assertTrue(!isEulerianPath(yolo, eulerpath));
 
-		eulerpath = new ArrayList<>(Arrays.asList(2L, 0L, 2L, 3L));
+		eulerpath = new ArrayList<>(Arrays.asList(2L, 0L, 1L, 3L));
 		assertTrue(!isEulerianPath(yolo, eulerpath));
 	}
 
@@ -82,33 +82,45 @@ public class TrailProblemTest {
 		assertTrue(isEulerianPath(yolo, result));
 	}
 
-	//@Test
+	@Test
 	public void TestHierholzerPositive2() {
 		loadGraph("graph36.graph");
 		Hierholzer algo = new Hierholzer(yolo);
 		List<Long> result = algo.hierholzeEs();
-		//System.out.println("Eulertour(edges): " + result);
+		System.out.println("Eulertour(edges): " + result);
 		assertTrue(isEulerianPath(yolo, result));
 	}
-	
-	
-	//@Test (expected = IllegalArgumentException.class)
+
+	@Test
+	public void TestHierholzerPositive3() {
+		loadGraph("graph39.graph");
+		// more difficult graph which names the vertices in such a way
+		// so that a merging of two cycles is nessesary
+		Hierholzer algo = new Hierholzer(yolo);
+		List<Long> result = algo.hierholzeEs();
+		System.out.println("Eulertour(edges): " + result);
+		assertTrue(isEulerianPath(yolo, result));
+	}
+
+	// @Test (expected = IllegalArgumentException.class)
 	public void TestHierholzerNegative1() {
-		loadGraph("graph37.graph");		// invalid graph. has vertices with ood degrees
+		loadGraph("graph37.graph"); // invalid graph. has vertices with ood
+									// degrees
 		Hierholzer algo = new Hierholzer(yolo);
 		algo.hierholzeEs();
 	}
 
-	//@Test (expected = IllegalArgumentException.class)
+	// @Test (expected = IllegalArgumentException.class)
 	public void TestHierholzerNegative2() {
-		loadGraph("graph38.graph");		// invalid graph. has vertices with ood degrees
+		loadGraph("graph38.graph"); // invalid graph. has vertices with ood
+									// degrees
 		Hierholzer algo = new Hierholzer(yolo);
 		algo.hierholzeEs();
 
 	}
-	
+
 	// TODO: activate all Tests
-	
+
 	private void loadGraph(String graphname) {
 		String path = WhichPath.getPath();
 		JavaGraphParser jp = new JavaGraphParser(path + graphname, cmp);
