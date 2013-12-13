@@ -92,19 +92,16 @@ public class Hierholzer {
 
 		List<Long> mergedK = new ArrayList<>(newK);
 
-		Long prevE = NULL_LONG;
-		Long currE = NULL_LONG;
+		// we start at i=1 because we always take the edge (i-1) and (i)
+		for (int i = 1; i < k.size(); i++) {
 
-		for (int i = 0; i < k.size(); i++) {
-			prevE = currE;
-			currE = k.get(i);
-			
+			Long prevE = k.get(i - 1);
+			Long currE = k.get(i);
 
 			// calculate the Vertice inbetween both of the edges
 			// (this looks so horrible in java.....)
-			
+
 			Long verticeInbetween = NULL_LONG;
-			
 			Set<Long> common = commonVerticesOf(prevE, currE, graph);
 			Set<Long> intersect = new HashSet<>(common);
 			intersect.retainAll(graph.getSourceTarget(currE));
@@ -112,14 +109,28 @@ public class Hierholzer {
 				verticeInbetween = v;
 				break;
 			}
-			
-			
-			
-			/*if (atOccurenceOfStartVertice && prevE != NULL_LONG) {
-				mergedK.addAll(idxOfOutgoingEdge, newK);
-			}*/
-		}
 
+			if (verticeInbetween.equals(newKStart)) {
+				// the currE is an "outgoing" edge from the newKStart vertice
+
+				// now we have to add the newK cycle inbetween these two edges
+				// now i has the index of the second edge.
+				
+				// using this List-Operation, java will
+				// shift this second edge and all subsequent edges
+				// and insert the edges of newK in the expected order
+				// into this position
+				
+				mergedK.addAll(i, newK);
+				
+				// important to end now. else it would add it multiple times.
+				return mergedK;
+			}
+
+		}
+		
+		System.err.println("whoooosh!..... this shouldnt happen! the insertion Vertice wasnt found!");
+		
 		return mergedK;
 	}
 
