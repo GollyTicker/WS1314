@@ -74,7 +74,6 @@ public class Hierholzer {
 
 	private List<Long> integrateLeftCycleIntoRightCycle(List<Long> newK,
 			List<Long> k, Long newKStart) {
-		// TODO: this function
 
 		// for vertices a and b the notation a:b means the edge (in newK or K)
 		// inbetween the vertices a and b

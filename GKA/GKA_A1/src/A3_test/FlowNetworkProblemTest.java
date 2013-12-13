@@ -7,7 +7,7 @@ import org.junit.Test;
 import GKA_A1.IAIGraph;
 import GKA_A3.EdmondsKarp;
 import GKA_A3.FordFulkerson;
-import GraphUtils.JavaParser;
+import GraphUtils.JavaGraphParser;
 import GraphUtils.WhichPath;
 
 public class FlowNetworkProblemTest {
@@ -50,7 +50,7 @@ public class FlowNetworkProblemTest {
 		// don't forget to change the quelleID and senkeID as well!
 
 		String path = WhichPath.getPath();
-		JavaParser jp = new JavaParser(path + graphname, capacityAttrName);
+		JavaGraphParser jp = new JavaGraphParser(path + graphname, capacityAttrName);
 		this.yolo = jp.createGraph();
 		System.out.println("\n<======= New Test =======>\n Input Graph: "
 				+ yolo);

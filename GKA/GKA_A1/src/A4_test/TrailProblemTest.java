@@ -12,7 +12,7 @@ import GKA_A1.IAIGraph;
 import GKA_A4.Hierholzer;
 import static GKA_A4.Hierholzer.*;
 import GKA_A4.NearestInsertion;
-import GraphUtils.JavaParser;
+import GraphUtils.JavaGraphParser;
 import GraphUtils.WhichPath;
 
 public class TrailProblemTest {
@@ -100,11 +100,13 @@ public class TrailProblemTest {
 		Hierholzer algo = new Hierholzer(yolo);
 		List<Long> result = algo.hierholzeEs();
 		assertTrue(!isEulerianPath(yolo, result));
+		
+		// TODO: activate all Tests
 	}
 
 	private void loadGraph(String graphname) {
 		String path = WhichPath.getPath();
-		JavaParser jp = new JavaParser(path + graphname, cmp);
+		JavaGraphParser jp = new JavaGraphParser(path + graphname, cmp);
 		this.yolo = jp.createGraph();
 		System.out.println("\n<======= New Test =======>\n Input Graph: "
 				+ yolo);

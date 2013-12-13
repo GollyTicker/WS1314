@@ -13,7 +13,7 @@ import GKA_A1.AIGraph;
 import GKA_A1.IAIGraph;
 import GKA_A2.BellmanFord;
 import GKA_A2.FloydWarshall;
-import GraphUtils.JavaParser;
+import GraphUtils.JavaGraphParser;
 import GraphUtils.WhichPath;
 import static GKA_A2.Constants.*;
 
@@ -111,7 +111,7 @@ public class OptimalPathTest {
 		String graphname = "graph2.graph";
 
 		System.out.println("----- testBoth -----");
-		JavaParser jp = new JavaParser(path + graphname, "km");
+		JavaGraphParser jp = new JavaGraphParser(path + graphname, "km");
 
 		System.out.println("----- countFloydWarshall -----");
 		IAIGraph yolo = jp.createGraph();

@@ -17,7 +17,7 @@ import GKA_A1.AIGraph;
  * 
  * @author Swaneet Sahoo, Matthias Nitsche
  */
-public class JavaParser {
+public class JavaGraphParser {
 
 	private final static String UNDIRECTED = "ungerichtet";
 	private final static String DIRECTED = "gerichtet";
@@ -27,7 +27,7 @@ public class JavaParser {
 	private String attribute = "";
 	private IAIGraph graph;
 
-	public JavaParser(String src, String attribute) {
+	public JavaGraphParser(String src, String attribute) {
 		this.src = src;
 		this.attribute = attribute;
 	}
