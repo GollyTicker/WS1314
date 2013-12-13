@@ -27,7 +27,7 @@ public class Hierholzer {
 		checkEdgesHaveEvenDegree();
 
 		// Step 1
-		Long v = -1L;
+		Long v = getInitialVertice();
 		// K is a List of Edges
 		List<Long> k = makeCycleBeginningAtUsingEdges(v, allEdges);
 
@@ -40,7 +40,11 @@ public class Hierholzer {
 			edgesWithoutK.removeAll(allEdges);
 
 			// Step 4
-			Long newV = getEdgeInKWithPositiveDegree(k);
+			Long newV = getVerticeInKWithPositiveDegree(k);
+
+			if (newV == NULL_LONG)
+				System.err.println("getEdgePos not working. returned -1");
+
 			List<Long> newK = makeCycleBeginningAtUsingEdges(newV,
 					edgesWithoutK);
 
@@ -71,6 +75,13 @@ public class Hierholzer {
 
 	// Aus Wikipedia: https://de.wikipedia.org/wiki/Algorithmus_von_Hierholzer
 	// (12.12.13)
+
+	private Long getInitialVertice() {
+		for (Long v : graph.getVertexes()) {
+			return v;
+		}
+		return NULL_LONG;
+	}
 
 	private List<Long> integrateLeftCycleIntoRightCycle(List<Long> newK,
 			List<Long> k, Long newKStart) {
@@ -114,26 +125,27 @@ public class Hierholzer {
 
 				// now we have to add the newK cycle inbetween these two edges
 				// now i has the index of the second edge.
-				
+
 				// using this List-Operation, java will
 				// shift this second edge and all subsequent edges
 				// and insert the edges of newK in the expected order
 				// into this position
-				
+
 				mergedK.addAll(i, newK);
-				
+
 				// important to end now. else it would add it multiple times.
 				return mergedK;
 			}
 
 		}
-		
-		System.err.println("whoooosh!..... this shouldnt happen! the insertion Vertice wasnt found!");
-		
+
+		System.err
+				.println("whoooosh!..... this shouldnt happen! the insertion Vertice wasnt found!");
+
 		return mergedK;
 	}
 
-	private Long getEdgeInKWithPositiveDegree(List<Long> k) {
+	private Long getVerticeInKWithPositiveDegree(List<Long> k) {
 		for (Long e : k) {
 			for (Long v : graph.getSourceTarget(e)) {
 				if (degree(v) > 0) {
@@ -150,6 +162,8 @@ public class Hierholzer {
 
 		List<Long> cycleEdges = new ArrayList<>();
 		Long currHeadVertice = startVertice;
+
+		// System.out.println("startVertice: " + startVertice);
 
 		do {
 
@@ -171,6 +185,8 @@ public class Hierholzer {
 			// of the given currHeadVertice
 			// the method name is to be read as:
 			// pick next edge from "currHEadVertice" using "usableEdges"
+
+			// System.out.println("CurrHead: " + currHeadVertice);
 			List<Long> container = pickNextEdgeFrom_Using_(currHeadVertice,
 					usableEdges);
 
@@ -212,6 +228,8 @@ public class Hierholzer {
 			edge = e;
 			break;
 		}
+		if (edge == NULL_LONG)
+			System.err.println("nooo.......");
 
 		Long vertice = NULL_LONG;
 		for (Long v : graph.getSourceTarget(edge)) {
