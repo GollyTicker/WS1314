@@ -46,7 +46,9 @@ public class Hierholzer {
 
 			// Step 5 and 6
 			// K is updated here
-			integrateLeftCycleIntoRightCycle(newK, k);
+			// the Vertice newK starts form is also given over,
+			// because it simplfies the function
+			k = integrateLeftCycleIntoRightCycle(newK, k, newV);
 		}
 		return k;
 	}
@@ -70,8 +72,55 @@ public class Hierholzer {
 	// Aus Wikipedia: https://de.wikipedia.org/wiki/Algorithmus_von_Hierholzer
 	// (12.12.13)
 
-	private void integrateLeftCycleIntoRightCycle(List<Long> newK, List<Long> k) {
+	private List<Long> integrateLeftCycleIntoRightCycle(List<Long> newK,
+			List<Long> k, Long newKStart) {
 		// TODO: this function
+
+		// for vertices a and b the notation a:b means the edge (in newK or K)
+		// inbetween the vertices a and b
+
+		// K: [ 1:7, 7:3, 3:2, 2:1 ]
+		// newK: [ 3:1, 1:8, 8:7, 7:4, 4:3 ]
+		// integrated: [ 1:7, 7:3, 3:1, 1:8, ... 4:3, 3:2, 2:1]
+
+		// We know, that the start Vertice of newK is contained in K.
+		// Therefore, we need to find the first occurrence of this vertice in K
+		// and insert newK at this position
+
+		// the way wikipedia explains this is ambiguous.
+		// therefore we're using this sligtly different approach
+
+		List<Long> mergedK = new ArrayList<>(newK);
+
+		Long prevE = NULL_LONG;
+		Long currE = NULL_LONG;
+
+		for (int i = 0; i < k.size(); i++) {
+			prevE = currE;
+			currE = k.get(i);
+			
+
+			// calculate the Vertice inbetween both of the edges
+			// (this looks so horrible in java.....)
+			
+			Long verticeInbetween = NULL_LONG;
+			
+			Set<Long> common = commonVerticesOf(prevE, currE, graph);
+			Set<Long> intersect = new HashSet<>(common);
+			intersect.retainAll(graph.getSourceTarget(currE));
+			for (Long v : intersect) {
+				verticeInbetween = v;
+				break;
+			}
+			
+			
+			
+			/*if (atOccurenceOfStartVertice && prevE != NULL_LONG) {
+				mergedK.addAll(idxOfOutgoingEdge, newK);
+			}*/
+		}
+
+		return mergedK;
 	}
 
 	private Long getEdgeInKWithPositiveDegree(List<Long> k) {
@@ -183,13 +232,23 @@ public class Hierholzer {
 			Long nextE = edges.get(i + 1);
 
 			// check, that there is a vertice between two consecutive edges
-			Set<Long> shouldBeThreeOrLess = graph.getSourceTarget(currE);
-			shouldBeThreeOrLess.addAll(graph.getSourceTarget(nextE));
-			if (shouldBeThreeOrLess.size() > 3) {
+			if (commonVerticesOf(currE, nextE, graph).size() > 3) {
 				return false;
 			}
+			/*
+			 * Set<Long> shouldBeThreeOrLess = graph.getSourceTarget(currE);
+			 * shouldBeThreeOrLess.addAll(graph.getSourceTarget(nextE)); if
+			 * (shouldBeThreeOrLess.size() > 3) { return false; }
+			 */
 		}
 		return true;
+	}
+
+	// could be refactored into Graph ADT
+	private static Set<Long> commonVerticesOf(Long e1, Long e2, IAIGraph graph) {
+		Set<Long> commonVertices = graph.getSourceTarget(e1);
+		commonVertices.addAll(graph.getSourceTarget(e2));
+		return commonVertices;
 	}
 
 	private void checkEdgesHaveEvenDegree() {
