@@ -2,6 +2,7 @@ package GKA_A4;
 
 import java.lang.IllegalArgumentException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -87,7 +88,7 @@ public class Hierholzer {
 
 	private List<Long> makeCycleBeginningAtUsingEdges(Long startVertice,
 			Set<Long> usableEdges) {
-		
+
 		List<Long> cycleEdges = new ArrayList<>();
 		Long currHeadVertice = startVertice;
 
@@ -130,10 +131,42 @@ public class Hierholzer {
 
 	private List<Long> pickNextEdgeFrom_Using_(Long currHeadVertice,
 			Set<Long> usableEdges) {
-		List<Long> container = new ArrayList<>();
-		// TODO: this function
 
-		return container;
+		Set<Long> incident = graph.getIncident(currHeadVertice);
+
+		// build set od edge incident with the head vertice and
+		// which are also allowed to be used.
+		Set<Long> intersect = new HashSet<>(usableEdges);
+		intersect.retainAll(incident);
+
+		// this set has to have atleast one edge!
+		if (intersect.isEmpty()) {
+			System.err.println(" <<< --- whoooooops!!! --- >>> ");
+			System.err.println("Arguments: " + currHeadVertice + " and "
+					+ usableEdges);
+		}
+
+		// fetch the edge and vertice
+		Long edge = NULL_LONG;
+		for (Long e : intersect) { // java has no better way of getting a single
+									// elem out of a set -_-
+			edge = e;
+			break;
+		}
+
+		Long vertice = NULL_LONG;
+		for (Long v : graph.getSourceTarget(edge)) {
+			if (v != currHeadVertice) {
+				vertice = v;
+			}
+		}
+
+		if (vertice == NULL_LONG || edge == NULL_LONG) {
+			System.err.println(" <---- Nil! ----> ");
+			System.err.println("Arguments: " + currHeadVertice + " and "
+					+ usableEdges);
+		}
+		return new ArrayList<>(Arrays.asList(edge, vertice));
 	}
 
 	private boolean lastEdgeReachedVertice(List<Long> cycleEdges, Long v) {
