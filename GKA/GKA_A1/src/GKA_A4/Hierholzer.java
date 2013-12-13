@@ -261,11 +261,6 @@ public class Hierholzer {
 			if (commonVerticesOf(currE, nextE, graph).size() > 3) {
 				return false;
 			}
-			/*
-			 * Set<Long> shouldBeThreeOrLess = graph.getSourceTarget(currE);
-			 * shouldBeThreeOrLess.addAll(graph.getSourceTarget(nextE)); if
-			 * (shouldBeThreeOrLess.size() > 3) { return false; }
-			 */
 		}
 		return true;
 	}
