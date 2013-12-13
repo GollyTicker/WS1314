@@ -87,7 +87,7 @@ public class TrailProblemTest {
 		loadGraph("graph36.graph");
 		Hierholzer algo = new Hierholzer(yolo);
 		List<Long> result = algo.hierholzeEs();
-		System.out.println("Eulertour(edges): " + result);
+		//System.out.println("Eulertour(edges): " + result);
 		assertTrue(isEulerianPath(yolo, result));
 	}
 	

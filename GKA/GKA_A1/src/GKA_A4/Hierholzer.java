@@ -174,7 +174,7 @@ public class Hierholzer {
 
 		// System.out.println("startVertice: " + startVertice);
 
-		while(!lastEdgeReachedVertice(cycleEdges, startVertice) && cycleEdges.size() < 2){
+		while(cycleEdges.size() < 2 || !lastEdgeReachedVertice(cycleEdges, startVertice)){
 			// this method returns a list with two elements.
 			// the first element is the eID of the chosen edge and the
 			// second element id the vId of the corresponging parter vertice
