@@ -36,8 +36,8 @@ public class Hierholzer {
 
 			// Step 3
 			// vernachlaessige Kanten von K
-			Set<Long> edgesWithoutK = new HashSet<Long>(k);
-			edgesWithoutK.removeAll(allEdges);
+			Set<Long> edgesWithoutK = new HashSet<Long>(allEdges);
+			edgesWithoutK.removeAll(k);
 
 			// Step 4
 			Long newV = getVerticeInKWithPositiveDegree(k);
