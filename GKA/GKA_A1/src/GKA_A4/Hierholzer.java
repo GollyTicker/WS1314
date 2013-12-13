@@ -43,7 +43,7 @@ public class Hierholzer {
 			Long newV = getVerticeInKWithPositiveDegree(k);
 
 			if (newV == NULL_LONG)
-				System.err.println("getEdgePos not working. returned -1");
+				gotoFail("getEdgePos not working. returned -1");
 
 			List<Long> newK = makeCycleBeginningAtUsingEdges(newV,
 					edgesWithoutK);
@@ -102,6 +102,10 @@ public class Hierholzer {
 
 		List<Long> mergedK = new ArrayList<>(newK);
 
+		System.out.println("Going to Integrate");
+		System.out.println("K: " + k + "; newK: " + newK + "; startV: "
+				+ newKStart);
+
 		// we start at i=1 because we always take the edge (i-1) and (i)
 		for (int i = 1; i < k.size(); i++) {
 
@@ -139,10 +143,15 @@ public class Hierholzer {
 
 		}
 
-		System.err
-				.println("whoooosh!..... this shouldnt happen! the insertion Vertice wasnt found!");
-
+		gotoFail("whoooosh!..... this shouldnt happen! the insertion Vertice wasnt found!");
+		
 		return mergedK;
+	}
+
+	// Java has to have GOTO
+	private void gotoFail(String err_msg) {
+		System.err.println(err_msg);
+		throw new IllegalArgumentException(err_msg);
 	}
 
 	private Long getVerticeInKWithPositiveDegree(List<Long> k) {
@@ -216,8 +225,7 @@ public class Hierholzer {
 
 		// this set has to have atleast one edge!
 		if (intersect.isEmpty()) {
-			System.err.println(" <<< --- whoooooops!!! --- >>> ");
-			System.err.println("Arguments: " + currHeadVertice + " and "
+			gotoFail(" <<< --- whoooooops!!! --- >>> \nArguments: " + currHeadVertice + " and "
 					+ usableEdges);
 		}
 
@@ -229,7 +237,7 @@ public class Hierholzer {
 			break;
 		}
 		if (edge == NULL_LONG)
-			System.err.println("nooo.......");
+			gotoFail("nooo.......");
 
 		Long vertice = NULL_LONG;
 		for (Long v : graph.getSourceTarget(edge)) {
@@ -239,8 +247,7 @@ public class Hierholzer {
 		}
 
 		if (vertice == NULL_LONG || edge == NULL_LONG) {
-			System.err.println(" <---- Nil! ----> ");
-			System.err.println("Arguments: " + currHeadVertice + " and "
+			gotoFail(" <---- Nil! ----> \nArguments: " + currHeadVertice + " and "
 					+ usableEdges);
 		}
 		return new ArrayList<>(Arrays.asList(edge, vertice));

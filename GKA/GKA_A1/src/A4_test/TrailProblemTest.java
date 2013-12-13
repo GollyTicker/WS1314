@@ -73,7 +73,7 @@ public class TrailProblemTest {
 		assertTrue(!isEulerianPath(yolo, eulerpath));
 	}
 
-	//@Test
+	@Test
 	public void TestHierholzerPositive1() {
 		loadGraph("graph35.graph");
 		Hierholzer algo = new Hierholzer(yolo);
