@@ -100,17 +100,24 @@ public class Hierholzer {
 		// the way wikipedia explains this is ambiguous.
 		// therefore we're using this sligtly different approach
 
-		List<Long> mergedK = new ArrayList<>(newK);
+		List<Long> mergedK = new ArrayList<>(k);
 
-		System.out.println("Going to Integrate");
-		System.out.println("K: " + k + "; newK: " + newK + "; startV: "
-				+ newKStart);
+		//System.out.println("Going to Integrate");
+//		System.out.println("K: " + k + "; newK: " + newK + "; startV: "
+//				+ newKStart);
 
-		// we start at i=1 because we always take the edge (i-1) and (i)
-		for (int i = 1; i < k.size(); i++) {
-
-			Long prevE = k.get(i - 1);
-			Long currE = k.get(i);
+		
+		int size = k.size();
+		for (int i = 0; i < k.size(); i++) {
+			
+			int currEidx = (i) % size;
+			int nextEidx = (i + 1) % size;
+			
+			Long prevE = k.get(currEidx);
+			Long currE = k.get(nextEidx);
+			// the module makes the two picked vertices rotate
+			// this allows me to also pick the initial vertice which
+			// is also a valid insertion point
 
 			// calculate the Vertice inbetween both of the edges
 			// (this looks so horrible in java.....)
@@ -118,6 +125,7 @@ public class Hierholzer {
 			Long verticeInbetween = NULL_LONG;
 			Set<Long> common = commonVerticesOf(prevE, currE, graph);
 			Set<Long> intersect = new HashSet<>(common);
+			intersect.retainAll(graph.getSourceTarget(prevE));
 			intersect.retainAll(graph.getSourceTarget(currE));
 			for (Long v : intersect) {
 				verticeInbetween = v;
@@ -135,14 +143,16 @@ public class Hierholzer {
 				// and insert the edges of newK in the expected order
 				// into this position
 
-				mergedK.addAll(i, newK);
-
+				mergedK.addAll(nextEidx, newK);
+				
+				//System.out.println("Merged: " + mergedK);
+				
 				// important to end now. else it would add it multiple times.
 				return mergedK;
 			}
 
 		}
-
+		
 		gotoFail("whoooosh!..... this shouldnt happen! the insertion Vertice wasnt found!");
 		
 		return mergedK;
@@ -182,7 +192,7 @@ public class Hierholzer {
 			// the method name is to be read as:
 			// pick next edge from "currHEadVertice" using "usableEdges"
 
-			System.out.println("CurrHead: " + currHeadVertice + "; Usable Edges: " + usableEdges);
+			//System.out.println("CurrHead: " + currHeadVertice + "; Usable Edges: " + usableEdges);
 			List<Long> container = pickNextEdgeFrom_Using_(currHeadVertice,
 					usableEdges);
 
