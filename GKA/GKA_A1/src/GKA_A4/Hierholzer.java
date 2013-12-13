@@ -288,7 +288,7 @@ public class Hierholzer {
 		for (Long v : graph.getVertexes()) {
 			if (degree(v) % 2 != 0) {
 				throw new IllegalArgumentException(
-						"Graph has Edges with odd degree!");
+						"Graph has Vertices with odd degree!");
 			}
 		}
 	}
