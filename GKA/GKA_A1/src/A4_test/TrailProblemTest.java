@@ -73,7 +73,7 @@ public class TrailProblemTest {
 		assertTrue(!isEulerianPath(yolo, eulerpath));
 	}
 
-	@Test
+	//@Test
 	public void TestHierholzerPositive1() {
 		loadGraph("graph35.graph");
 		Hierholzer algo = new Hierholzer(yolo);
@@ -82,7 +82,7 @@ public class TrailProblemTest {
 		assertTrue(isEulerianPath(yolo, result));
 	}
 
-	@Test
+	//@Test
 	public void TestHierholzerPositive2() {
 		loadGraph("graph36.graph");
 		Hierholzer algo = new Hierholzer(yolo);
@@ -92,14 +92,14 @@ public class TrailProblemTest {
 	}
 	
 	
-	@Test (expected = IllegalArgumentException.class)
+	//@Test (expected = IllegalArgumentException.class)
 	public void TestHierholzerNegative1() {
 		loadGraph("graph37.graph");		// invalid graph. has vertices with ood degrees
 		Hierholzer algo = new Hierholzer(yolo);
 		algo.hierholzeEs();
 	}
 
-	@Test (expected = IllegalArgumentException.class)
+	//@Test (expected = IllegalArgumentException.class)
 	public void TestHierholzerNegative2() {
 		loadGraph("graph38.graph");		// invalid graph. has vertices with ood degrees
 		Hierholzer algo = new Hierholzer(yolo);

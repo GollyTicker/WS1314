@@ -252,7 +252,7 @@ public class Hierholzer {
 	}
 
 	public static boolean isEulerianPath(IAIGraph graph, List<Long> edges) {
-		if (new HashSet<Long>(edges).size() != edges.size())
+		if (new HashSet<Long>(edges).size() != graph.getEdges().size())
 			return false;
 
 		for (int i = 0; i < edges.size() - 1; i++) {
