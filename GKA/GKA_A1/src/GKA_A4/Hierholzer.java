@@ -174,20 +174,7 @@ public class Hierholzer {
 
 		// System.out.println("startVertice: " + startVertice);
 
-		do {
-
-			// LOOOOL <<<------ first time I really had a good
-			// usage for the do while syntax, lel xD
-			// I have to go through this loop atleast once, because after adding
-			// the first
-			// incident edge, v will ofcource be a source/Target of this edge.
-			// this edge is going to be the last edge in the list at that time
-			// and
-			// the loop-condition would evaluate to true and it'd exit with only
-			// one edge.
-			// (with the loop unevaluated)
-			// thats why need to use do while instead of a normal while.
-
+		while(!lastEdgeReachedVertice(cycleEdges, startVertice) && cycleEdges.size() < 2){
 			// this method returns a list with two elements.
 			// the first element is the eID of the chosen edge and the
 			// second element id the vId of the corresponging parter vertice
@@ -195,7 +182,7 @@ public class Hierholzer {
 			// the method name is to be read as:
 			// pick next edge from "currHEadVertice" using "usableEdges"
 
-			// System.out.println("CurrHead: " + currHeadVertice);
+			System.out.println("CurrHead: " + currHeadVertice + "; Usable Edges: " + usableEdges);
 			List<Long> container = pickNextEdgeFrom_Using_(currHeadVertice,
 					usableEdges);
 
@@ -208,7 +195,11 @@ public class Hierholzer {
 			// begin form the next Vertice in the next iteration
 			currHeadVertice = nextVertice;
 
-		} while (!lastEdgeReachedVertice(cycleEdges, startVertice));
+		}
+		
+		// identified bug.
+		// the loop is only entered once in the first iteration.
+		// it has to loop atleast twice.
 
 		return cycleEdges;
 	}
