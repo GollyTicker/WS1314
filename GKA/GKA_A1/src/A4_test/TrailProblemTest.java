@@ -114,10 +114,11 @@ public class TrailProblemTest {
 		assertTrue(isEulerianPath(yolo, result));
 	}
 
-	//@Test
+	// @Test
 	public void TestHierholzerPositive5() {
 		loadGraph("graph43.graph");
-		// form the german wikipedia article: https://de.wikipedia.org/wiki/Algorithmus_von_Hierholzer
+		// form the german wikipedia article:
+		// https://de.wikipedia.org/wiki/Algorithmus_von_Hierholzer
 		Hierholzer algo = new Hierholzer(yolo);
 		List<Long> result = algo.hierholzeEs();
 		System.out.println("Eulertour(edges): " + result);
