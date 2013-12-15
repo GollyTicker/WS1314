@@ -13,6 +13,7 @@ public class Hierholzer {
 
 	private final Long NULL_LONG = -1L;
 	private IAIGraph graph;
+	private final boolean DEBUGMODE = true; 
 
 	private Set<Long> allEdges;
 
@@ -30,6 +31,8 @@ public class Hierholzer {
 		Long v = getInitialVertice();
 		// K is a List of Edges
 		List<Long> k = makeCycleBeginningAtUsingEdges(v, allEdges);
+		
+		debugPrint("Initial Cycle: " + k);
 
 		// Step 2
 		while (!isEulerianPath(graph, k)) {
@@ -102,9 +105,9 @@ public class Hierholzer {
 
 		List<Long> mergedK = new ArrayList<>(k);
 
-		//System.out.println("Going to Integrate");
-//		System.out.println("K: " + k + "; newK: " + newK + "; startV: "
-//				+ newKStart);
+		debugPrint("Going to Integrate");
+		debugPrint("K: " + k + "; newK: " + newK + "; startV: "
+				+ newKStart);
 
 		
 		int size = k.size();
@@ -145,7 +148,7 @@ public class Hierholzer {
 
 				mergedK.addAll(nextEidx, newK);
 				
-				//System.out.println("Merged: " + mergedK);
+				debugPrint("Merged: " + mergedK);
 				
 				// important to end now. else it would add it multiple times.
 				return mergedK;
@@ -182,7 +185,7 @@ public class Hierholzer {
 		List<Long> cycleEdges = new ArrayList<>();
 		Long currHeadVertice = startVertice;
 
-		// System.out.println("startVertice: " + startVertice);
+		// debugPrint("startVertice: " + startVertice);
 
 		while(cycleEdges.size() < 2 || !lastEdgeReachedVertice(cycleEdges, startVertice)){
 			// this method returns a list with two elements.
@@ -192,7 +195,7 @@ public class Hierholzer {
 			// the method name is to be read as:
 			// pick next edge from "currHEadVertice" using "usableEdges"
 
-			//System.out.println("CurrHead: " + currHeadVertice + "; Usable Edges: " + usableEdges);
+			//debugPrint("CurrHead: " + currHeadVertice + "; Usable Edges: " + usableEdges);
 			List<Long> container = pickNextEdgeFrom_Using_(currHeadVertice,
 					usableEdges);
 
@@ -302,6 +305,10 @@ public class Hierholzer {
 
 	private void resetVariables() {
 		this.allEdges = this.graph.getEdges();
+	}
+	private void debugPrint(String s) {
+		if(DEBUGMODE)
+			System.out.println(s);
 	}
 
 }

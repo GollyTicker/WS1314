@@ -10,6 +10,8 @@ public class NearestInsertion {
 	private final Long NULL_LONG = -1L;
 	private final int INIT_MINIMUM = Integer.MAX_VALUE;
 	
+	private final boolean DEBUGMODE = true; 
+	
 	private IAIGraph graph;
 	private String cmp;
 	private List<Long> w;
@@ -29,10 +31,14 @@ public class NearestInsertion {
 		startvertice = pop();
 		w.add(startvertice);
 		w.add(startvertice);
+		
+		debugPrint("Initial W: " + w);
 
 		while (!vertices.isEmpty()) {
 			Long currentNode = findNearestVertice();
+			debugPrint("Nearest Vertice: " + currentNode);
 			optimalInsert(currentNode);
+			debugPrint("Just " + w);
 		}
 
 		return w;
@@ -45,6 +51,7 @@ public class NearestInsertion {
 			List<Long> possibleNextCycles = new ArrayList<>(w);
 			possibleNextCycles.add(idx, vId);
 			int sum = sumCircle(possibleNextCycles);
+			debugPrint(" :: Option { " + sum + " , " + possibleNextCycles + " }");
 			if (sum < minimum) {
 				bestCycle = possibleNextCycles;
 				minimum = sum;
@@ -116,5 +123,10 @@ public class NearestInsertion {
 
 	public int getMinimum() {
 		return minimum;
+	}
+	
+	private void debugPrint(String s) {
+		if(DEBUGMODE)
+			System.out.println(s);
 	}
 }

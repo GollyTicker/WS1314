@@ -24,7 +24,7 @@ public class TrailProblemTest {
 	}
 
 	// NearestInsertion
-	// @Test
+	@Test
 	public void NearestInsertionTest1() {
 		loadGraph("graph30.graph");
 		// this graph is the graph the algorithm is presented in the book with.
@@ -39,7 +39,7 @@ public class TrailProblemTest {
 		assertTrue(algo.getMinimum() <= 120);
 	}
 
-	// @Test
+	@Test
 	public void NearestInsertionTest2() {
 		loadGraph("graph31.graph");
 		// this graph is the graph used in the exercises for the nearest
@@ -56,7 +56,8 @@ public class TrailProblemTest {
 	}
 
 	// Hierholzer
-	//@Test
+	// isEulerianPath
+	@Test
 	public void TestIsEulerianPath() {
 		loadGraph("graph35.graph");
 
@@ -72,7 +73,8 @@ public class TrailProblemTest {
 		eulerpath = new ArrayList<>(Arrays.asList(2L, 0L, 1L, 3L));
 		assertTrue(!isEulerianPath(yolo, eulerpath));
 	}
-
+	
+	// Hierholzer Algorithm
 	@Test
 	public void TestHierholzerPositive1() {
 		loadGraph("graph35.graph");
