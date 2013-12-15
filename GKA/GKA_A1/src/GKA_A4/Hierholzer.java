@@ -13,7 +13,7 @@ public class Hierholzer {
 
 	private final Long NULL_LONG = -1L;
 	private IAIGraph graph;
-	private final boolean DEBUGMODE = true; 
+	private final boolean DEBUGMODE = false; 
 
 	private Set<Long> allEdges;
 
@@ -296,7 +296,7 @@ public class Hierholzer {
 	}
 
 	private int degree(Long v) {
-		return graph.getIncident(v).size();
+		return degreeWithinEdges(v, allEdges);
 	}
 	
 	private int degreeWithinEdges(Long v, Set<Long> usableEdges) {
