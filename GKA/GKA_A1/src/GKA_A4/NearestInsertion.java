@@ -10,7 +10,7 @@ public class NearestInsertion {
 	private final Long NULL_LONG = -1L;
 	private final int INIT_MINIMUM = Integer.MAX_VALUE;
 	
-	private final boolean DEBUGMODE = true; 
+	private final boolean DEBUGMODE = false; 
 	
 	private IAIGraph graph;
 	private String cmp;
