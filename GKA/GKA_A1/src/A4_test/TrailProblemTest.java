@@ -73,7 +73,7 @@ public class TrailProblemTest {
 		eulerpath = new ArrayList<>(Arrays.asList(2L, 0L, 1L, 3L));
 		assertTrue(!isEulerianPath(yolo, eulerpath));
 	}
-	
+
 	// Hierholzer Algorithm
 	@Test
 	public void TestHierholzerPositive1() {
@@ -104,7 +104,27 @@ public class TrailProblemTest {
 		assertTrue(isEulerianPath(yolo, result));
 	}
 
-	@Test (expected = IllegalArgumentException.class)
+	@Test
+	public void TestHierholzerPositive4() {
+		loadGraph("graph42.graph"); // this is the one from the book page 121.
+									// its the one with 8 vertices
+		Hierholzer algo = new Hierholzer(yolo);
+		List<Long> result = algo.hierholzeEs();
+		System.out.println("Eulertour(edges): " + result);
+		assertTrue(isEulerianPath(yolo, result));
+	}
+
+	//@Test
+	public void TestHierholzerPositive5() {
+		loadGraph("graph43.graph");
+		// form the german wikipedia article: https://de.wikipedia.org/wiki/Algorithmus_von_Hierholzer
+		Hierholzer algo = new Hierholzer(yolo);
+		List<Long> result = algo.hierholzeEs();
+		System.out.println("Eulertour(edges): " + result);
+		assertTrue(isEulerianPath(yolo, result));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
 	public void TestHierholzerNegative1() {
 		loadGraph("graph37.graph"); // invalid graph. has vertices with ood
 									// degrees
@@ -112,7 +132,7 @@ public class TrailProblemTest {
 		algo.hierholzeEs();
 	}
 
-	@Test (expected = IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void TestHierholzerNegative2() {
 		loadGraph("graph38.graph"); // invalid graph. has vertices with ood
 									// degrees
