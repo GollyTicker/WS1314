@@ -43,7 +43,7 @@ public class Hierholzer {
 			edgesWithoutK.removeAll(k);
 
 			// Step 4
-			Long newV = getVerticeInKWithPositiveDegree(k);
+			Long newV = getVerticeInKWithPositiveDegreeUsingOnlyEdgesFrom(k, edgesWithoutK);
 
 			if (newV == NULL_LONG)
 				gotoFail("getEdgePos not working. returned -1");
@@ -167,10 +167,10 @@ public class Hierholzer {
 		throw new IllegalArgumentException(err_msg);
 	}
 
-	private Long getVerticeInKWithPositiveDegree(List<Long> k) {
+	private Long getVerticeInKWithPositiveDegreeUsingOnlyEdgesFrom(List<Long> k, Set<Long> usableEdges) {
 		for (Long e : k) {
 			for (Long v : graph.getSourceTarget(e)) {
-				if (degree(v) > 0) {
+				if (degreeWithinEdges(v, usableEdges) > 0) {
 					return v;
 				}
 			}
@@ -185,7 +185,7 @@ public class Hierholzer {
 		List<Long> cycleEdges = new ArrayList<>();
 		Long currHeadVertice = startVertice;
 
-		// debugPrint("startVertice: " + startVertice);
+		 debugPrint("Start from " + startVertice + " using edges " + usableEdges);
 
 		while(cycleEdges.size() < 2 || !lastEdgeReachedVertice(cycleEdges, startVertice)){
 			// this method returns a list with two elements.
@@ -195,7 +195,7 @@ public class Hierholzer {
 			// the method name is to be read as:
 			// pick next edge from "currHEadVertice" using "usableEdges"
 
-			//debugPrint("CurrHead: " + currHeadVertice + "; Usable Edges: " + usableEdges);
+			debugPrint("CurrnetHeadVertice: " + currHeadVertice);
 			List<Long> container = pickNextEdgeFrom_Using_(currHeadVertice,
 					usableEdges);
 
@@ -209,10 +209,6 @@ public class Hierholzer {
 			currHeadVertice = nextVertice;
 
 		}
-		
-		// identified bug.
-		// the loop is only entered once in the first iteration.
-		// it has to loop atleast twice.
 
 		return cycleEdges;
 	}
@@ -301,6 +297,12 @@ public class Hierholzer {
 
 	private int degree(Long v) {
 		return graph.getIncident(v).size();
+	}
+	
+	private int degreeWithinEdges(Long v, Set<Long> usableEdges) {
+		Set<Long> usableIncident = graph.getIncident(v);
+		usableIncident.retainAll(usableEdges);
+		return usableIncident.size();
 	}
 
 	private void resetVariables() {

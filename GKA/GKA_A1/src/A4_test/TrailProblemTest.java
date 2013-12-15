@@ -24,7 +24,7 @@ public class TrailProblemTest {
 	}
 
 	// NearestInsertion
-	@Test
+	// @Test
 	public void NearestInsertionTest1() {
 		loadGraph("graph30.graph");
 		// this graph is the graph the algorithm is presented in the book with.
@@ -39,7 +39,7 @@ public class TrailProblemTest {
 		assertTrue(algo.getMinimum() <= 120);
 	}
 
-	@Test
+	// @Test
 	public void NearestInsertionTest2() {
 		loadGraph("graph31.graph");
 		// this graph is the graph used in the exercises for the nearest
@@ -57,7 +57,7 @@ public class TrailProblemTest {
 
 	// Hierholzer
 	// isEulerianPath
-	@Test
+	// @Test
 	public void TestIsEulerianPath() {
 		loadGraph("graph35.graph");
 
@@ -75,7 +75,7 @@ public class TrailProblemTest {
 	}
 
 	// Hierholzer Algorithm
-	@Test
+	// @Test
 	public void TestHierholzerPositive1() {
 		loadGraph("graph35.graph");
 		Hierholzer algo = new Hierholzer(yolo);
@@ -84,7 +84,7 @@ public class TrailProblemTest {
 		assertTrue(isEulerianPath(yolo, result));
 	}
 
-	@Test
+	// @Test
 	public void TestHierholzerPositive2() {
 		loadGraph("graph36.graph");
 		Hierholzer algo = new Hierholzer(yolo);
@@ -93,7 +93,7 @@ public class TrailProblemTest {
 		assertTrue(isEulerianPath(yolo, result));
 	}
 
-	@Test
+	// @Test
 	public void TestHierholzerPositive3() {
 		loadGraph("graph39.graph");
 		// more difficult graph which names the vertices in such a way
@@ -104,7 +104,7 @@ public class TrailProblemTest {
 		assertTrue(isEulerianPath(yolo, result));
 	}
 
-	@Test
+	// @Test
 	public void TestHierholzerPositive4() {
 		loadGraph("graph42.graph"); // this is the one from the book page 121.
 									// its the one with 8 vertices
@@ -114,7 +114,7 @@ public class TrailProblemTest {
 		assertTrue(isEulerianPath(yolo, result));
 	}
 
-	// @Test
+	@Test
 	public void TestHierholzerPositive5() {
 		loadGraph("graph43.graph");
 		// form the german wikipedia article:
@@ -125,7 +125,7 @@ public class TrailProblemTest {
 		assertTrue(isEulerianPath(yolo, result));
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	// @Test(expected = IllegalArgumentException.class)
 	public void TestHierholzerNegative1() {
 		loadGraph("graph37.graph"); // invalid graph. has vertices with ood
 									// degrees
@@ -133,7 +133,7 @@ public class TrailProblemTest {
 		algo.hierholzeEs();
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	// @Test(expected = IllegalArgumentException.class)
 	public void TestHierholzerNegative2() {
 		loadGraph("graph38.graph"); // invalid graph. has vertices with ood
 									// degrees
@@ -143,7 +143,7 @@ public class TrailProblemTest {
 	}
 
 	// TODO: activate all Tests
-
+	
 	private void loadGraph(String graphname) {
 		String path = WhichPath.getPath();
 		JavaGraphParser jp = new JavaGraphParser(path + graphname, cmp);
