@@ -7,17 +7,17 @@ import GKA_A1.IAIGraph;
 
 public class NearestInsertion {
 
-	private final Long NULL_LONG = -1L;
-	private final int INIT_MINIMUM = Integer.MAX_VALUE;
-	
-	private final boolean DEBUGMODE = false; 
-	
+	private final Long NULL_INDEX = -1L;
+	private final int INFINITY = Integer.MAX_VALUE;
+
+	private final boolean DEBUGMODE = true;
+
 	private IAIGraph graph;
 	private String cmp;
 	private List<Long> w;
 	private List<Long> vertices;
-	private Long startvertice = NULL_LONG;
-	private int minimum = INIT_MINIMUM;
+	private Long initialvertice = NULL_INDEX;
+	private int minimum = INFINITY;
 
 	public NearestInsertion(IAIGraph graph, String cmp) {
 		this.graph = graph;
@@ -25,33 +25,37 @@ public class NearestInsertion {
 	}
 
 	public List<Long> nearestInsertion() {
+		if (graph.isEmpty()) {
+			throw new IllegalArgumentException("Graph may not be empty!");
+		}
 
 		reset();
 
-		startvertice = pop();
-		w.add(startvertice);
-		w.add(startvertice);
-		
+		initialvertice = pop();
+		w.add(initialvertice);
+		w.add(initialvertice);
+
 		debugPrint("Initial W: " + w);
 
 		while (!vertices.isEmpty()) {
 			Long currentNode = findNearestVertice();
 			debugPrint("Nearest Vertice: " + currentNode);
 			optimalInsert(currentNode);
-			debugPrint("Just " + w);
+			debugPrint("Chosen => " + w);
 		}
 
 		return w;
 	}
 
 	private void optimalInsert(Long vId) {
-		int minimum = INIT_MINIMUM;
+		int minimum = INFINITY;
 		List<Long> bestCycle = new ArrayList<>();
 		for (int idx = 1; idx < w.size(); idx++) {
 			List<Long> possibleNextCycles = new ArrayList<>(w);
 			possibleNextCycles.add(idx, vId);
 			int sum = sumCircle(possibleNextCycles);
-			debugPrint(" :: Option { " + sum + " , " + possibleNextCycles + " }");
+			debugPrint(" :: Possibility { " + sum + " , " + possibleNextCycles
+					+ " }");
 			if (sum < minimum) {
 				bestCycle = possibleNextCycles;
 				minimum = sum;
@@ -77,21 +81,19 @@ public class NearestInsertion {
 	}
 
 	private Long findNearestVertice() {
-		// TODO: Better naming + init_minimum calculation
-		Long minimumVertice = NULL_LONG;
-		int minimumD = INIT_MINIMUM;
+		Long minimumVertice = NULL_INDEX;
+		int minimum_d = INFINITY;
 		for (Long vId : vertices) {
 			int tmpD = d(vId);
-			if (tmpD < minimumD) {
+			if (tmpD < minimum_d) {
 				minimumVertice = vId;
 			}
 		}
-		vertices.remove(minimumVertice);
-		return minimumVertice;
+		return pop(minimumVertice);
 	}
 
 	private int d(Long vId) {
-		int minimum = INIT_MINIMUM;
+		int minimum = INFINITY;
 		for (Long wId : w) {
 			Long eId = getEdgeBetween(wId, vId);
 			int dist = graph.getValE(eId, cmp);
@@ -106,27 +108,35 @@ public class NearestInsertion {
 				return eId;
 			}
 		}
-		return NULL_LONG;
+		return NULL_INDEX;
 	}
 
 	private void reset() {
 		w = new ArrayList<>();
 		vertices = new ArrayList<>(graph.getVertexes());
-		startvertice = NULL_LONG;
+		initialvertice = NULL_INDEX;
 	}
 
 	private Long pop() {
-		Long head = vertices.get(0);
-		vertices.remove(0);
+		int idx = 0;
+		Long head = vertices.get(idx);
+		vertices.remove(idx);
+		return head;
+	}
+
+	private Long pop(Long vId) {
+		int idx = vertices.indexOf(vId);
+		Long head = vertices.get(idx);
+		vertices.remove(idx);
 		return head;
 	}
 
 	public int getMinimum() {
 		return minimum;
 	}
-	
+
 	private void debugPrint(String s) {
-		if(DEBUGMODE)
+		if (DEBUGMODE)
 			System.out.println(s);
 	}
 }

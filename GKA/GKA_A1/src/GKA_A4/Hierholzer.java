@@ -13,7 +13,7 @@ public class Hierholzer {
 
 	private final Long NULL_LONG = -1L;
 	private IAIGraph graph;
-	private final boolean DEBUGMODE = false; 
+	private final boolean DEBUGMODE = false;
 
 	private Set<Long> allEdges;
 
@@ -31,7 +31,7 @@ public class Hierholzer {
 		Long v = getInitialVertice();
 		// K is a List of Edges
 		List<Long> k = makeCycleBeginningAtUsingEdges(v, allEdges);
-		
+
 		debugPrint("Initial Cycle: " + k);
 
 		// Step 2
@@ -43,10 +43,12 @@ public class Hierholzer {
 			edgesWithoutK.removeAll(k);
 
 			// Step 4
-			Long newV = getVerticeInKWithPositiveDegreeUsingOnlyEdgesFrom(k, edgesWithoutK);
+			Long newV = getVerticeInKWithPositiveDegreeUsingOnlyEdgesFrom(k,
+					edgesWithoutK);
 
 			if (newV == NULL_LONG)
-				gotoFail("getEdgePos not working. returned -1");
+				throw new IllegalArgumentException(
+						"getEdgePos not working. returned -1");
 
 			List<Long> newK = makeCycleBeginningAtUsingEdges(newV,
 					edgesWithoutK);
@@ -106,16 +108,14 @@ public class Hierholzer {
 		List<Long> mergedK = new ArrayList<>(k);
 
 		debugPrint("Going to Integrate");
-		debugPrint("K: " + k + "; newK: " + newK + "; startV: "
-				+ newKStart);
+		debugPrint("K: " + k + "; newK: " + newK + "; startV: " + newKStart);
 
-		
 		int size = k.size();
 		for (int i = 0; i < k.size(); i++) {
-			
+
 			int currEidx = (i) % size;
 			int nextEidx = (i + 1) % size;
-			
+
 			Long prevE = k.get(currEidx);
 			Long currE = k.get(nextEidx);
 			// the module makes the two picked vertices rotate
@@ -147,27 +147,22 @@ public class Hierholzer {
 				// into this position
 
 				mergedK.addAll(nextEidx, newK);
-				
+
 				debugPrint("Merged: " + mergedK);
-				
+
 				// important to end now. else it would add it multiple times.
 				return mergedK;
 			}
 
 		}
-		
-		gotoFail("whoooosh!..... this shouldnt happen! the insertion Vertice wasnt found!");
-		
-		return mergedK;
+
+		throw new IllegalArgumentException(
+				"whoooosh!..... this shouldnt happen! the insertion Vertice wasnt found!");
+
 	}
 
-	// Java has to have GOTO
-	private void gotoFail(String err_msg) {
-		System.err.println(err_msg);
-		throw new IllegalArgumentException(err_msg);
-	}
-
-	private Long getVerticeInKWithPositiveDegreeUsingOnlyEdgesFrom(List<Long> k, Set<Long> usableEdges) {
+	private Long getVerticeInKWithPositiveDegreeUsingOnlyEdgesFrom(
+			List<Long> k, Set<Long> usableEdges) {
 		for (Long e : k) {
 			for (Long v : graph.getSourceTarget(e)) {
 				if (degreeWithinEdges(v, usableEdges) > 0) {
@@ -185,9 +180,10 @@ public class Hierholzer {
 		List<Long> cycleEdges = new ArrayList<>();
 		Long currHeadVertice = startVertice;
 
-		 debugPrint("Start from " + startVertice + " using edges " + usableEdges);
+		debugPrint("Start from " + startVertice + " using edges " + usableEdges);
 
-		while(cycleEdges.size() < 2 || !lastEdgeReachedVertice(cycleEdges, startVertice)){
+		while (cycleEdges.size() < 2
+				|| !lastEdgeReachedVertice(cycleEdges, startVertice)) {
 			// this method returns a list with two elements.
 			// the first element is the eID of the chosen edge and the
 			// second element id the vId of the corresponging parter vertice
@@ -225,8 +221,9 @@ public class Hierholzer {
 
 		// this set has to have atleast one edge!
 		if (intersect.isEmpty()) {
-			gotoFail(" <<< --- whoooooops!!! --- >>> \nArguments: " + currHeadVertice + " and "
-					+ usableEdges);
+			throw new IllegalArgumentException(
+					" <<< --- whoooooops!!! --- >>> \nArguments: "
+							+ currHeadVertice + " and " + usableEdges);
 		}
 
 		// fetch the edge and vertice
@@ -237,7 +234,7 @@ public class Hierholzer {
 			break;
 		}
 		if (edge == NULL_LONG)
-			gotoFail("nooo.......");
+			throw new IllegalArgumentException("nooo.......");
 
 		Long vertice = NULL_LONG;
 		for (Long v : graph.getSourceTarget(edge)) {
@@ -247,8 +244,9 @@ public class Hierholzer {
 		}
 
 		if (vertice == NULL_LONG || edge == NULL_LONG) {
-			gotoFail(" <---- Nil! ----> \nArguments: " + currHeadVertice + " and "
-					+ usableEdges);
+			throw new IllegalArgumentException(
+					" <---- Nil! ----> \nArguments: " + currHeadVertice
+							+ " and " + usableEdges);
 		}
 		return new ArrayList<>(Arrays.asList(edge, vertice));
 	}
@@ -298,7 +296,7 @@ public class Hierholzer {
 	private int degree(Long v) {
 		return degreeWithinEdges(v, allEdges);
 	}
-	
+
 	private int degreeWithinEdges(Long v, Set<Long> usableEdges) {
 		Set<Long> usableIncident = graph.getIncident(v);
 		usableIncident.retainAll(usableEdges);
@@ -308,8 +306,9 @@ public class Hierholzer {
 	private void resetVariables() {
 		this.allEdges = this.graph.getEdges();
 	}
+
 	private void debugPrint(String s) {
-		if(DEBUGMODE)
+		if (DEBUGMODE)
 			System.out.println(s);
 	}
 
