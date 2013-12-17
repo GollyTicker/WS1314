@@ -1,6 +1,6 @@
 package A4_test;
 
-import static GKA_A4.Hierholzer.isEulerianPath;
+import static GKA_A4.Hierholzer.isEulerianCycle;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -28,16 +28,16 @@ public class HierholzerNegativeAndIsEulertourTest {
 		loadGraph("graph35.graph");
 
 		List<Long> eulerpath = new ArrayList<>(Arrays.asList(0L, 1L, 2L, 3L));
-		assertTrue(isEulerianPath(yolo, eulerpath));
+		assertTrue(isEulerianCycle(yolo, eulerpath));
 
 		eulerpath = new ArrayList<>(Arrays.asList(0L, 1L, 2L, 1L, 3L));
-		assertTrue(!isEulerianPath(yolo, eulerpath));
+		assertTrue(!isEulerianCycle(yolo, eulerpath));
 
 		eulerpath = new ArrayList<>(Arrays.asList(0L));
-		assertTrue(!isEulerianPath(yolo, eulerpath));
+		assertTrue(!isEulerianCycle(yolo, eulerpath));
 
 		eulerpath = new ArrayList<>(Arrays.asList(2L, 0L, 1L, 3L));
-		assertTrue(!isEulerianPath(yolo, eulerpath));
+		assertTrue(!isEulerianCycle(yolo, eulerpath));
 	}
 
 	@Test(expected = IllegalArgumentException.class)

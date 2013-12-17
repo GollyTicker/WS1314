@@ -1,6 +1,6 @@
 package A4_test;
 
-import static GKA_A4.Hierholzer.isEulerianPath;
+import static GKA_A4.Hierholzer.isEulerianCycle;
 import static org.junit.Assert.*;
 
 import java.util.List;
@@ -27,7 +27,8 @@ public class HierholzerPositiveTest {
 		Hierholzer algo = new Hierholzer(yolo);
 		List<Long> result = algo.hierholzeEs();
 		System.out.println("Eulertour(edges): " + result);
-		assertTrue(isEulerianPath(yolo, result));
+		algo.printCount();
+		assertTrue(isEulerianCycle(yolo, result));
 	}
 
 	@Test
@@ -36,7 +37,8 @@ public class HierholzerPositiveTest {
 		Hierholzer algo = new Hierholzer(yolo);
 		List<Long> result = algo.hierholzeEs();
 		System.out.println("Eulertour(edges): " + result);
-		assertTrue(isEulerianPath(yolo, result));
+		algo.printCount();
+		assertTrue(isEulerianCycle(yolo, result));
 	}
 
 	@Test
@@ -47,7 +49,8 @@ public class HierholzerPositiveTest {
 		Hierholzer algo = new Hierholzer(yolo);
 		List<Long> result = algo.hierholzeEs();
 		System.out.println("Eulertour(edges): " + result);
-		assertTrue(isEulerianPath(yolo, result));
+		algo.printCount();
+		assertTrue(isEulerianCycle(yolo, result));
 	}
 
 	@Test
@@ -57,7 +60,8 @@ public class HierholzerPositiveTest {
 		Hierholzer algo = new Hierholzer(yolo);
 		List<Long> result = algo.hierholzeEs();
 		System.out.println("Eulertour(edges): " + result);
-		assertTrue(isEulerianPath(yolo, result));
+		algo.printCount();
+		assertTrue(isEulerianCycle(yolo, result));
 	}
 
 	@Test
@@ -68,7 +72,8 @@ public class HierholzerPositiveTest {
 		Hierholzer algo = new Hierholzer(yolo);
 		List<Long> result = algo.hierholzeEs();
 		System.out.println("Eulertour(edges): " + result);
-		assertTrue(isEulerianPath(yolo, result));
+		algo.printCount();
+		assertTrue(isEulerianCycle(yolo, result));
 	}
 
 	private void loadGraph(String graphname) {

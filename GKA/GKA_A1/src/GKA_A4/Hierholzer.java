@@ -8,12 +8,15 @@ import java.util.List;
 import java.util.Set;
 
 import GKA_A1.IAIGraph;
+import GraphUtils.ITimeSpace;
 
-public class Hierholzer {
+public class Hierholzer implements ITimeSpace{
 
-	private final Long NULL_LONG = -1L;
+	private final Long NULL_IDX = -1L;
 	private IAIGraph graph;
-	private final boolean DEBUGMODE = false;
+	private final boolean DEBUGMODE = true;
+	
+	private int accessCount = 0;
 
 	private Set<Long> allEdges;
 
@@ -23,33 +26,44 @@ public class Hierholzer {
 
 	// Main algorithm
 	public List<Long> hierholzeEs() {
+		
+		// reset and initialisze all global Variables
 		resetVariables();
-
+		
+		// a graph can only have a eulertour
+		// if its undirected and has only vertices with even degree
 		checkEdgesHaveEvenDegree();
 
 		// Step 1
+		// chose a initial vertice to start the first cycle from.
 		Long v = getInitialVertice();
 		// K is a List of Edges
+		// make the first cycle. start from the previously chosen vertice v.
+		// all edges are allowed to be used.
 		List<Long> k = makeCycleBeginningAtUsingEdges(v, allEdges);
 
 		debugPrint("Initial Cycle: " + k);
 
 		// Step 2
-		while (!isEulerianPath(graph, k)) {
+		while (!isEulerianCycle(graph, k)) {
 
 			// Step 3
-			// vernachlaessige Kanten von K
+			// calculate the edges we've left out.
 			Set<Long> edgesWithoutK = new HashSet<Long>(allEdges);
 			edgesWithoutK.removeAll(k);
 
 			// Step 4
+			// get a vertice which can be used for further initial poitns for cycles
+			// that is also in the current cycle k.
 			Long newV = getVerticeInKWithPositiveDegreeUsingOnlyEdgesFrom(k,
 					edgesWithoutK);
 
-			if (newV == NULL_LONG)
+			if (newV == NULL_IDX)
 				throw new IllegalArgumentException(
-						"getEdgePos not working. returned -1");
-
+						"getEdgePos returned -1");
+			
+			// we can now make a cycle starting at the previously chosen point.
+			// only unused edges may be used here.
 			List<Long> newK = makeCycleBeginningAtUsingEdges(newV,
 					edgesWithoutK);
 
@@ -83,9 +97,10 @@ public class Hierholzer {
 
 	private Long getInitialVertice() {
 		for (Long v : graph.getVertexes()) {
+			countAccess(1);
 			return v;
 		}
-		return NULL_LONG;
+		return NULL_IDX;
 	}
 
 	private List<Long> integrateLeftCycleIntoRightCycle(List<Long> newK,
@@ -113,27 +128,17 @@ public class Hierholzer {
 		int size = k.size();
 		for (int i = 0; i < k.size(); i++) {
 
-			int currEidx = (i) % size;
+			int currEidx = (i) % size;	//(this first module is not really needed)
 			int nextEidx = (i + 1) % size;
 
 			Long prevE = k.get(currEidx);
 			Long currE = k.get(nextEidx);
-			// the module makes the two picked vertices rotate
+			// the modulo makes the two picked vertices rotate
 			// this allows me to also pick the initial vertice which
 			// is also a valid insertion point
 
 			// calculate the Vertice inbetween both of the edges
-			// (this looks so horrible in java.....)
-
-			Long verticeInbetween = NULL_LONG;
-			Set<Long> common = commonVerticesOf(prevE, currE, graph);
-			Set<Long> intersect = new HashSet<>(common);
-			intersect.retainAll(graph.getSourceTarget(prevE));
-			intersect.retainAll(graph.getSourceTarget(currE));
-			for (Long v : intersect) {
-				verticeInbetween = v;
-				break;
-			}
+			Long verticeInbetween = verticeInBetween(prevE, currE);
 
 			if (verticeInbetween.equals(newKStart)) {
 				// the currE is an "outgoing" edge from the newKStart vertice
@@ -145,33 +150,48 @@ public class Hierholzer {
 				// shift this second edge and all subsequent edges
 				// and insert the edges of newK in the expected order
 				// into this position
-
 				mergedK.addAll(nextEidx, newK);
 
 				debugPrint("Merged: " + mergedK);
 
-				// important to end now. else it would add it multiple times.
+				// important to end now. else it would add it again
+				// if the vertice appears multiple times
 				return mergedK;
 			}
 
 		}
-
+		
+		// the merge should always succed.
+		// the vertice has to be found in the list.
 		throw new IllegalArgumentException(
 				"whoooosh!..... this shouldnt happen! the insertion Vertice wasnt found!");
+	}
 
+	// (this looks so horrible in java.....)
+	private Long verticeInBetween(Long prevE, Long currE) {
+		Set<Long> common = commonVerticesOf(prevE, currE, graph);
+		Set<Long> intersect = new HashSet<>(common);
+		intersect.retainAll(graph.getSourceTarget(prevE));
+		intersect.retainAll(graph.getSourceTarget(currE));
+		countAccess(2);
+		for (Long v : intersect) {
+			return v;
+		}
+		return NULL_IDX;
 	}
 
 	private Long getVerticeInKWithPositiveDegreeUsingOnlyEdgesFrom(
 			List<Long> k, Set<Long> usableEdges) {
 		for (Long e : k) {
 			for (Long v : graph.getSourceTarget(e)) {
+				countAccess(1); 
 				if (degreeWithinEdges(v, usableEdges) > 0) {
 					return v;
 				}
 			}
 
 		}
-		return NULL_LONG;
+		return NULL_IDX;
 	}
 
 	private List<Long> makeCycleBeginningAtUsingEdges(Long startVertice,
@@ -181,29 +201,31 @@ public class Hierholzer {
 		Long currHeadVertice = startVertice;
 
 		debugPrint("Start from " + startVertice + " using edges " + usableEdges);
-
+		
+		// as long as we've not returned to our start vertice, we'll continue.
+		// we have to add the size < 2 condition because we dont want to exit too early.
 		while (cycleEdges.size() < 2
 				|| !lastEdgeReachedVertice(cycleEdges, startVertice)) {
+			debugPrint("CurrnetHeadVertice: " + currHeadVertice);
 			// this method returns a list with two elements.
 			// the first element is the eID of the chosen edge and the
 			// second element id the vId of the corresponging parter vertice
 			// of the given currHeadVertice
 			// the method name is to be read as:
 			// pick next edge from "currHEadVertice" using "usableEdges"
-
-			debugPrint("CurrnetHeadVertice: " + currHeadVertice);
 			List<Long> container = pickNextEdgeFrom_Using_(currHeadVertice,
 					usableEdges);
 
 			Long usedEdge = container.get(0);
 			Long nextVertice = container.get(1);
-
+			
+			// remove the used edges from the set of usable edges
+			// add the edge to the cycle. (adds at the end)
 			usableEdges.remove(usedEdge);
 			cycleEdges.add(usedEdge);
 
 			// begin form the next Vertice in the next iteration
 			currHeadVertice = nextVertice;
-
 		}
 
 		return cycleEdges;
@@ -213,12 +235,12 @@ public class Hierholzer {
 			Set<Long> usableEdges) {
 
 		Set<Long> incident = graph.getIncident(currHeadVertice);
+		countAccess(1);
 
-		// build set od edge incident with the head vertice and
-		// which are also allowed to be used.
+		// build the set of usable edges connected witht the head
 		Set<Long> intersect = new HashSet<>(usableEdges);
 		intersect.retainAll(incident);
-
+		
 		// this set has to have atleast one edge!
 		if (intersect.isEmpty()) {
 			throw new IllegalArgumentException(
@@ -226,43 +248,53 @@ public class Hierholzer {
 							+ currHeadVertice + " and " + usableEdges);
 		}
 
-		// fetch the edge and vertice
-		Long edge = NULL_LONG;
+		// fetch the edge
+		Long edge = NULL_IDX;
 		for (Long e : intersect) { // java has no better way of getting a single
 									// elem out of a set -_-
 			edge = e;
 			break;
 		}
-		if (edge == NULL_LONG)
-			throw new IllegalArgumentException("nooo.......");
-
-		Long vertice = NULL_LONG;
+		
+		// fetch the vertice
+		Long vertice = NULL_IDX;
 		for (Long v : graph.getSourceTarget(edge)) {
+			countAccess(1);
 			if (v != currHeadVertice) {
 				vertice = v;
 			}
 		}
 
-		if (vertice == NULL_LONG || edge == NULL_LONG) {
+		if (vertice == NULL_IDX || edge == NULL_IDX) {
 			throw new IllegalArgumentException(
 					" <---- Nil! ----> \nArguments: " + currHeadVertice
 							+ " and " + usableEdges);
 		}
+		
+		// pack and return
 		return new ArrayList<>(Arrays.asList(edge, vertice));
 	}
-
+	
+	// check whether the alst edge is connected with the given vertice
 	private boolean lastEdgeReachedVertice(List<Long> cycleEdges, Long v) {
 		Long lastEdge = cycleEdges.get(cycleEdges.size() - 1);
+		countAccess(1);
 		return graph.getSourceTarget(lastEdge).contains(v);
 	}
-
-	public static boolean isEulerianPath(IAIGraph graph, List<Long> edges) {
+	
+	// as static methode used in the algorithm for testing.
+	//
+	public static boolean isEulerianCycle(IAIGraph graph, List<Long> edges) {
+		
+		// check that each edge appears exactly once in the eulercycle
 		if (new HashSet<Long>(edges).size() != graph.getEdges().size())
 			return false;
-
-		for (int i = 0; i < edges.size() - 1; i++) {
-			Long currE = edges.get(i);
-			Long nextE = edges.get(i + 1);
+		
+		// now check, that all the edges are actually consecutive.
+		int size = edges.size();
+		for (int i = 0; i < size - 1; i++) {
+			Long currE = edges.get(i) % size;
+			Long nextE = edges.get(i + 1) % size;
 
 			// check, that there is a vertice between two consecutive edges
 			if (commonVerticesOf(currE, nextE, graph).size() > 3) {
@@ -283,9 +315,11 @@ public class Hierholzer {
 		// check that all vertices have an even number of edges
 		// and that the graph is directed
 		if (graph.isDirected()) {
+			countAccess(1);
 			throw new IllegalArgumentException("Graph may not be undirected");
 		}
 		for (Long v : graph.getVertexes()) {
+			countAccess(1);
 			if (degree(v) % 2 != 0) {
 				throw new IllegalArgumentException(
 						"Graph has Vertices with odd degree!");
@@ -296,20 +330,48 @@ public class Hierholzer {
 	private int degree(Long v) {
 		return degreeWithinEdges(v, allEdges);
 	}
-
+	
+	// calculate the degree but limited to the given edges
 	private int degreeWithinEdges(Long v, Set<Long> usableEdges) {
+		countAccess(1);
 		Set<Long> usableIncident = graph.getIncident(v);
 		usableIncident.retainAll(usableEdges);
 		return usableIncident.size();
 	}
 
 	private void resetVariables() {
+		resetAccessCount();
+		countAccess(1);
 		this.allEdges = this.graph.getEdges();
 	}
 
 	private void debugPrint(String s) {
 		if (DEBUGMODE)
 			System.out.println(s);
+	}
+
+	@Override
+	public int accessCount() {
+		return accessCount;
+	}
+
+	@Override
+	public void setAccessCount(int ac) {
+		accessCount = ac;
+	}
+	
+	private void countAccess(int add) {
+		setAccessCount(accessCount() + add);
+	}
+
+	@Override
+	public void resetAccessCount() {
+		setAccessCount(0);
+	}
+
+	@Override
+	public void printCount() {
+		debugPrint("AccessCount:" + accessCount());
 	}
 
 }
