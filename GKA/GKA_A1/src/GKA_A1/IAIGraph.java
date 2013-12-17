@@ -45,6 +45,8 @@ public interface IAIGraph {
 
 	long getVertexByName(String name);
 
+	String getVerticeName(Long vId);
+
 	// Selectors
 	int getValE(long eId, String attr);
 
@@ -57,14 +59,16 @@ public interface IAIGraph {
 	Set<String> getAttrV(long vId);
 
 	Set<String> getAttrE(long eId);
-	
+
 	boolean isDirected();
-	
+
 	boolean edgeIsBetween(Long eId, Long v1Id, Long v2Id);
+
+	List<Long> getEdgesBetween(Long v1, Long v2);
+
+	Set<Long> getSourceTarget(Long e);
 	
-	public List<Long> getEdgesBetween(Long v1, Long v2);
-	
-	public Set<Long> getSourceTarget(Long e);
+	String verticeListToName(List<Long> vIds);
 
 	// Mutators
 	void setValE(long eId, String attr, int val);

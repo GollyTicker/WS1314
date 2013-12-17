@@ -11,10 +11,10 @@ import GraphUtils.JavaGraphParser;
 import GraphUtils.WhichPath;
 
 public class NearestInsertionTest {
-	
+
 	private String cmp = "km";
 	private IAIGraph yolo;
-	
+
 	public NearestInsertionTest() {
 	}
 
@@ -28,10 +28,11 @@ public class NearestInsertionTest {
 		NearestInsertion algo = new NearestInsertion(yolo, cmp);
 		List<Long> bestCycle = algo.nearestInsertion();
 
-		System.out.println("BestCycle: " + bestCycle);
+		System.out.println("BestCycle: " + yolo.verticeListToName(bestCycle));
 		System.out.println("Minimum: " + algo.getMinimum());
 
 		assertTrue(algo.getMinimum() <= 120);
+		System.out.println("AccesCount: " + algo.accessCount());
 	}
 
 	@Test
@@ -44,12 +45,29 @@ public class NearestInsertionTest {
 		NearestInsertion algo = new NearestInsertion(yolo, cmp);
 		List<Long> bestCycle = algo.nearestInsertion();
 
-		System.out.println("BestCycle: " + bestCycle);
+		System.out.println("BestCycle: " + yolo.verticeListToName(bestCycle));
 		System.out.println("Minimum: " + algo.getMinimum());
 
 		assertTrue(algo.getMinimum() <= 33);
+		System.out.println("AccesCount: " + algo.accessCount());
 	}
-	
+
+	@Test
+	public void NearestInsertionTest3() {
+		loadGraph("graph11.graph");
+		// this graph is the graph the algorithm is presented in the book with.
+		// write here call of nearest insertion algorithm and its test case
+
+		NearestInsertion algo = new NearestInsertion(yolo, cmp);
+		List<Long> bestCycle = algo.nearestInsertion();
+
+		System.out.println("BestCycle: " + yolo.verticeListToName(bestCycle));
+		System.out.println("Minimum: " + algo.getMinimum());
+
+		assertTrue(algo.getMinimum() <= 51);
+		System.out.println("AccesCount: " + algo.accessCount());
+	}
+
 	private void loadGraph(String graphname) {
 		String path = WhichPath.getPath();
 		JavaGraphParser jp = new JavaGraphParser(path + graphname, cmp);
