@@ -188,7 +188,7 @@ public class AIGraph implements IAIGraph {
 
 	@Override
 	public Set<Long> getSourceTarget(Long e) {
-		return new HashSet<>(Arrays.asList(getSource(e),getTarget(e)));
+		return new HashSet<>(Arrays.asList(getSource(e), getTarget(e)));
 	}
 
 	@Override
@@ -294,6 +294,14 @@ public class AIGraph implements IAIGraph {
 	}
 
 	@Override
+	public String getVerticeName(Long vId) {
+		if (vertices.containsKey(vId)) {
+			return vertices.get(vId).getName();
+		}
+		return "unknown";
+	}
+
+	@Override
 	public long getVertexByName(String name) {
 		// go through the list auf values and return the first element that
 		// matches given name
@@ -329,8 +337,24 @@ public class AIGraph implements IAIGraph {
 		return isDirected;
 	}
 
+	@Override
 	public boolean edgeIsBetween(Long eId, Long v1Id, Long v2Id) {
 		return (this.getSource(eId) == v1Id && this.getTarget(eId) == v2Id)
 				|| (this.getSource(eId) == v2Id && this.getTarget(eId) == v1Id);
 	}
+
+	@Override
+	public String verticeListToName(List<Long> vIds) {
+		String acc = "[";
+		int size = vIds.size();
+		for (int idx = 0; idx < size; idx++) {
+			Long vid = vIds.get(idx);
+			String name = this.getVerticeName(vid);
+			acc += (name + "(" + vid + ")");
+			acc += (idx < size - 1 ? ", " : "");
+		}
+		acc += "]";
+		return acc;
+	}
+	
 }

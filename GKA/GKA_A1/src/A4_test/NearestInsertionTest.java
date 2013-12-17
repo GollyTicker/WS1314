@@ -28,7 +28,7 @@ public class NearestInsertionTest {
 		NearestInsertion algo = new NearestInsertion(yolo, cmp);
 		List<Long> bestCycle = algo.nearestInsertion();
 
-		System.out.println("BestCycle: " + bestCycle);
+		System.out.println("BestCycle: " + yolo.verticeListToName(bestCycle));
 		System.out.println("Minimum: " + algo.getMinimum());
 
 		assertTrue(algo.getMinimum() <= 120);
@@ -45,7 +45,7 @@ public class NearestInsertionTest {
 		NearestInsertion algo = new NearestInsertion(yolo, cmp);
 		List<Long> bestCycle = algo.nearestInsertion();
 
-		System.out.println("BestCycle: " + bestCycle);
+		System.out.println("BestCycle: " + yolo.verticeListToName(bestCycle));
 		System.out.println("Minimum: " + algo.getMinimum());
 
 		assertTrue(algo.getMinimum() <= 33);
@@ -61,7 +61,7 @@ public class NearestInsertionTest {
 		NearestInsertion algo = new NearestInsertion(yolo, cmp);
 		List<Long> bestCycle = algo.nearestInsertion();
 
-		System.out.println("BestCycle: " + bestCycle);
+		System.out.println("BestCycle: " + yolo.verticeListToName(bestCycle));
 		System.out.println("Minimum: " + algo.getMinimum());
 
 		assertTrue(algo.getMinimum() <= 51);

@@ -37,13 +37,13 @@ public class NearestInsertion implements ITimeSpace {
 		w.add(initialvertice);
 		w.add(initialvertice);
 
-		debugPrint("Initial W: " + w);
+		debugPrint("Initial W: " + graph.verticeListToName(w));
 
 		while (!vertices.isEmpty()) {
 			Long currentNode = findNearestVertice();
 			debugPrint("Nearest Vertice: " + currentNode);
 			optimalInsert(currentNode);
-			debugPrint("Chosen => " + w);
+			debugPrint("Chosen => " + graph.verticeListToName(w));
 		}
 
 		return w;
@@ -57,8 +57,8 @@ public class NearestInsertion implements ITimeSpace {
 			List<Long> possibleNextCycles = new ArrayList<>(w);
 			possibleNextCycles.add(idx, vId);
 			int sum = sumCircle(possibleNextCycles);
-			debugPrint(" :: Possibility { " + sum + " , " + possibleNextCycles
-					+ " }");
+			debugPrint(" :: Possibility { " + sum + " , "
+					+ graph.verticeListToName(possibleNextCycles) + " }");
 			if (sum < minimum) {
 				bestCycle = possibleNextCycles;
 				minimum = sum;
@@ -172,4 +172,5 @@ public class NearestInsertion implements ITimeSpace {
 	public void printCount() {
 		System.out.println(accessCount);
 	}
+
 }
